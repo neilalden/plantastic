@@ -12,10 +12,11 @@ import {SIZE} from '../common/utils/size';
 import {IMAGES} from '../common/images';
 import Icon from './Icon';
 import {ROUTES} from '../common/routes';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 const BottomNav = props => {
-  const routeName = props?.routeName;
-  const navigation = props?.navigation;
+  const routeName = useRoute().name;
+  const navigation = useNavigation();
   const handleOnPress = route => {
     navigation.navigate(route);
   };
