@@ -33,4 +33,5 @@ export const IMAGES = {
   ic_time: require('../assets/icons/ic_time.png'),
   ic_unlock: require('../assets/icons/ic_unlock.png'),
   ic_user: require('../assets/icons/ic_user.png'),
+  ic_settings: require('../assets/icons/ic_settings.png'),
 };

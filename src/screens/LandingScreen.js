@@ -4,7 +4,7 @@ import Screen from '../components/Screen';
 import {COLORS} from '../common/utils/colors';
 import {FONT_WEIGHT} from '../common/utils/font';
 import {SIZE} from '../common/utils/size';
-import Button from '../components/Button';
+import {Button, ButtonOutline} from '../components/Buttons';
 import {IMAGES} from '../common/images';
 import {APP_NAME} from '../constants/text';
 import {TEXT_SHADOW} from '../common/utils/styles';
@@ -12,7 +12,10 @@ import {ROUTES} from '../common/routes';
 import Icon from '../components/Icon';
 const LandingScreen = ({navigation}) => {
   const handleLogin = () => {
-    navigation.navigate(ROUTES.HOME_SCREEN);
+    navigation.navigate(ROUTES.LOGIN_SCREEN);
+  };
+  const handleRegister = () => {
+    navigation.navigate(ROUTES.REGISTER_SCREEN);
   };
   return (
     <Screen>
@@ -26,15 +29,14 @@ const LandingScreen = ({navigation}) => {
       <Button
         text={'LOGIN'}
         onPress={handleLogin}
-        containerStyle={styles.buttonLoginContainer}
-        textStyle={styles.buttonLoginText}
+        containerStyle={styles.buttonContainer}
+        textStyle={styles.buttonText}
         gradientColor={[COLORS.WHITE, COLORS.GREEN300]}
       />
-      <Button
+      <ButtonOutline
         text={'REGISTER'}
-        onPress={handleLogin}
-        containerStyle={styles.buttonRegisterContainer}
-        textStyle={styles.buttonRegisterText}
+        onPress={handleRegister}
+        containerStyle={styles.buttonContainer}
       />
     </Screen>
   );
@@ -54,27 +56,12 @@ const styles = StyleSheet.create({
     marginTop: SIZE.x20,
     alignSelf: 'center',
   },
-  buttonLoginContainer: {
+  buttonContainer: {
     width: SIZE.x300,
     alignSelf: 'center',
     marginTop: SIZE.x54,
   },
-  buttonLoginText: {
+  buttonText: {
     color: COLORS.DARKGREEN,
-    FONT_WEIGHT: FONT_WEIGHT.BOLD,
-    fontSize: SIZE.x20,
-  },
-  buttonRegisterContainer: {
-    width: SIZE.x300,
-    alignSelf: 'center',
-    marginTop: SIZE.x54,
-    backgroundColor: 'transparent',
-    borderWidth: SIZE.x2,
-    borderColor: COLORS.WHITE,
-  },
-  buttonRegisterText: {
-    color: COLORS.WHITE,
-    FONT_WEIGHT: FONT_WEIGHT.BOLD,
-    fontSize: SIZE.x20,
   },
 });

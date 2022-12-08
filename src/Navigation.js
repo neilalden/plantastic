@@ -8,15 +8,16 @@ import LoginScreen from './screens/LoginScreen';
 import PlantDictionaryScreen from './screens/PlantDictionaryScreen';
 import PlantRecordScreen from './screens/PlantRecordScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import SettingsScreen from './screens/SettingsScreen';
+import SettingsScreen from './screens/Settings/SettingsScreen';
 const Stack = createStackNavigator();
 const Navigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={ROUTES.HOME_SCREEN}
+        initialRouteName={ROUTES.LANDING_SCREEN}
         screenOptions={{
           headerShown: false,
+          animationEnabled: false,
         }}>
         <Stack.Screen name={ROUTES.LANDING_SCREEN} component={LandingScreen} />
         <Stack.Screen name={ROUTES.LOGIN_SCREEN} component={LoginScreen} />

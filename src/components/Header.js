@@ -2,28 +2,27 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {SIZE} from '../common/utils/size';
 import {IMAGES} from '../common/images';
+import {TEXT_SHADOW} from '../common/utils/styles';
+import {COLORS} from '../common/utils/colors';
+import {useRoute, useNavigation} from '@react-navigation/native';
 
-const Header = () => {
+const Header = props => {
+  const navigation = useNavigation();
+  const text = props?.text;
+  const Button = props?.Button;
+  const canGoBack = props?.canGoBack ?? true;
+  const goBack = () => navigation.goBack();
   return (
     <View style={styles.container} elevation={5}>
-      <TouchableOpacity
-        style={{
-          backgroundColor: 'blue',
-          height: SIZE.x50,
-          width: SIZE.x30,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginLeft: SIZE.x10,
-        }}>
-        <Image source={IMAGES.ic_back} style={styles.icon} />
-      </TouchableOpacity>
-      <Text>TITLE</Text>
-      <TouchableOpacity
-        style={{
-          marginRight: SIZE.x10,
-        }}>
-        <Text>cancel</Text>
-      </TouchableOpacity>
+      {canGoBack ? (
+        <TouchableOpacity style={styles.icon_container} onPress={goBack}>
+          <Image source={IMAGES.ic_back} style={styles.icon} />
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.button}></View>
+      )}
+      <Text style={styles.title}>{text}</Text>
+      <View style={styles.button}>{Button}</View>
     </View>
   );
 };
@@ -34,12 +33,29 @@ const styles = StyleSheet.create({
   container: {
     height: SIZE.x50,
     width: SIZE.p100,
-    backgroundColor: 'red',
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  icon_container: {
+    height: SIZE.x50,
+    width: SIZE.x30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: SIZE.x10,
   },
   icon: {
     height: SIZE.x24,
     resizeMode: 'contain',
+  },
+  title: {
+    ...TEXT_SHADOW,
+    color: COLORS.WHITE,
+    fontSize: SIZE.x24,
+    alignSelf: 'center',
+  },
+  button: {
+    marginRight: SIZE.x10,
+    alignSelf: 'center',
+    width: SIZE.x30,
   },
 });

@@ -73,6 +73,7 @@ const BottomNav = props => {
 export default BottomNav;
 
 const styles = StyleSheet.create({
+  icon_container: {},
   container: {
     backgroundColor: COLORS.GREEN500,
     height: SIZE.x80,
