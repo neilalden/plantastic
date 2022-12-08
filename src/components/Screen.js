@@ -8,7 +8,7 @@ const Screen = ({gradientBG = true, style, children}) => {
   if (gradientBG) {
     return (
       <LinearGradient
-        colors={[COLORS.GREEN400, COLORS.DARKGREEN]}
+        colors={[COLORS.GREEN500, COLORS.DARKGREEN]}
         style={styles.container}>
         <SafeAreaView style={[styles.container, style]}>
           <ScrollView>{children}</ScrollView>
