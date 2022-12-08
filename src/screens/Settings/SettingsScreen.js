@@ -10,14 +10,13 @@ import Header from '../../components/Header';
 import Icon from '../../components/Icon';
 import {SIZE} from '../../common/utils/size';
 import NotificationScreen from './NotificationScreen';
+import {ROUTES} from '../../common/routes';
 
 const SettingsScreen = ({navigation}) => {
   const route = useRoute();
-  const [showNotification, setShowNotification] = React.useState(false);
   const handleBack = () => {
     navigation.goBack();
   };
-  if (showNotification) return <NotificationScreen />;
   return (
     <React.Fragment>
       <Screen>
@@ -28,7 +27,7 @@ const SettingsScreen = ({navigation}) => {
             <Icon
               source={IMAGES.ic_settings}
               size={SIZE.x26}
-              onPress={() => setShowNotification(prev => !prev)}
+              onPress={() => navigation.navigate(ROUTES.NOTIFICATION_SCREEN)}
             />
           }
         />

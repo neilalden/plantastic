@@ -8,6 +8,7 @@ import LoginScreen from './screens/LoginScreen';
 import PlantDictionaryScreen from './screens/PlantDictionaryScreen';
 import PlantRecordScreen from './screens/PlantRecordScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import NotificationScreen from './screens/Settings/NotificationScreen';
 import SettingsScreen from './screens/Settings/SettingsScreen';
 const Stack = createStackNavigator();
 const Navigation = () => {
@@ -37,6 +38,10 @@ const Navigation = () => {
         <Stack.Screen
           name={ROUTES.SETTINGS_SCREEN}
           component={SettingsScreen}
+        />
+        <Stack.Screen
+          name={ROUTES.NOTIFICATION_SCREEN}
+          component={NotificationScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
