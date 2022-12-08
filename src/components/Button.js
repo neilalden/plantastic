@@ -2,7 +2,6 @@ import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {COLORS} from '../common/utils/colors';
 import LinearGradient from 'react-native-linear-gradient';
-import {FONTWEIGHT} from '../common/utils/font';
 import {SIZE} from '../common/utils/size';
 const Button = ({
   containerStyle,

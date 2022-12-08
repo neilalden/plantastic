@@ -2,21 +2,21 @@ import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Screen from '../components/Screen';
 import {COLORS} from '../common/utils/colors';
-import {FONTWEIGHT} from '../common/utils/font';
+import {FONT_WEIGHT} from '../common/utils/font';
 import {SIZE} from '../common/utils/size';
 import Button from '../components/Button';
 import {IMAGES} from '../common/images';
 import {APP_NAME} from '../constants/text';
-import {TEXTSHADOW} from '../common/utils/styles';
+import {TEXT_SHADOW} from '../common/utils/styles';
 import {ROUTES} from '../common/routes';
 const LandingScreen = ({navigation}) => {
   const handleLogin = () => {
-    navigation.navigate(ROUTES.LOGINSCREEN);
+    navigation.navigate(ROUTES.LOGIN_SCREEN);
   };
   return (
     <Screen>
       <Image source={IMAGES.ic_app} style={styles.icon} />
-      <Text style={[styles.title, TEXTSHADOW]}>{APP_NAME}</Text>
+      <Text style={[styles.title, TEXT_SHADOW]}>{APP_NAME}</Text>
       <Button
         text={'LOGIN'}
         onPress={handleLogin}
@@ -45,23 +45,23 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: SIZE.x40,
-    fontWeight: FONTWEIGHT.x700,
+    FONT_WEIGHT: FONT_WEIGHT.x700,
     color: COLORS.WHITE,
     marginTop: SIZE.x20,
     alignSelf: 'center',
   },
   buttonLoginContainer: {
-    width: SIZE.p80,
+    width: SIZE.x300,
     alignSelf: 'center',
     marginTop: SIZE.x54,
   },
   buttonLoginText: {
     color: COLORS.DARKGREEN,
-    fontWeight: FONTWEIGHT.BOLD,
+    FONT_WEIGHT: FONT_WEIGHT.BOLD,
     fontSize: SIZE.x20,
   },
   buttonRegisterContainer: {
-    width: SIZE.p80,
+    width: SIZE.x300,
     alignSelf: 'center',
     marginTop: SIZE.x54,
     backgroundColor: 'transparent',
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   buttonRegisterText: {
     color: COLORS.WHITE,
-    fontWeight: FONTWEIGHT.BOLD,
+    FONT_WEIGHT: FONT_WEIGHT.BOLD,
     fontSize: SIZE.x20,
   },
 });

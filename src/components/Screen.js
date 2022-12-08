@@ -10,13 +10,15 @@ const Screen = ({gradientBG = true, style, children}) => {
       <LinearGradient
         colors={[COLORS.GREEN400, COLORS.DARKGREEN]}
         style={styles.container}>
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, style]}>
           <ScrollView>{children}</ScrollView>
         </SafeAreaView>
       </LinearGradient>
     );
   } else {
-    return <SafeAreaView style={styles.container}>{children}</SafeAreaView>;
+    return (
+      <SafeAreaView style={[styles.container, style]}>{children}</SafeAreaView>
+    );
   }
 };
 

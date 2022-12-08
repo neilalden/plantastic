@@ -1,6 +1,7 @@
 export const IMAGES = {
   ic_app_round: require('../assets/icons/ic_app_round.png'),
   ic_app: require('../assets/icons/ic_app.png'),
+  ic_back: require('../assets/icons/ic_back.png'),
   ic_bell: require('../assets/icons/ic_bell.png'),
   ic_bookmark: require('../assets/icons/ic_bookmark.png'),
   ic_browser: require('../assets/icons/ic_browser.png'),

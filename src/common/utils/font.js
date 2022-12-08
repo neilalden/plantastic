@@ -1,10 +1,10 @@
 import {COLORS} from './colors';
 
-export const FONTCOLOR = {
+export const FONT_COLOR = {
   WHITE: COLORS.WHITE,
   BLACK: COLORS.BLACK,
 };
-export const FONTWEIGHT = {
+export const FONT_WEIGHT = {
   x100: '100',
   x200: '200',
   x300: '300',

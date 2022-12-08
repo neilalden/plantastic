@@ -3,7 +3,7 @@ import React from 'react';
 import Screen from '../components/Screen';
 import Button from '../components/Button';
 
-const HomeScreen = ({navigation}) => {
+const PlantRecordScreen = ({navigation}) => {
   const handleBack = () => {
     navigation.goBack();
   };
@@ -19,6 +19,6 @@ const HomeScreen = ({navigation}) => {
   );
 };
 
-export default HomeScreen;
+export default PlantRecordScreen;
 
 const styles = StyleSheet.create({});
