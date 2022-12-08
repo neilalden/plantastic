@@ -9,13 +9,19 @@ import {IMAGES} from '../common/images';
 import {APP_NAME} from '../constants/text';
 import {TEXT_SHADOW} from '../common/utils/styles';
 import {ROUTES} from '../common/routes';
+import Icon from '../components/Icon';
 const LandingScreen = ({navigation}) => {
   const handleLogin = () => {
-    navigation.navigate(ROUTES.LOGIN_SCREEN);
+    navigation.navigate(ROUTES.HOME_SCREEN);
   };
   return (
     <Screen>
-      <Image source={IMAGES.ic_app} style={styles.icon} />
+      <Icon
+        source={IMAGES.ic_app}
+        size={SIZE.x200}
+        iconStyle={styles.icon}
+        containerStyle={styles.iconContainer}
+      />
       <Text style={[styles.title, TEXT_SHADOW]}>{APP_NAME}</Text>
       <Button
         text={'LOGIN'}
@@ -37,10 +43,8 @@ const LandingScreen = ({navigation}) => {
 export default LandingScreen;
 
 const styles = StyleSheet.create({
-  icon: {
+  iconContainer: {
     alignSelf: 'center',
-    resizeMode: 'contain',
-    height: SIZE.x200,
     marginTop: SIZE.x150,
   },
   title: {

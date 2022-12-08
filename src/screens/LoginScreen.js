@@ -14,8 +14,8 @@ const LoginScreen = ({navigation}) => {
   const [username, setUsername] = React.useState();
   const [password, setPassword] = React.useState();
   const handleLogin = () => {
-    // navigation.goBack();
-    console.log(username, password);
+    navigation.goBack();
+    // console.log(username, password);
   };
 
   return (

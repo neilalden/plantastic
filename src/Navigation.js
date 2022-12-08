@@ -9,7 +9,6 @@ import PlantDictionaryScreen from './screens/PlantDictionaryScreen';
 import PlantRecordScreen from './screens/PlantRecordScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import SettingsScreen from './screens/SettingsScreen';
-
 const Stack = createStackNavigator();
 const Navigation = () => {
   return (
