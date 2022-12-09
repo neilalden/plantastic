@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     fontSize: SIZE.x30,
     FONT_WEIGHT: FONT_WEIGHT.x700,
     color: COLORS.WHITE,
-    marginTop: SIZE.x46,
+    marginTop: SIZE.x20,
     alignSelf: 'center',
   },
   textInputContainer: {
@@ -110,8 +110,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: SIZE.x300,
-    marginTop: SIZE.x50,
+    marginTop: SIZE.x10,
     alignSelf: 'center',
+    marginBottom: SIZE.x30,
   },
   buttonText: {
     color: COLORS.WHITE,

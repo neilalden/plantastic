@@ -9,23 +9,22 @@ import BottomNav from '../components/BottomNav';
 import {useRoute} from '@react-navigation/native';
 import {COLORS} from '../common/utils/colors';
 import Header from '../components/Header';
+import { SIZE } from '../common/utils/size';
+import Icon from '../components/Icon';
 const HomeScreen = ({navigation}) => {
   const route = useRoute();
-  const handleBack = () => {
-    navigation.goBack();
-  };
+
   return (
     <React.Fragment>
       <Screen>
         <Header text="Home" canGoBack={false} />
         {/* SEARCH BAR */}
-        <View style={styles.inputContainer}>
-          <TextInput style={styles.searchBar} placeholder="SEARCH" />
-          <Image
+        <View style={styles.searchContainer}>
+          <TextInput style={styles.searchInputArea} placeholder="SEARCH" />
+          <Icon
             source={IMAGES.ic_search}
-            style={styles.iconers}
-            width={30}
-            height={30}
+            style={styles.searchIcon}
+            size={SIZE.x30}
           />
         </View>
 
@@ -58,59 +57,10 @@ const HomeScreen = ({navigation}) => {
           </View>
         </View>
 
-        <View style={styles.collection}>
-          <View style={styles.imgContainerers}>
-            <Image
-              source={IMAGES.ic_app_round}
-              style={styles.icon}
-              width={60}
-              height={60}
-            />
-          </View>
-          <View style={styles.imgContainerers}>
-            <Image
-              source={IMAGES.ic_app_round}
-              style={styles.icon}
-              width={60}
-              height={60}
-            />
-          </View>
-          <View style={styles.imgContainerers}>
-            <Image
-              source={IMAGES.ic_app_round}
-              style={styles.icon}
-              width={60}
-              height={60}
-            />
-          </View>
-        </View>
+        
+       
 
-        <View style={styles.collection}>
-          <View style={styles.imgContainerist}>
-            <Image
-              source={IMAGES.ic_app_round}
-              style={styles.icon}
-              width={60}
-              height={60}
-            />
-          </View>
-          <View style={styles.imgContainerist}>
-            <Image
-              source={IMAGES.ic_app_round}
-              style={styles.icon}
-              width={60}
-              height={60}
-            />
-          </View>
-          <View style={styles.imgContainerist}>
-            <Image
-              source={IMAGES.ic_app_round}
-              style={styles.icon}
-              width={60}
-              height={60}
-            />
-          </View>
-        </View>
+        
 
         <Text style={styles.textLabel}>Useful Tips</Text>
         <View style={styles.div} />
@@ -127,17 +77,26 @@ const HomeScreen = ({navigation}) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  searchBar: {
-    height: 50,
-    marginTop: 50,
-    marginRight: 35,
-    marginLeft: 35,
-    padding: 6,
-    borderWidth: 1,
-    borderColor: 'white',
-    borderRadius: 25,
-    paddingLeft: 20,
+  searchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    borderColor: 'white',
+    borderWidth: SIZE.x1,
+    borderRadius: SIZE.x26,
+    marginTop: SIZE.x22,
+    marginHorizontal: SIZE.x24,
+    paddingRight: SIZE.x10
+  },
+  searchInputArea: {
+    height: SIZE.x50,
+    width: SIZE.x240,
+    marginHorizontal: SIZE.x10,
+    padding: SIZE.x10
+  },
+  searchIcon:{
+    position: 'relative',
+    marginRight: SIZE.x10,
   },
   textLabel: {
     marginTop: 20,
@@ -153,17 +112,7 @@ const styles = StyleSheet.create({
   icon: {},
   imgContainer: {
     borderRadius: 50,
-    backgroundColor: '#313131',
-    padding: 10,
-  },
-  imgContainerers: {
-    borderRadius: 50,
     backgroundColor: COLORS.DARKGREEN,
-    padding: 10,
-  },
-  imgContainerist: {
-    borderRadius: 50,
-    backgroundColor: 'rgba(217,217,217,.30)',
     padding: 10,
   },
   div: {

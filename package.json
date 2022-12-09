@@ -13,6 +13,7 @@
     "apk": "cd android; ./gradlew bundleRelease; cd ..",
     "aab": "cd android; ./gradlew assembleRelease; cd ..",
     "android": "react-native run-android",
+    "apk": "cd android; ./gradlew bundleRelease; cd..",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",

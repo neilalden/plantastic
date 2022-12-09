@@ -4,6 +4,7 @@ export const {width: WINDOW_WIDTH, height: WINDOW_HEIGHT} =
   Dimensions.get('window');
 
 export const SIZE = {
+  x1: 1,
   x2: 2,
   x4: 4,
   x6: 6,
@@ -57,6 +58,9 @@ export const SIZE = {
   x150: 150,
   x200: 200,
   x250: 250,
+  x240: 240,
+  x260: 260,
+  x280: 280,
   x300: 300,
   x350: 350,
   x400: 400,

@@ -7,27 +7,52 @@ import BottomNav from '../components/BottomNav';
 import {useRoute} from '@react-navigation/native';
 import {IMAGES} from '../common/images';
 import Header from '../components/Header';
+import { SIZE } from '../common/utils/size';
+import Icon from '../components/Icon';
+import { COLORS } from '../common/utils/colors';
+import {data} from '../../DUMMY_DATA';
 
 const PlantDictionaryScreen = ({navigation}) => {
   const route = useRoute();
   const handleBack = () => {
     navigation.goBack();
   };
+  
   return (
     <>
       <Screen>
         <Header text="Plant Dictionary" canGoBack={false} />
 
         {/* SEARCH BAR */}
-        <View>
-          <TextInput style={styles.searchBar} placeholder="SEARCH" />
-          <Image
+        <View style={styles.searchContainer}>
+          <TextInput style={styles.searchInputArea} placeholder="SEARCH" />
+          <Icon
             source={IMAGES.ic_search}
-            style={styles.iconers}
-            width={30}
-            height={30}
+            style={styles.searchIcon}
+            size={SIZE.x30}
           />
         </View>
+        {/* CARD COMPONENT */}
+        {data.map((item)=>
+        {console.log(item)
+        return (<View style={styles.card3}>
+          <Image
+            source={{uri: item.image}}
+            style={styles.icon}
+          />
+          <View style={styles.content}>
+            <View>
+              <Text style={styles.textTitle}>{item.scientific_name}</Text>
+              <Text style={styles.textTitle}>{item.common_name}</Text>
+            </View>
+            <View>
+              <Text style={styles.textContent}>{item.uses}</Text>
+            </View>
+          </View>
+        </View>
+        );})
+        }
+
         {/* CARD COMPONENT */}
         <View style={styles.card}>
           <Image
@@ -38,15 +63,15 @@ const PlantDictionaryScreen = ({navigation}) => {
           />
           <View style={styles.content}>
             <View>
-              <Text style={styles.textTitle}>Hello</Text>
+              <Text style={styles.textTitle}>LIME</Text>
             </View>
             <View>
-              <Text style={styles.textContent}>lorem2 adfsfsdfhsfjs</Text>
+              <Text style={styles.textContent}>Choose Me</Text>
             </View>
           </View>
         </View>
         {/* CARD COMPONENT */}
-        <View style={styles.card}>
+        <View style={styles.card2}>
           <Image
             source={IMAGES.ic_app_round}
             style={styles.icon}
@@ -55,27 +80,10 @@ const PlantDictionaryScreen = ({navigation}) => {
           />
           <View style={styles.content}>
             <View>
-              <Text style={styles.textTitle}>Hello</Text>
+              <Text style={styles.textTitle}>GLASHMORPH</Text>
             </View>
             <View>
-              <Text style={styles.textContent}>lorem2 adfsfsdfhsfjs</Text>
-            </View>
-          </View>
-        </View>
-        {/* CARD COMPONENT */}
-        <View style={styles.card}>
-          <Image
-            source={IMAGES.ic_app_round}
-            style={styles.icon}
-            width={80}
-            height={80}
-          />
-          <View style={styles.content}>
-            <View>
-              <Text style={styles.textTitle}>Hello</Text>
-            </View>
-            <View>
-              <Text style={styles.textContent}>lorem2 adfsfsdfhsfjs</Text>
+              <Text style={styles.textContent}>Choose Glassmorph</Text>
             </View>
           </View>
         </View>
@@ -88,17 +96,22 @@ const PlantDictionaryScreen = ({navigation}) => {
 export default PlantDictionaryScreen;
 
 const styles = StyleSheet.create({
-  searchBar: {
-    height: 50,
-    marginTop: 50,
-    marginRight: 35,
-    marginLeft: 35,
-    padding: 6,
-    borderWidth: 1,
-    borderColor: 'white',
-    borderRadius: 25,
-    paddingLeft: 20,
+  searchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    borderColor: 'white',
+    borderWidth: SIZE.x1,
+    borderRadius: SIZE.x26,
+    marginTop: SIZE.x22,
+    marginHorizontal: SIZE.x24,
+    paddingRight: SIZE.x10
+  },
+  searchInputArea: {
+    height: SIZE.x50,
+    width: SIZE.x240,
+    marginHorizontal: SIZE.x10,
+    padding: SIZE.x10
   },
   card: {
     marginTop: 14,
@@ -107,7 +120,28 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'rgba(217,217,217, .3)',
+    backgroundColor: COLORS.GREEN500,
+    alignItems: 'center',
+  },
+  card2: {
+    marginTop: 14,
+    padding: 20,
+    marginHorizontal: 14,
+    borderRadius: 25,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'rgba(217,217,217,0.3)',
+    alignItems: 'center',
+  },
+  card3: {
+    marginTop: 14,
+    paddingLeft: 20,
+    paddingVertical: SIZE.x6,
+    marginHorizontal: 14,
+    borderRadius: 25,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: COLORS.DARKGREEN,
     alignItems: 'center',
   },
   content: {
@@ -122,4 +156,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     flexWrap: 'wrap',
   },
+  icon:{
+    height: SIZE.x80,
+    width: SIZE.x80,
+    borderRadius: SIZE.x4,
+    resizeMode: 'contain',
+  }
 });
