@@ -11,6 +11,7 @@ import Icon from '../components/Icon';
 import {SIZE} from '../common/utils/size';
 import SearchBar from '../components/SearchBar';
 import {data} from '../../DUMMY_DATA';
+import PlantRecordCard from '../components/PlantRecordCard';
 
 const PlantRecordScreen = ({navigation}) => {
   const route = useRoute();
@@ -33,23 +34,7 @@ const PlantRecordScreen = ({navigation}) => {
         {/* CARD COMPONENT */}
         {data.map(item => {
           return (
-            <View style={styles.card}>
-              <View style={styles.imageContainer}>
-                <Icon
-                  source={{uri: item.image}}
-                  size={SIZE.x80}
-                  style={styles.something}
-                />
-                <View style={styles.content}>
-                  <View>
-                    <Text style={styles.textTitle}>{item.scientific_name}</Text>
-                  </View>
-                  <View>
-                    <Text style={styles.textContent}>{item.common_name}</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
+            <PlantRecordCard item={item} />
             //   <View style={styles.icon2}>
             //     <Icon
             //       source={IMAGES.ic_three_dots}

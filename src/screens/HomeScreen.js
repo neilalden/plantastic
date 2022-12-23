@@ -19,7 +19,6 @@ const HomeScreen = ({navigation}) => {
     <React.Fragment>
       <Screen>
         <Header text="Home" canGoBack={false} />
-
         <SearchBar />
 
         <Text style={styles.textLabel}>Plant Collection</Text>

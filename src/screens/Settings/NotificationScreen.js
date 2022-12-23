@@ -30,8 +30,14 @@ const NotificationScreen = () => {
           }
         />
         <View style={styles.container}>
-          <View style={styles.div}><Text style={styles.numberContent}>5</Text><Text style={styles.stringContent}>Collection</Text></View>
-          <View style={styles.div}><Text style={styles.numberContent}>5</Text><Text style={styles.stringContent}>History</Text></View>
+          <View style={styles.div}>
+            <Text style={styles.numberContent}>5</Text>
+            <Text style={styles.stringContent}>Collection</Text>
+          </View>
+          <View style={styles.div}>
+            <Text style={styles.numberContent}>5</Text>
+            <Text style={styles.stringContent}>History</Text>
+          </View>
         </View>
 
         <View style={styles.section2}>
@@ -42,8 +48,8 @@ const NotificationScreen = () => {
               size={SIZE.x40}
             />
           </View>
-          <View  style={styles.div2}>
-          <Text style={styles.myText}>Forum</Text>
+          <View style={styles.div2}>
+            <Text style={styles.myText}>Forum</Text>
           </View>
         </View>
 
@@ -55,13 +61,10 @@ const NotificationScreen = () => {
               size={SIZE.x40}
             />
           </View>
-          <View  style={styles.div2}>
-          <Text style={styles.myText}>Notification</Text>
+          <View style={styles.div2}>
+            <Text style={styles.myText}>Notification</Text>
           </View>
         </View>
-        
-
-        
       </Screen>
       <BottomNav routeName={route.name} navigation={navigation} />
     </React.Fragment>
@@ -71,9 +74,9 @@ const NotificationScreen = () => {
 export default NotificationScreen;
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   flex: {
     flex: 1,
@@ -92,35 +95,34 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(217,217,217,0.5)',
     borderRadius: 25,
   },
-  myIcon:{
+  myIcon: {
     flex: 1,
   },
-  myText:{
-    marginLeft: SIZE.x20
+  myText: {
+    marginLeft: SIZE.x20,
   },
-  
+
   div2: {
     borderRadius: SIZE.x4,
     width: SIZE.x240,
     height: SIZE.x50,
     backgroundColor: 'rgba(217,217,217,0.5)',
-    
+
     flexDirection: 'row',
     alignItems: 'center',
-    
   },
-  section2:{
+  section2: {
     marginTop: SIZE.x20,
     marginHorizontal: SIZE.x24,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
-  numberContent:{
+  numberContent: {
     alignSelf: 'center',
   },
-  stringContent:{
+  stringContent: {
     alignSelf: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
   },
 });

@@ -1,5 +1,13 @@
 /* eslint-disable prettier/prettier */
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import Screen from '../../components/Screen';
 import {Button} from '../../components/Buttons';
@@ -11,11 +19,41 @@ import Icon from '../../components/Icon';
 import {SIZE} from '../../common/utils/size';
 import NotificationScreen from './NotificationScreen';
 import {ROUTES} from '../../common/routes';
+import {useState} from 'react';
+import {SettingsButton} from '../../components/Buttons';
+import {COLORS} from '../../common/utils/colors';
+import {TERMS} from '../../common/utils/termsText';
+import ModalTab from '../../components/ModalTab';
+
+import PrivacyModal from '../../components/PrivacyModal';
+import AppInfoModal from '../../components/AppInfoModal';
 
 const SettingsScreen = ({navigation}) => {
   const route = useRoute();
+  // PRIVACY POLICY STATE
+  const [privacyVisible, setPrivacyVisible] = useState(false);
+
+  //APP INFO STATE
+  const [appInfoVisible, setAppInfoVisible] = useState(false);
+
+  //MODAL COMING SOON STATE
+  const [modalVisible, setModalVisible] = useState(false);
+
   const handleBack = () => {
     navigation.goBack();
+  };
+
+  //MODAL COMING SOON FUNCTION
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  const togglePrivacy = () => {
+    setPrivacyVisible(!privacyVisible);
+  };
+
+  const handleOnPress = route => {
+    navigation.navigate(route);
   };
 
   return (
@@ -32,168 +70,134 @@ const SettingsScreen = ({navigation}) => {
             />
           }
         />
+
+        <ModalTab
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+        {/* PRIVACY POLICY MODAL*/}
+        <PrivacyModal
+          privacyVisible={privacyVisible}
+          setPrivacyVisible={setPrivacyVisible}
+        />
+        {/* END OF PRIVACY POLICY MODAL*/}
+
+        {/* APP INFO MODAL*/}
+        <AppInfoModal
+          appInfoVisible={appInfoVisible}
+          setAppInfoVisible={setAppInfoVisible}
+        />
+        {/* END APP INFO MODAL*/}
         <Text style={styles.textLabel}>General Settings</Text>
+        <SettingsButton
+          text={'Set Language'}
+          onPress={toggleModal}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_browser}
+          iconEndStyle={styles.end1}
+        />
 
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_browser} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Set Language</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_unlock} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Allow to Access</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_bookmark} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Autosave Photos to Album</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_paint} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Clear Cache</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
+        <SettingsButton
+          text={'Allow to Access'}
+          onPress={toggleModal}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_unlock}
+          iconEndStyle={styles.end1}
+        />
+        <SettingsButton
+          text={'Autosave Photos to Album'}
+          onPress={() => {}}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_bookmark}
+          iconEndStyle={styles.end1}
+        />
 
         <Text style={styles.textLabel}>Support</Text>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_robot} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Encourage Us</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_phone} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Contact Us</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_question} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Help</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_bulb} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Suggestion</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_check_list} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Suggest Plant to Be Added</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
+        <SettingsButton
+          text={'Encourage Us'}
+          onPress={toggleModal}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_robot}
+          iconEndStyle={styles.end1}
+        />
+        <SettingsButton
+          text={'Contact Us'}
+          onPress={() => handleOnPress(ROUTES.CONTACT_US_SCREEN)}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_phone}
+          iconEndStyle={styles.end1}
+        />
+        <SettingsButton
+          text={'Help'}
+          onPress={() => {}}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_question}
+          iconEndStyle={styles.end1}
+        />
+        <SettingsButton
+          text={'Suggestion'}
+          onPress={() => handleOnPress(ROUTES.SUGGESTION_SCREEN)}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_bulb}
+          iconEndStyle={styles.end1}
+        />
+        <SettingsButton
+          text={'Suggest Plant to Be Added'}
+          onPress={() => handleOnPress(ROUTES.PLANT_SUGGESTION_SCREEN)}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_check_list}
+          iconEndStyle={styles.end1}
+        />
         <Text style={styles.textLabel}>Legal</Text>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_profile} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Privacy Policy</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_document} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Terms of Use</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
+        <SettingsButton
+          text={'Privacy Policy'}
+          onPress={togglePrivacy}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_profile}
+          iconEndStyle={styles.end1}
+        />
+        <SettingsButton
+          text={'Terms of Use'}
+          onPress={() => handleOnPress(ROUTES.TERMS_SCREEN)}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_document}
+          iconEndStyle={styles.end1}
+        />
         <Text style={styles.textLabel}>About the App</Text>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_info} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>App Info</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_star} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>Rate App</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_share_desktop} size={SIZE.x18} />
-          </View>
-          <View>
-            <Text style={styles.divText}>Tell Friends</Text>
-          </View>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View>
-
-        {/* SETTINGS LABEL
-        <Text style={styles.textLabel}> {settingsLabel} </Text>
-        SETTINGS CHOICE
-        <View style={styles.div}>
-          <View style={styles.start}>
-            <Icon source={IMAGES.ic_info} size={SIZE.x18} />
-          </View>
-          <Text style={styles.divText}>App Info</Text>
-          <View style={styles.end}>
-            <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
-          </View>
-        </View> */}
-
+        <SettingsButton
+          text={'App Info'}
+          onPress={() => setAppInfoVisible(true)}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_info}
+          iconEndStyle={styles.end1}
+        />
+        <SettingsButton
+          text={'Rate App'}
+          onPress={toggleModal}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_star}
+          iconEndStyle={styles.end1}
+        />
+        <SettingsButton
+          text={'Tell Friends'}
+          onPress={() => {}}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_share_desktop}
+          iconEndStyle={styles.end1}
+        />
         {/* <Button
           text={'BACK'}
           onPress={handleBack}
@@ -214,25 +218,38 @@ const styles = StyleSheet.create({
     marginVertical: SIZE.x10,
     marginLeft: SIZE.x20,
     fontSize: SIZE.x16,
-    fontWeight: 'semibold',
+    fontWeight: 'bold',
+    textShadowColor: '#313131',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 2,
+    padding: SIZE.x2,
   },
 
-  end: {
+  end1: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  div: {
+  end0: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  containerStyle: {
     alignItems: 'center',
     flexDirection: 'row',
     marginBottom: SIZE.x4,
     padding: SIZE.x8,
     marginHorizontal: SIZE.x20,
-    borderColor: 'white',
     backgroundColor: 'rgba(217,217,217,0.5)',
     borderRadius: SIZE.x24,
   },
   divText: {
+    color: 'white',
     marginLeft: SIZE.x10,
+    textShadowColor: '#313131',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 2,
+    fontSize: SIZE.x12,
+    padding: SIZE.x2,
   },
 });
