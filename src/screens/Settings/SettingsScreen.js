@@ -17,7 +17,6 @@ import {IMAGES} from '../../common/images';
 import Header from '../../components/Header';
 import Icon from '../../components/Icon';
 import {SIZE} from '../../common/utils/size';
-import NotificationScreen from './NotificationScreen';
 import {ROUTES} from '../../common/routes';
 import {useState} from 'react';
 import {SettingsButton} from '../../components/Buttons';
@@ -239,7 +238,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: SIZE.x4,
     padding: SIZE.x8,
-    marginHorizontal: SIZE.x20,
     backgroundColor: 'rgba(217,217,217,0.5)',
     borderRadius: SIZE.x24,
   },

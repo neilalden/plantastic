@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
   div: {
     marginVertical: SIZE.x20,
     padding: SIZE.x40,
-    marginHorizontal: SIZE.x20,
     borderWidth: SIZE.x1,
     borderColor: 'white',
     borderTopRightRadius: SIZE.x24,

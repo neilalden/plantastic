@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "846091480456",
+    "project_id": "plantasticked",
+    "storage_bucket": "plantasticked.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846091480456:android:445b8ecdb3ea58a5fb9e3d",
+        "android_client_info": {
+          "package_name": "com.plantastic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846091480456-o27bnuasogt1p4a8251q1lcthrhdk4fa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.plantastic",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "846091480456-65erjp3g5shcbvht6b9iagb0koog3uoe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc6lxGPwyTbLlxno_JRTB2I9KHkbbwJ0I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846091480456-65erjp3g5shcbvht6b9iagb0koog3uoe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

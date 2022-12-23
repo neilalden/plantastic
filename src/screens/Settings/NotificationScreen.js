@@ -2,7 +2,7 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Screen from '../../components/Screen';
-import {Button} from '../../components/Buttons';
+import {Button, ButtonOutline} from '../../components/Buttons';
 import BottomNav from '../../components/BottomNav';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {IMAGES} from '../../common/images';
@@ -11,10 +11,14 @@ import Icon from '../../components/Icon';
 import {SIZE} from '../../common/utils/size';
 import SettingsScreen from './SettingsScreen';
 import {ROUTES} from '../../common/routes';
+import {signOut} from '../../functions/authentication/signOut';
 
 const NotificationScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const handleLogout = () => {
+    signOut();
+  };
   return (
     <React.Fragment>
       <Screen>
@@ -65,6 +69,11 @@ const NotificationScreen = () => {
             <Text style={styles.myText}>Notification</Text>
           </View>
         </View>
+        <ButtonOutline
+          text={'LOGOUT'}
+          containerStyle={{marginTop: SIZE.p10}}
+          onPress={handleLogout}
+        />
       </Screen>
       <BottomNav routeName={route.name} navigation={navigation} />
     </React.Fragment>

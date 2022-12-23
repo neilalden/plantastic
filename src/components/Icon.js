@@ -21,7 +21,7 @@ const Icon = props => {
       ]}>
       <Image
         source={source}
-        style={[imageStyle, styles.icon, {height: size, width: size}]}
+        style={[styles.icon, imageStyle, {height: size, width: size}]}
       />
     </TouchableOpacity>
   );
@@ -30,7 +30,9 @@ const Icon = props => {
 export default Icon;
 
 const styles = StyleSheet.create({
-  icon_container: {},
+  icon_container: {
+    overflow: 'hidden',
+  },
   icon: {
     resizeMode: 'contain',
     alignSelf: 'center',

@@ -58,6 +58,7 @@ const BottomNav = props => {
       <Icon
         onPress={() => handleOnPress(ROUTES.SETTINGS_SCREEN)}
         size={SIZE.x40}
+        imageStyle={{resizeMode: 'contain'}}
         containerStyle={[
           styles.icon_container,
           {marginVertical: SIZE.x14, marginRight: SIZE.x14},

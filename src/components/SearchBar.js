@@ -5,16 +5,14 @@ import {SIZE} from '../common/utils/size';
 import {IMAGES} from '../common/images';
 const SearchBar = () => {
   return (
-    <>
-      <View style={styles.searchContainer}>
-        <TextInput style={styles.searchInputArea} placeholder="SEARCH" />
-        <Icon
-          source={IMAGES.ic_search}
-          style={styles.searchIcon}
-          size={SIZE.x30}
-        />
-      </View>
-    </>
+    <View style={styles.searchContainer}>
+      <TextInput style={styles.searchInputArea} placeholder="SEARCH" />
+      <Icon
+        source={IMAGES.ic_search}
+        style={styles.searchIcon}
+        size={SIZE.x30}
+      />
+    </View>
   );
 };
 const styles = StyleSheet.create({
@@ -25,8 +23,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: SIZE.x1,
     borderRadius: SIZE.x26,
-    marginTop: SIZE.x22,
-    marginHorizontal: SIZE.x24,
+    margin: SIZE.x24,
     paddingRight: SIZE.x10,
   },
   searchInputArea: {

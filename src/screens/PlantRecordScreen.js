@@ -24,28 +24,14 @@ const PlantRecordScreen = ({navigation}) => {
         <Header text="Records" canGoBack={false} />
 
         <SearchBar />
-        {/* ICONS */}
         <View style={styles.topIconsContainer}>
           <Icon source={IMAGES.ic_folder} size={SIZE.x30} />
           <Icon source={IMAGES.ic_time} size={SIZE.x30} />
           <Icon source={IMAGES.ic_list} size={SIZE.x30} />
         </View>
 
-        {/* CARD COMPONENT */}
-        {data.map(item => {
-          return (
-            <PlantRecordCard item={item} />
-            //   <View style={styles.icon2}>
-            //     <Icon
-            //       source={IMAGES.ic_three_dots}
-            //       style={styles.dotStart}
-            //       size={SIZE.x24}
-            //     />
-            //     <View style={styles.noteEnd}>
-            //       <Icon source={IMAGES.ic_note} size={SIZE.x20} />
-            //     </View>
-            //   </View>
-          );
+        {data.map((item, index) => {
+          return <PlantRecordCard key={index} item={item} />;
         })}
       </Screen>
       <BottomNav routeName={route.name} navigation={navigation} />
@@ -60,8 +46,8 @@ const styles = StyleSheet.create({
     flex: SIZE.x1,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: SIZE.x20,
     borderColor: 'black',
+    marginBottom: SIZE.x20,
   },
 
   something: {

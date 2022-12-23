@@ -41,13 +41,9 @@ const PlantSuggestionScreen = () => {
       saveToPhotos: true,
     };
     launchCamera(options, response => {
-      console.log('Response: ', response);
       if (response.didCancel) {
-        console.log('User cancelled image picker');
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
       } else if (response.customButton) {
-        console.log('User tapped custom button', response.customButton);
       } else {
         const source = {
           uri: response.assets[0].uri,
@@ -56,7 +52,6 @@ const PlantSuggestionScreen = () => {
       }
     });
   };
-  console.log(imageURI);
   const openGallery = () => {
     const options = {
       storageOptions: {
@@ -67,13 +62,9 @@ const PlantSuggestionScreen = () => {
       saveToPhotos: true,
     };
     launchImageLibrary(options, response => {
-      console.log('Response: ', response);
       if (response.didCancel) {
-        console.log('User cancelled image picker');
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
       } else if (response.customButton) {
-        console.log('User tapped custom button', response.customButton);
       } else {
         const source = {
           uri: response.assets[0].uri,

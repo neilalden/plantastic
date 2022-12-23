@@ -6,7 +6,7 @@ import {FONT_WEIGHT} from '../common/utils/font';
 import {SIZE} from '../common/utils/size';
 import {Button, ButtonOutline} from '../components/Buttons';
 import {IMAGES} from '../common/images';
-import {APP_NAME} from '../constants/text';
+import {APP_NAME} from '../common/constants/text';
 import {TEXT_SHADOW} from '../common/utils/styles';
 import {ROUTES} from '../common/routes';
 import Icon from '../components/Icon';

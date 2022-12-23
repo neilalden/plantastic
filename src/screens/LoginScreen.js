@@ -11,11 +11,15 @@ import {TEXT_SHADOW} from '../common/utils/styles';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Header from '../components/Header';
 import {ROUTES} from '../common/routes';
-const LoginScreen = ({navigation}) => {
-  const [username, setUsername] = React.useState();
+import {TextInput} from '../components/TextInput';
+import {signIn} from '../functions/authentication/signIn';
+import {signInFormValidation} from '../functions/validation/signInFormValidation';
+const LoginScreen = () => {
+  const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
   const handleLogin = () => {
-    navigation.navigate(ROUTES.HOME_SCREEN);
+    if (!signInFormValidation(email, password)) return;
+    signIn(email, password);
   };
 
   return (
@@ -23,31 +27,19 @@ const LoginScreen = ({navigation}) => {
       <Header />
       <Image source={IMAGES.ic_app_round} style={styles.icon} />
       <Text style={[styles.title, TEXT_SHADOW]}>LOGIN</Text>
-      <View style={styles.textInputContainer}>
-        <TextField
-          tintColor={COLORS.GREEN100}
-          baseColor={COLORS.WHITE}
-          textColor={COLORS.WHITE}
-          labelFontSize={SIZE.x16}
-          fontSize={SIZE.x22}
-          value={username}
-          onChangeText={text => setUsername(text)}
-          label="Username"
-        />
-      </View>
-      <View style={styles.textInputContainer}>
-        <TextField
-          tintColor={COLORS.GREEN100}
-          baseColor={COLORS.WHITE}
-          textColor={COLORS.WHITE}
-          labelFontSize={SIZE.x16}
-          fontSize={SIZE.x22}
-          secureTextEntry={true}
-          value={password}
-          onChangeText={text => setPassword(text)}
-          label="Password"
-        />
-      </View>
+      <TextInput
+        value={email}
+        onChangeText={text => setEmail(text)}
+        label="Email"
+        containerStyle={styles.textInputContainer}
+      />
+      <TextInput
+        secureTextEntry={true}
+        value={password}
+        onChangeText={text => setPassword(text)}
+        label="Password"
+        containerStyle={styles.textInputContainer}
+      />
       <Button
         text={'LOGIN'}
         onPress={handleLogin}
@@ -76,8 +68,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   textInputContainer: {
-    width: SIZE.x300,
-    alignSelf: 'center',
     marginTop: SIZE.x10,
   },
   buttoContainer: {

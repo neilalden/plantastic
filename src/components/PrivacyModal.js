@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {COLORS} from '../common/utils/colors';
 import {SIZE} from '../common/utils/size';
-import {TERMS} from '../common/utils/termsText';
+import {TERMS} from '../common/utils/text';
 
 const PrivacyModal = ({privacyVisible, setPrivacyVisible}) => {
   return (

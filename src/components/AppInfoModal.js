@@ -1,8 +1,8 @@
 import React from 'react';
 import {Modal, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import {COLORS} from '../common/utils/colors';
-import {INFO} from '../common/utils/appInfoText';
 import {SIZE} from '../common/utils/size';
+import {INFO} from '../common/utils/text';
 
 const AppInfoModal = ({setAppInfoVisible, appInfoVisible}) => {
   return (

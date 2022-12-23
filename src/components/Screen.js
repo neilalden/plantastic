@@ -3,6 +3,7 @@ import React from 'react';
 import {COLORS} from '../common/utils/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import {ScrollView} from 'react-native-gesture-handler';
+import {SIZE} from '../common/utils/size';
 
 const Screen = ({gradientBG = true, style, children}) => {
   if (gradientBG) {
@@ -11,7 +12,9 @@ const Screen = ({gradientBG = true, style, children}) => {
         colors={[COLORS.GREEN500, COLORS.DARKGREEN]}
         style={styles.container}>
         <SafeAreaView style={[styles.container, style]}>
-          <ScrollView>{children}</ScrollView>
+          <ScrollView style={{marginHorizontal: SIZE.x14}}>
+            {children}
+          </ScrollView>
         </SafeAreaView>
       </LinearGradient>
     );

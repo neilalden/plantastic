@@ -7,23 +7,22 @@ import {IMAGES} from '../common/images';
 
 const PlantRecordCard = ({item}) => {
   return (
-    <View>
-      <View style={styles.containerStyle}>
-        <View style={styles.contentHeader}>
-          <View style={styles.imageViewStyle}>
-            <Image source={{uri: item.image}} style={styles.imageStyle} />
-          </View>
-          <View>
-            <Text style={styles.textPrimaryTitle}>{item.scientific_name}</Text>
-            <Text style={styles.textSecondaryTitle}>{item.common_name}</Text>
-          </View>
+    <View style={styles.containerStyle}>
+      <View style={styles.contentHeader}>
+        <Icon
+          source={{uri: item.image}}
+          size={SIZE.x125}
+          containerStyle={styles.imageViewStyle}
+          imageStyle={styles.imageStyle}
+        />
+        <View>
+          <Text style={styles.textPrimaryTitle}>{item.scientific_name}</Text>
+          <Text style={styles.textSecondaryTitle}>{item.common_name}</Text>
         </View>
-        <View style={{justifyContent: 'space-between'}}>
-          <Icon source={IMAGES.ic_three_dots} size={SIZE.x24} />
-          <View>
-            <Icon source={IMAGES.ic_note} size={SIZE.x20} />
-          </View>
-        </View>
+      </View>
+      <View style={styles.cardActionContainer}>
+        <Icon source={IMAGES.ic_three_dots} size={SIZE.x24} />
+        <Icon source={IMAGES.ic_note} size={SIZE.x20} />
       </View>
     </View>
   );
@@ -33,18 +32,20 @@ export default PlantRecordCard;
 
 const styles = StyleSheet.create({
   containerStyle: {
-    marginTop: SIZE.x20,
-    marginHorizontal: SIZE.x10,
-    borderRadius: SIZE.x4,
     flexDirection: 'row',
-    paddingVertical: SIZE.x10,
-    backgroundColor: 'rgba(217,217,217,0.3)',
+    marginBottom: SIZE.x20,
+    borderRadius: SIZE.x4,
+    backgroundColor: COLORS.GREEN500,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.8,
+    shadowRadius: 1,
   },
   contentHeader: {
     flexDirection: 'row',
     flex: 1,
     alignItems: 'center',
-    marginLeft: SIZE.x10,
   },
   contentTextStyle: {
     marginLeft: SIZE.x10,
@@ -75,12 +76,14 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   imageViewStyle: {
-    paddingRight: SIZE.x10,
+    borderTopLeftRadius: SIZE.x4,
+    borderBottomLeftRadius: SIZE.x4,
   },
   imageStyle: {
-    width: SIZE.x100,
-    height: SIZE.x100,
-    borderRadius: SIZE.x1,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
+  },
+  cardActionContainer: {
+    justifyContent: 'space-between',
+    marginVertical: SIZE.x10,
   },
 });
