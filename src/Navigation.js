@@ -10,6 +10,10 @@ import PlantRecordScreen from './screens/PlantRecordScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import NotificationScreen from './screens/Settings/NotificationScreen';
 import SettingsScreen from './screens/Settings/SettingsScreen';
+import TermsScreen from './screens/TermsScreen';
+import ContactUsScreen from './screens/ContactUsScreen';
+import SuggestionScreen from './screens/SuggestionScreen';
+import PlantSuggestionScreen from './screens/PlantSuggestionScreen';
 const Stack = createStackNavigator();
 const Navigation = () => {
   return (
@@ -38,6 +42,19 @@ const Navigation = () => {
         <Stack.Screen
           name={ROUTES.SETTINGS_SCREEN}
           component={SettingsScreen}
+        />
+        <Stack.Screen name={ROUTES.TERMS_SCREEN} component={TermsScreen} />
+        <Stack.Screen
+          name={ROUTES.CONTACT_US_SCREEN}
+          component={ContactUsScreen}
+        />
+        <Stack.Screen
+          name={ROUTES.SUGGESTION_SCREEN}
+          component={SuggestionScreen}
+        />
+        <Stack.Screen
+          name={ROUTES.PLANT_SUGGESTION_SCREEN}
+          component={PlantSuggestionScreen}
         />
         <Stack.Screen
           name={ROUTES.NOTIFICATION_SCREEN}

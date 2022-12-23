@@ -5,6 +5,7 @@ export const IMAGES = {
   ic_bell: require('../assets/icons/ic_bell.png'),
   ic_bookmark: require('../assets/icons/ic_bookmark.png'),
   ic_browser: require('../assets/icons/ic_browser.png'),
+  ic_bulb: require('../assets/icons/ic_bulb.png'),
   ic_check_list: require('../assets/icons/ic_check_list.png'),
   ic_document: require('../assets/icons/ic_document.png'),
   ic_folder: require('../assets/icons/ic_folder.png'),

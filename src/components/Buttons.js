@@ -1,9 +1,11 @@
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {COLORS} from '../common/utils/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import {SIZE} from '../common/utils/size';
 import {FONT_WEIGHT} from '../common/utils/font';
+import Icon from './Icon';
+import {IMAGES} from '../common/images';
 export const Button = ({
   containerStyle,
   textStyle,
@@ -31,6 +33,29 @@ export const ButtonOutline = ({containerStyle, textStyle, onPress, text}) => {
       onPress={onPress}
       style={[styles.buttonOutlineContainer, containerStyle]}>
       <Text style={[styles.buttonText, textStyle]}>{text}</Text>
+    </TouchableOpacity>
+  );
+};
+
+export const SettingsButton = ({
+  containerStyle,
+  textStyle,
+  onPress,
+  text,
+  iconEndStyle,
+  iconStart,
+}) => {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <View style={[containerStyle]}>
+        <View style={styles.start}>
+          <Icon source={iconStart} size={SIZE.x18} />
+        </View>
+        <Text style={[textStyle]}>{text}</Text>
+        <View style={[iconEndStyle]}>
+          <Icon source={IMAGES.ic_proceed} size={SIZE.x18} />
+        </View>
+      </View>
     </TouchableOpacity>
   );
 };
