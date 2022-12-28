@@ -17,12 +17,10 @@ export const validateEmail = (email: string): RegExpMatchArray | null => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     );
 };
-export const validateUsername = (username: string): string | boolean => {
-  if (!username) return 'Please enter a username';
-  if (username.includes(' ')) return 'Username should not include spaces';
-  if (username.length < 5)
-    return 'Username should at least be 5 characters long';
-  if (username.length > 25)
-    return 'Username length must not exceed 25 characters';
+export const validatename = (name: string): string | boolean => {
+  if (!name) return 'Please enter a name';
+  // if (name.includes(' ')) return 'name should not include spaces';
+  if (name.length < 5) return 'name should at least be 5 characters long';
+  if (name.length > 25) return 'name length must not exceed 25 characters';
   return true;
 };

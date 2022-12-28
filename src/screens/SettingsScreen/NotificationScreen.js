@@ -16,9 +16,6 @@ import {signOut} from '../../functions/authentication/signOut';
 const NotificationScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const handleLogout = () => {
-    signOut();
-  };
   return (
     <React.Fragment>
       <Screen>
@@ -72,7 +69,7 @@ const NotificationScreen = () => {
         <ButtonOutline
           text={'LOGOUT'}
           containerStyle={{marginTop: SIZE.p10}}
-          onPress={handleLogout}
+          onPress={() => signOut()}
         />
       </Screen>
       <BottomNav routeName={route.name} navigation={navigation} />

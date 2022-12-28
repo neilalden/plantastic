@@ -46,13 +46,26 @@ const BottomNav = props => {
         }
       />
       <Icon
-        onPress={() => handleOnPress(ROUTES.PLANT_RECORD_SCREEN)}
+        onPress={() => handleOnPress(ROUTES.SHOP_SCREEN)}
+        size={SIZE.x40}
+        containerStyle={[
+          styles.icon_container,
+          {marginVertical: SIZE.x14, marginHorizontal: SIZE.x4},
+        ]}
+        source={
+          routeName === ROUTES.SHOP_SCREEN
+            ? IMAGES.ic_shop
+            : IMAGES.ic_shop_dark_green
+        }
+      />
+      <Icon
+        onPress={() => handleOnPress(ROUTES.RECENTLY_VIEWED_SCREEN)}
         size={SIZE.x40}
         containerStyle={[styles.icon_container, {marginVertical: SIZE.x14}]}
         source={
-          routeName === ROUTES.PLANT_RECORD_SCREEN
-            ? IMAGES.ic_report
-            : IMAGES.ic_report_dark_green
+          routeName === ROUTES.RECENTLY_VIEWED_SCREEN
+            ? IMAGES.ic_recent
+            : IMAGES.ic_recent_dark_green
         }
       />
       <Icon

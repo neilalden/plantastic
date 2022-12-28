@@ -1,5 +1,7 @@
 export const IMAGES = {
   ic_app_round: require('../assets/icons/ic_app_round.png'),
+  ic_add: require('../assets/icons/ic_add.png'),
+  ic_add_dark_green: require('../assets/icons/ic_add_dark_green.png'),
   ic_app: require('../assets/icons/ic_app.png'),
   ic_back: require('../assets/icons/ic_back.png'),
   ic_bell: require('../assets/icons/ic_bell.png'),
@@ -35,4 +37,8 @@ export const IMAGES = {
   ic_unlock: require('../assets/icons/ic_unlock.png'),
   ic_user: require('../assets/icons/ic_user.png'),
   ic_settings: require('../assets/icons/ic_settings.png'),
+  ic_shop: require('../assets/icons/ic_shop.png'),
+  ic_shop_dark_green: require('../assets/icons/ic_shop_dark_green.png'),
+  ic_recent: require('../assets/icons/ic_recent.png'),
+  ic_recent_dark_green: require('../assets/icons/ic_recent_dark_green.png'),
 };

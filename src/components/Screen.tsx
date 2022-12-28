@@ -1,11 +1,15 @@
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, SafeAreaView, ViewStyle} from 'react-native';
 import React from 'react';
 import {COLORS} from '../common/utils/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import {ScrollView} from 'react-native-gesture-handler';
 import {SIZE} from '../common/utils/size';
-
-const Screen = ({gradientBG = true, style, children}) => {
+type Props = {
+  gradientBG?: Boolean;
+  style?: ViewStyle;
+  children?: React.ReactNode;
+};
+const Screen = ({gradientBG = true, style, children}: Props) => {
   if (gradientBG) {
     return (
       <LinearGradient
@@ -20,7 +24,9 @@ const Screen = ({gradientBG = true, style, children}) => {
     );
   } else {
     return (
-      <SafeAreaView style={[styles.container, style]}>{children}</SafeAreaView>
+      <SafeAreaView style={[styles.container, style]}>
+        <ScrollView style={{marginHorizontal: SIZE.x14}}>{children}</ScrollView>
+      </SafeAreaView>
     );
   }
 };

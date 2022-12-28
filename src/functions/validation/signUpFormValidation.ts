@@ -2,24 +2,24 @@ import {
   validateConfirmPassword,
   validateEmail,
   validatePassword,
-  validateUsername,
+  validatename,
 } from './stringValidation';
 
 export const signUpFormValidation = (
-  username,
+  name,
   email,
   password,
   confirmPassword,
 ) => {
-  const valdiatedUsername = validateUsername(username);
+  const valdiatedname = validatename(name);
   const validatedEmail = validateEmail(email);
   const validatedPassword = validatePassword(password);
   const validatedConfirmPassword = validateConfirmPassword(
     password,
     confirmPassword,
   );
-  if (valdiatedUsername !== true) {
-    alert(valdiatedUsername);
+  if (valdiatedname !== true) {
+    alert(valdiatedname);
     return false;
   }
   if (!validatedEmail) {

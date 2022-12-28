@@ -6,15 +6,16 @@ import HomeScreen from './screens/HomeScreen';
 import LandingScreen from './screens/LandingScreen';
 import LoginScreen from './screens/LoginScreen';
 import PlantDictionaryScreen from './screens/PlantDictionaryScreen';
-import PlantRecordScreen from './screens/PlantRecordScreen';
+import PlantRecentlyViewedScreen from './screens/PlantRecentlyViewedScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import NotificationScreen from './screens/Settings/NotificationScreen';
-import SettingsScreen from './screens/Settings/SettingsScreen';
-import TermsScreen from './screens/Settings/TermsScreen';
-import ContactUsScreen from './screens/Settings/ContactUsScreen';
-import SuggestionScreen from './screens/Settings/SuggestionScreen';
+import NotificationScreen from './screens/SettingsScreen/NotificationScreen';
+import SettingsScreen from './screens/SettingsScreen/SettingsScreen';
+import TermsScreen from './screens/SettingsScreen/TermsScreen';
+import ContactUsScreen from './screens/SettingsScreen/ContactUsScreen';
+import SuggestionScreen from './screens/SettingsScreen/SuggestionScreen';
 import PlantSuggestionScreen from './screens/PlantSuggestionScreen';
 import AuthContextProvider from './context/AuthContext';
+import ShopScreen from './screens/ShopScreen';
 const Stack = createStackNavigator();
 const Navigation = () => {
   return (
@@ -40,9 +41,10 @@ const Navigation = () => {
             name={ROUTES.PLANT_DICTIONARY_SCREEN}
             component={PlantDictionaryScreen}
           />
+          <Stack.Screen name={ROUTES.SHOP_SCREEN} component={ShopScreen} />
           <Stack.Screen
-            name={ROUTES.PLANT_RECORD_SCREEN}
-            component={PlantRecordScreen}
+            name={ROUTES.RECENTLY_VIEWED_SCREEN}
+            component={PlantRecentlyViewedScreen}
           />
           <Stack.Screen
             name={ROUTES.SETTINGS_SCREEN}

@@ -5,13 +5,13 @@ import {IMAGES} from '../common/images';
 import {TEXT_SHADOW} from '../common/utils/styles';
 import {COLORS} from '../common/utils/colors';
 import {useRoute, useNavigation} from '@react-navigation/native';
-
 const Header = props => {
-  const navigation = useNavigation();
   const text = props?.text;
   const Button = props?.Button;
   const canGoBack = props?.canGoBack ?? true;
   const goBack = () => navigation.goBack();
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container} elevation={5}>
       {canGoBack ? (

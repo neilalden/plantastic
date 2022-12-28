@@ -20,10 +20,12 @@ const PlantRecordCard = ({item}) => {
           <Text style={styles.textSecondaryTitle}>{item.common_name}</Text>
         </View>
       </View>
-      <View style={styles.cardActionContainer}>
-        <Icon source={IMAGES.ic_three_dots} size={SIZE.x24} />
-        <Icon source={IMAGES.ic_note} size={SIZE.x20} />
-      </View>
+      {!item.withAction ? (
+        <View style={styles.cardActionContainer}>
+          <Icon source={IMAGES.ic_three_dots} size={SIZE.x24} />
+          <Icon source={IMAGES.ic_note} size={SIZE.x24} />
+        </View>
+      ) : null}
     </View>
   );
 };

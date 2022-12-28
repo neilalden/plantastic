@@ -3,20 +3,39 @@ import {StyleSheet, Text, View} from 'react-native';
 import {SIZE} from '../common/utils/size';
 import {COLORS} from '../common/utils/colors';
 import Icon from './Icon';
+import {truncateString} from '../functions/utility/truncate';
+import {fetchImage} from '../functions/storage/fetchImage';
 
-const PlantDictionaryCard = ({item}) => {
+const PlantDictionaryCard = props => {
+  const scientific_name = props.item.scientific_name;
+  const common_name = props.item.common_name;
+  const uses = props.item.uses;
+  const [image, setImage] = React.useState('Plants/sweet basil.png');
+  console.log(props.item);
+  React.useEffect(() => {
+    (async () => {
+      try {
+        setImage(await fetchImage('Plants/sweet basil.png'));
+      } catch (e) {
+        alert(e);
+      }
+    })();
+  }, []);
+  console.log(image);
   return (
     <View style={styles.containerStyle}>
-      <Icon
-        source={{uri: item.image}}
+      {/* <Icon
+        source={{uri: image}}
         size={SIZE.x125}
         containerStyle={styles.imageViewStyle}
         imageStyle={styles.imageStyle}
-      />
+      /> */}
       <View style={{marginLeft: SIZE.x10}}>
-        <Text style={styles.textPrimaryTitle}>{item.scientific_name}</Text>
-        <Text style={styles.textSecondaryTitle}>{item.common_name}</Text>
-        <Text style={styles.textContent}>{String(item.uses)}</Text>
+        <Text style={styles.textPrimaryTitle}>{scientific_name}</Text>
+        <Text style={styles.textSecondaryTitle}>{common_name}</Text>
+        <Text style={styles.textContent}>
+          {truncateString(String(uses).replaceAll(',', ', '), 25)}
+        </Text>
       </View>
     </View>
   );
@@ -62,7 +81,6 @@ const styles = StyleSheet.create({
   textContent: {
     fontWeight: '500',
     fontSize: SIZE.x16,
-    flexWrap: 'wrap',
     color: COLORS.WHITE,
   },
   imageViewStyle: {

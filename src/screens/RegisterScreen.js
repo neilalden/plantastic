@@ -2,7 +2,7 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Screen from '../components/Screen';
-import {Button, ButtonOutline} from '../components/Buttons';
+import {ButtonOutline} from '../components/Buttons';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Header from '../components/Header';
 import {TEXT_SHADOW} from '../common/utils/styles';
@@ -11,29 +11,32 @@ import {COLORS} from '../common/utils/colors';
 import {SIZE} from '../common/utils/size';
 import {FONT_WEIGHT} from '../common/utils/font';
 import {TextInput} from '../components/TextInput';
-import {signUpFormValidation} from '../functions/validation/signUpFormValidation';
 import {accountRegister} from '../functions/authentication/accountRegistration';
+import Switch from '../components/Switch';
+import {userTypes} from '../common/constants/userTypes';
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = React.useState();
-  const [username, setUsername] = React.useState();
+  const [name, setname] = React.useState();
   const [password, setPassword] = React.useState();
   const [confirmPassword, setConfirmPassword] = React.useState();
-  const handleRegister = () => {
-    if (!signUpFormValidation(username, email, password, confirmPassword))
-      return;
-    accountRegister(email, password, username);
-  };
+  const [userType, setUserType] = React.useState(userTypes[0].value);
   return (
     <Screen>
       <Header />
       <Image source={IMAGES.ic_app_round} style={styles.icon} />
-      <Text style={[styles.title, TEXT_SHADOW]}>LOGIN</Text>
+      <Text style={[styles.title, TEXT_SHADOW]}>REGISTER</Text>
+      <Switch
+        value={userType}
+        setValue={setUserType}
+        values={userTypes}
+        switchContainerStyle={{marginTop: SIZE.x30}}
+      />
       <TextInput
-        value={username}
-        onChangeText={text => setUsername(text)}
-        label="Username"
+        value={name}
+        onChangeText={text => setname(text)}
+        label="name"
       />
       <TextInput
         value={email}
@@ -55,9 +58,10 @@ const RegisterScreen = () => {
       />
       <ButtonOutline
         text={'REGISTER'}
-        onPress={handleRegister}
         containerStyle={styles.buttonContainer}
-        textStyle={styles.buttonText}
+        onPress={() =>
+          accountRegister(userType, name, email, password, confirmPassword)
+        }
       />
     </Screen>
   );
@@ -79,12 +83,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   buttonContainer: {
+    marginVertical: SIZE.x30,
     width: SIZE.x300,
-    marginTop: SIZE.x50,
     alignSelf: 'center',
-    marginBottom: SIZE.x30,
-  },
-  buttonText: {
-    color: COLORS.WHITE,
   },
 });

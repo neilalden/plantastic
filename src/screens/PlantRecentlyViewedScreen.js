@@ -12,8 +12,11 @@ import {SIZE} from '../common/utils/size';
 import SearchBar from '../components/SearchBar';
 import {data} from '../../DUMMY_DATA';
 import PlantRecordCard from '../components/PlantRecordCard';
+import {FONT_WEIGHT} from '../common/utils/font';
+import {COLORS} from '../common/utils/colors';
+import {TEXT_SHADOW} from '../common/utils/styles';
 
-const PlantRecordScreen = ({navigation}) => {
+const PlantRecentlyViewedScreen = ({navigation}) => {
   const route = useRoute();
   const handleBack = () => {
     navigation.goBack();
@@ -21,7 +24,7 @@ const PlantRecordScreen = ({navigation}) => {
   return (
     <>
       <Screen>
-        <Header text="Records" canGoBack={false} />
+        <Header text="Recently Viewed" canGoBack={false} />
 
         <SearchBar />
         <View style={styles.topIconsContainer}>
@@ -30,16 +33,20 @@ const PlantRecordScreen = ({navigation}) => {
           <Icon source={IMAGES.ic_list} size={SIZE.x30} />
         </View>
 
-        {data.map((item, index) => {
-          return <PlantRecordCard key={index} item={item} />;
-        })}
+        {data.length > 0 ? (
+          data.map((item, index) => {
+            return <PlantRecordCard key={index} item={item} />;
+          })
+        ) : (
+          <Text style={styles.text}>No recently viewed plant</Text>
+        )}
       </Screen>
       <BottomNav routeName={route.name} navigation={navigation} />
     </>
   );
 };
 
-export default PlantRecordScreen;
+export default PlantRecentlyViewedScreen;
 
 const styles = StyleSheet.create({
   topIconsContainer: {
@@ -50,49 +57,12 @@ const styles = StyleSheet.create({
     marginBottom: SIZE.x20,
   },
 
-  something: {
-    width: SIZE.x24,
-    height: SIZE.x24,
-    borderRadius: SIZE.x4,
-    borderWidth: 2,
-    borderColor: 'black',
-    resizeMode: 'contain',
-  },
-  card: {
-    justifyContent: 'space-between',
-    marginTop: SIZE.x20,
-    padding: SIZE.x10,
-    marginHorizontal: SIZE.x20,
-    borderRadius: SIZE.x20,
-    flexDirection: 'row',
-    backgroundColor: 'rgba(217,217,217, .3)',
-    alignItems: 'center',
-  },
-  content: {
-    marginLeft: SIZE.x20,
-  },
-  textTitle: {
-    fontWeight: '800',
-    fontSize: SIZE.x16,
-  },
-  textContent: {
-    fontWeight: '500',
-    fontSize: SIZE.x12,
-    flexWrap: 'wrap',
-  },
-  icon2: {
-    marginLeft: SIZE.x66,
-    height: SIZE.x70,
-    flexDirection: 'column',
-  },
-  imageContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  noteEnd: {
-    marginTop: SIZE.x30,
-    flex: SIZE.x1,
+  text: {
+    ...TEXT_SHADOW,
+    fontSize: SIZE.x30,
+    FONT_WEIGHT: FONT_WEIGHT.x700,
+    color: COLORS.WHITE,
+    marginTop: SIZE.x46,
     alignSelf: 'center',
-    alignContent: 'flex-end',
   },
 });

@@ -15,9 +15,9 @@ const Icon = props => {
       onPress={onPress}
       activeOpacity={onPress ? 0.5 : 1}
       style={[
-        containerStyle,
         styles.icon_container,
         {height: size, width: size},
+        containerStyle,
       ]}>
       <Image
         source={source}

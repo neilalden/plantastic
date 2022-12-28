@@ -13,14 +13,9 @@ import Header from '../components/Header';
 import {ROUTES} from '../common/routes';
 import {TextInput} from '../components/TextInput';
 import {signIn} from '../functions/authentication/signIn';
-import {signInFormValidation} from '../functions/validation/signInFormValidation';
 const LoginScreen = () => {
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
-  const handleLogin = () => {
-    if (!signInFormValidation(email, password)) return;
-    signIn(email, password);
-  };
 
   return (
     <Screen>
@@ -42,7 +37,7 @@ const LoginScreen = () => {
       />
       <Button
         text={'LOGIN'}
-        onPress={handleLogin}
+        onPress={() => signIn(email, password)}
         containerStyle={styles.buttoContainer}
         textStyle={styles.buttoText}
         gradientColor={[COLORS.WHITE, COLORS.GREEN300]}

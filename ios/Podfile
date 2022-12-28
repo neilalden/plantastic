@@ -1,18 +1,25 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
 $RNFirebaseAsStaticFramework = true
-platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
 pod 'Firebase', :modular_headers => true
 pod 'FirebaseCore', :modular_headers => true
 pod 'FirebaseCoreInternal', :modular_headers => true
 pod 'GoogleUtilities', :modular_headers => true
-
+pod 'FirebaseAppCheckInterop', :modular_headers => true
+pod 'FirebaseAuthInterop', :modular_headers => true
+pod 'FirebaseCoreExtension',:modular_headers => true
+pod 'GTMSessionFetcher',:modular_headers => true
 target 'plantastic' do
   config = use_native_modules!
   # use_frameworks!
   # Flags change depending on the env values.
   flags = get_default_flags()
+  # pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+  # pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
+  # pod 'RNFBFirestore', :path => '../node_modules/@react-native-firebase/firestore'
+  # pod 'RNFBStorage', :path => '../node_modules/@react-native-firebase/storage'
 
   use_react_native!(
     :path => config[:reactNativePath],
@@ -29,6 +36,9 @@ target 'plantastic' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
+
+  # Firebase storage dependency
+  pod 'RNFBStorage', :path => '../node_modules/@react-native-firebase/storage'
 
   target 'plantasticTests' do
     inherit! :complete
