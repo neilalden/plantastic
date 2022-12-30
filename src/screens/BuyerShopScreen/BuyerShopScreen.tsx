@@ -1,64 +1,50 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Header from '../../components/Header';
 import Screen from '../../components/Screen';
 import BottomNav from '../../components/BottomNav';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import PlantDictionaryCard from '../../components/PlantDictionaryCard';
-import {Button} from '../../components/Buttons';
 import {COLORS} from '../../common/utils/colors';
 import {SIZE} from '../../common/utils/size';
 import Icon from '../../components/Icon';
 import {IMAGES} from '../../common/images';
 import {TEXT_SHADOW} from '../../common/utils/styles';
 import {AuthContext} from '../../context/AuthContext';
-import {FONT_WEIGHT} from '../../common/utils/font';
-import {fetchCollection} from '../../functions/authentication/fetchDocument';
+import {PlantsContext} from '../../context/PlantsContext';
 
-const SellerShopScreen = () => {
+const BuyerShopScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const {user} = React.useContext(AuthContext);
-  const [data, setData] = React.useState();
-  React.useEffect(() => {
-    (async () => {
-      try {
-        setData(await fetchCollection('Plants'));
-      } catch (e) {
-        alert(e);
-      }
-    })();
-  }, []);
+  const {plants} = React.useContext(PlantsContext);
   return (
     <React.Fragment>
       <Screen>
         <Header
-          text="Seller Shop"
+          text="Plant Collection"
           canGoBack={false}
           Button={
             <Icon
-              source={IMAGES.ic_add_dark_green}
+              source={IMAGES.ic_note_dark_green}
               size={SIZE.x20}
               containerStyle={styles.iconContainerStyle}
-              onPress={() => console.log('first')}
+              onPress={() => alert('Edit account coming soon')}
             />
           }
         />
-
-        <View style={styles.banner}>
-          {user.image ? (
-            <Image
-              source={{uri: user.image}}
-              style={{height: '100%', width: '100%'}}
-            />
-          ) : (
-            <Text style={styles.uploadText}>UPLOAD BANNER</Text>
-          )}
-        </View>
-        <Text style={styles.title}>{user.name}</Text>
-        {data &&
-          data?.map((item, index) => {
-            return <PlantDictionaryCard key={index} item={item} />;
+        {user.plants &&
+          user.plants?.map((item, index) => {
+            return (
+              plants &&
+              plants.map(plant => {
+                if (item === plant.id) {
+                  return (
+                    <PlantDictionaryCard key={index} item={plant} canRemove />
+                  );
+                }
+              })
+            );
           })}
       </Screen>
       <BottomNav routeName={route.name} navigation={navigation} />
@@ -66,7 +52,7 @@ const SellerShopScreen = () => {
   );
 };
 
-export default SellerShopScreen;
+export default BuyerShopScreen;
 
 const styles = StyleSheet.create({
   buttoContainer: {
@@ -79,10 +65,10 @@ const styles = StyleSheet.create({
   },
   iconContainerStyle: {
     backgroundColor: COLORS.WHITE,
-    height: SIZE.x30,
-    width: SIZE.x30,
-    justifyContent: 'center',
+    height: SIZE.x34,
+    width: SIZE.x34,
     borderRadius: SIZE.x50,
+    justifyContent: 'center',
   },
   banner: {
     marginTop: SIZE.x20,
@@ -110,5 +96,12 @@ const styles = StyleSheet.create({
     marginTop: SIZE.p14,
     fontSize: SIZE.x16,
     fontWeight: '600',
+  },
+  availablePlantsText: {
+    ...TEXT_SHADOW,
+    color: COLORS.WHITE,
+    fontSize: SIZE.x20,
+    marginBottom: SIZE.x14,
+    fontWeight: '900',
   },
 });

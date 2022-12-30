@@ -10,6 +10,7 @@ export type UserDataType = {
   uid: string;
   userType: userType;
   name: string;
+  plants?: Array<string>;
   [key: string]: any;
 };
 export type NavigationType = StackNavigationProp<RootStackParamList>;

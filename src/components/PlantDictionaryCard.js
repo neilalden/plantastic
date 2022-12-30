@@ -1,51 +1,80 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {SIZE} from '../common/utils/size';
 import {COLORS} from '../common/utils/colors';
 import Icon from './Icon';
 import {truncateString} from '../functions/utility/truncate';
-import {fetchImage} from '../functions/storage/fetchImage';
+import {IMAGES} from '../common/images';
+import {PlantsContext} from '../context/PlantsContext';
+import {AuthContext} from '../context/AuthContext';
+import {updateDatabase} from '../functions/database/updateDatabase';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '../common/routes';
+import {TEXT_SHADOW} from '../common/utils/styles';
 
 const PlantDictionaryCard = props => {
+  const {plantsImage} = React.useContext(PlantsContext);
+  const {user, setReload} = React.useContext(AuthContext);
+  const navigation = useNavigation();
+  const id = props.item.id;
   const scientific_name = props.item.scientific_name;
   const common_name = props.item.common_name;
-  const uses = props.item.uses;
-  const [image, setImage] = React.useState('Plants/sweet basil.png');
-  console.log(props.item);
-  React.useEffect(() => {
-    (async () => {
-      try {
-        setImage(await fetchImage('Plants/sweet basil.png'));
-      } catch (e) {
-        alert(e);
-      }
-    })();
-  }, []);
-  console.log(image);
+  const uses = props.item.uses ? props.item.uses : '';
+  const image =
+    !!id && !!plantsImage && plantsImage[`${id}`]
+      ? {uri: plantsImage[`${id}`]}
+      : IMAGES.ic_app_round;
+  const canRemove = props.canRemove;
+  const handleOpenPlantDetails = () => {
+    navigation.navigate(ROUTES.PLANT_DETAILS_SCREEN, props.item);
+  };
   return (
-    <View style={styles.containerStyle}>
-      {/* <Icon
-        source={{uri: image}}
-        size={SIZE.x125}
-        containerStyle={styles.imageViewStyle}
-        imageStyle={styles.imageStyle}
-      /> */}
-      <View style={{marginLeft: SIZE.x10}}>
-        <Text style={styles.textPrimaryTitle}>{scientific_name}</Text>
-        <Text style={styles.textSecondaryTitle}>{common_name}</Text>
-        <Text style={styles.textContent}>
-          {truncateString(String(uses).replaceAll(',', ', '), 25)}
-        </Text>
-      </View>
-    </View>
+    <React.Fragment>
+      <TouchableOpacity
+        onPress={handleOpenPlantDetails}
+        style={[styles.containerStyle, !canRemove && {marginBottom: SIZE.x20}]}>
+        <Icon
+          source={image}
+          size={SIZE.x125}
+          containerStyle={styles.imageViewStyle}
+          imageStyle={styles.imageStyle}
+        />
+        <View style={{marginLeft: SIZE.x14}}>
+          <Text style={styles.textPrimaryTitle}>{scientific_name}</Text>
+          <Text style={styles.textSecondaryTitle}>{common_name}</Text>
+          <Text style={styles.textContent}>
+            {truncateString(String(uses).replaceAll(',', ', '), 28)}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      {canRemove ? <Remove id={id} user={user} setReload={setReload} /> : null}
+    </React.Fragment>
   );
 };
-
+const Remove = props => {
+  const id = props.id;
+  const user = props.user;
+  const setReload = props.setReload;
+  const handleRemove = async () => {
+    try {
+      const plants = user.plants.filter(plantID => plantID !== id);
+      const res = await updateDatabase('Users', {plants: plants}, user.uid);
+      alert(res);
+      setReload(prev => !prev);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  return (
+    <TouchableOpacity style={styles.removeContainer} onPress={handleRemove}>
+      <Text style={styles.removeText}>Remove</Text>
+    </TouchableOpacity>
+  );
+};
 export default PlantDictionaryCard;
 
 const styles = StyleSheet.create({
   containerStyle: {
-    marginBottom: SIZE.x20,
     borderRadius: SIZE.x4,
     backgroundColor: COLORS.GREEN500,
     elevation: 5,
@@ -63,20 +92,14 @@ const styles = StyleSheet.create({
   textPrimaryTitle: {
     fontWeight: 'bold',
     color: COLORS.GREEN200,
-    textShadowColor: '#313131',
-    textShadowOffset: {width: 0, height: 1.2},
-    textShadowRadius: 2,
-    padding: SIZE.x4,
     fontSize: SIZE.x18,
+    ...TEXT_SHADOW,
   },
   textSecondaryTitle: {
     fontWeight: 'bold',
     color: '#FFF',
     fontSize: SIZE.x16,
-    padding: SIZE.x4,
-    textShadowColor: '#313131',
-    textShadowOffset: {width: 0, height: 1.2},
-    textShadowRadius: 2,
+    ...TEXT_SHADOW,
   },
   textContent: {
     fontWeight: '500',
@@ -89,5 +112,18 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     resizeMode: 'cover',
+  },
+  removeContainer: {
+    marginBottom: SIZE.x18,
+    marginTop: SIZE.x2,
+    alignSelf: 'flex-start',
+  },
+  removeText: {
+    color: COLORS.WHITE,
+    backgroundColor: COLORS.RED,
+    borderRadius: SIZE.x4,
+    paddingVertical: SIZE.x2,
+    paddingHorizontal: SIZE.x6,
+    fontWeight: '600',
   },
 });

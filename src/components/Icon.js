@@ -21,7 +21,7 @@ const Icon = props => {
       ]}>
       <Image
         source={source}
-        style={[styles.icon, imageStyle, {height: size, width: size}]}
+        style={[styles.icon, {height: size, width: size}, imageStyle]}
       />
     </TouchableOpacity>
   );

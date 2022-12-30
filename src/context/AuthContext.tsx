@@ -2,7 +2,7 @@ import React, {useState, createContext, useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../common/routes';
-import {fetchDocument} from '../functions/authentication/fetchDocument';
+import {fetchUser} from '../functions/database/fetchFromDatabase';
 import {NavigationType, UserDataType} from '../common/utils/type';
 
 export const AuthContext = createContext<any>('Default Value');
@@ -19,7 +19,7 @@ const AuthContextProvider = props => {
 
   const onAuthStateChanged = async userAuth => {
     if (userAuth) {
-      const data = await fetchDocument(userAuth.uid, 'Users');
+      const data = await fetchUser(userAuth.uid, 'Users');
       setUserAuth(userAuth);
       setUser(data);
       navigation.navigate(ROUTES.HOME_SCREEN);

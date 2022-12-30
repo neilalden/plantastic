@@ -20,6 +20,7 @@ export const IMAGES = {
   ic_leaf: require('../assets/icons/ic_leaf.png'),
   ic_list: require('../assets/icons/ic_list.png'),
   ic_note: require('../assets/icons/ic_note.png'),
+  ic_note_dark_green: require('../assets/icons/ic_note_dark_green.png'),
   ic_paint: require('../assets/icons/ic_paint.png'),
   ic_people: require('../assets/icons/ic_people.png'),
   ic_phone: require('../assets/icons/ic_phone.png'),

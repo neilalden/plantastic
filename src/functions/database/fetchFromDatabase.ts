@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import {UserDataType} from '../../common/utils/type';
 
-export const fetchDocument = async (
+export const fetchUser = async (
   id,
   collection,
 ): Promise<undefined | UserDataType> => {
@@ -10,29 +10,47 @@ export const fetchDocument = async (
     const resData = res.data();
     if (resData !== undefined) {
       const userData: UserDataType = {
-        createdAt: new Date(resData.createdAt),
+        createdAt: resData.createdAt.toDate(),
         email: resData.email,
         uid: resData.uid,
         userType: resData.userType,
         name: resData.name,
         image: resData.image,
+        plants: resData?.plants ?? [],
+        contactNumber: resData.contactNumber,
+        socialMedia: resData.socialMedia,
+        address: resData.address,
       };
       return userData;
     } else {
       return undefined;
     }
   } catch (error) {
-    alert(error.message);
+    console.error(error.message);
   }
 };
 
 export const fetchCollection = async collection => {
   try {
     const res = await firestore().collection(collection).get();
-    const array = [];
+    const array: any = [];
     res.forEach(snapShot => array.push(snapShot.data()));
     return array;
   } catch (error) {
-    alert(error.message);
+    console.error(error.message);
+  }
+};
+
+export const fetchSellers = async collection => {
+  try {
+    const res = await firestore()
+      .collection(collection)
+      .where('userType', '==', 'seller')
+      .get();
+    const array: any = [];
+    res.forEach(snapShot => array.push(snapShot.data()));
+    return array;
+  } catch (e) {
+    console.error(e.message);
   }
 };

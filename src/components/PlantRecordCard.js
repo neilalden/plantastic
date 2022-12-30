@@ -86,6 +86,6 @@ const styles = StyleSheet.create({
   },
   cardActionContainer: {
     justifyContent: 'space-between',
-    marginVertical: SIZE.x10,
+    margin: SIZE.x10,
   },
 });

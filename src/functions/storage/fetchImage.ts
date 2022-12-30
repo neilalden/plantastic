@@ -5,5 +5,5 @@ export const fetchImage = url => {
     .ref(url)
     .getDownloadURL()
     .then()
-    .catch(error => alert(error.message));
+    .catch(error => {});
 };

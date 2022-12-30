@@ -3,10 +3,15 @@ import {StyleSheet, View, TextInput} from 'react-native';
 import Icon from './Icon';
 import {SIZE} from '../common/utils/size';
 import {IMAGES} from '../common/images';
-const SearchBar = () => {
+import {COLORS} from '../common/utils/colors';
+const SearchBar = ({onChangeText}) => {
   return (
     <View style={styles.searchContainer}>
-      <TextInput style={styles.searchInputArea} placeholder="SEARCH" />
+      <TextInput
+        style={styles.searchInputArea}
+        placeholder="SEARCH"
+        onChangeText={onChangeText}
+      />
       <Icon
         source={IMAGES.ic_search}
         style={styles.searchIcon}
@@ -30,7 +35,10 @@ const styles = StyleSheet.create({
     height: SIZE.x50,
     width: SIZE.x240,
     marginHorizontal: SIZE.x10,
-    padding: SIZE.x10,
+    paddingLeft: SIZE.x14,
+    color: COLORS.WHITE,
+    fontSize: SIZE.x18,
+    fontWeight: '600',
   },
   searchIcon: {
     position: 'relative',

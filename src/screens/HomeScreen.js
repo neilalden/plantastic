@@ -12,6 +12,7 @@ import Header from '../components/Header';
 import {SIZE} from '../common/utils/size';
 import Icon from '../components/Icon';
 import SearchBar from '../components/SearchBar';
+import {TEXT_SHADOW} from '../common/utils/styles';
 const HomeScreen = ({navigation}) => {
   const route = useRoute();
 
@@ -19,37 +20,26 @@ const HomeScreen = ({navigation}) => {
     <React.Fragment>
       <Screen>
         <Header text="Home" canGoBack={false} />
-        <SearchBar />
-
-        <Text style={styles.textLabel}>Plant Collection</Text>
-
+        <Text style={styles.textLabel}>Recommendations</Text>
         <View style={styles.circleCards}>
-          <View style={styles.imgContainer}>
-            <Icon
-              source={IMAGES.ic_app_round}
-              style={styles.icon}
-              size={SIZE.x60}
-            />
-          </View>
-          <View style={styles.imgContainer}>
-            <Icon
-              source={IMAGES.ic_app_round}
-              style={styles.icon}
-              size={SIZE.x60}
-            />
-          </View>
-          <View style={styles.imgContainer}>
-            <Icon
-              source={IMAGES.ic_app_round}
-              style={styles.icon}
-              size={SIZE.x60}
-            />
-          </View>
+          <Icon
+            source={IMAGES.ic_app_round}
+            containerStyle={styles.icon}
+            size={SIZE.x100}
+          />
+          <Icon
+            source={IMAGES.ic_app_round}
+            containerStyle={styles.icon}
+            size={SIZE.x100}
+          />
+          <Icon
+            source={IMAGES.ic_app_round}
+            containerStyle={styles.icon}
+            size={SIZE.x100}
+          />
         </View>
 
         <Text style={styles.textLabel}>Useful Tips</Text>
-        <View style={styles.div} />
-        <Text style={styles.textLabel}>Houseplant Care</Text>
         <View style={styles.div} />
         <Text style={styles.textLabel}>Trends</Text>
         <View style={styles.div} />
@@ -63,24 +53,23 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   textLabel: {
+    fontWeight: 'bold',
+    color: COLORS.WHITE,
+    ...TEXT_SHADOW,
     marginTop: SIZE.x20,
-    marginLeft: SIZE.x20,
+    fontSize: SIZE.x26,
   },
   circleCards: {
     flex: SIZE.x1,
-    marginTop: SIZE.x20,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginHorizontal: SIZE.x16,
+    marginTop: SIZE.x10,
   },
-  icon: {},
-  imgContainer: {
+  icon: {
     borderRadius: SIZE.x50,
     backgroundColor: COLORS.DARKGREEN,
-    padding: SIZE.x10,
   },
   div: {
-    marginVertical: SIZE.x20,
     padding: SIZE.x40,
     borderWidth: SIZE.x1,
     borderColor: 'white',

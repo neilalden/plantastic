@@ -10,7 +10,6 @@ import Header from '../components/Header';
 import Icon from '../components/Icon';
 import {SIZE} from '../common/utils/size';
 import SearchBar from '../components/SearchBar';
-import {data} from '../../DUMMY_DATA';
 import PlantRecordCard from '../components/PlantRecordCard';
 import {FONT_WEIGHT} from '../common/utils/font';
 import {COLORS} from '../common/utils/colors';
@@ -33,7 +32,7 @@ const PlantRecentlyViewedScreen = ({navigation}) => {
           <Icon source={IMAGES.ic_list} size={SIZE.x30} />
         </View>
 
-        {data.length > 0 ? (
+        {false && data.length > 0 ? (
           data.map((item, index) => {
             return <PlantRecordCard key={index} item={item} />;
           })

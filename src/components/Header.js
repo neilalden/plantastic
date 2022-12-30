@@ -4,7 +4,8 @@ import {SIZE} from '../common/utils/size';
 import {IMAGES} from '../common/images';
 import {TEXT_SHADOW} from '../common/utils/styles';
 import {COLORS} from '../common/utils/colors';
-import {useRoute, useNavigation} from '@react-navigation/native';
+import {truncateString} from '../functions/utility/truncate';
+import {useNavigation} from '@react-navigation/native';
 const Header = props => {
   const text = props?.text;
   const Button = props?.Button;
@@ -21,7 +22,7 @@ const Header = props => {
       ) : (
         <View style={styles.button}></View>
       )}
-      <Text style={styles.title}>{text}</Text>
+      <Text style={styles.title}>{String(truncateString(text), 18)}</Text>
       <View style={styles.button}>{Button}</View>
     </View>
   );

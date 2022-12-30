@@ -9,4 +9,5 @@ export const COLORS = {
   GREEN500OPAQUE: 'rgba(126, 198, 0, 0.5)',
   DARKGREEN: '#5D7F39',
   DARKGREENOPAQUE: 'rgba(93, 127, 57, 0.5)',
+  RED: 'red',
 };
