@@ -39,9 +39,9 @@ const PlantDictionaryCard = props => {
           containerStyle={styles.imageViewStyle}
           imageStyle={styles.imageStyle}
         />
-        <View style={{marginLeft: SIZE.x14}}>
-          <Text style={styles.textPrimaryTitle}>{scientific_name}</Text>
-          <Text style={styles.textSecondaryTitle}>{common_name}</Text>
+        <View style={{marginLeft: SIZE.x14, paddingLeft: SIZE.x2}}>
+          <Text style={styles.textPrimaryTitle}>{common_name}</Text>
+          <Text style={styles.textSecondaryTitle}>{scientific_name}</Text>
           <Text style={styles.textContent}>
             {truncateString(String(uses).replaceAll(',', ', '), 28)}
           </Text>
@@ -91,12 +91,14 @@ const styles = StyleSheet.create({
   },
   textPrimaryTitle: {
     fontWeight: 'bold',
+
     color: COLORS.GREEN200,
     fontSize: SIZE.x18,
     ...TEXT_SHADOW,
   },
   textSecondaryTitle: {
     fontWeight: 'bold',
+    fontStyle: 'italic',
     color: '#FFF',
     fontSize: SIZE.x16,
     ...TEXT_SHADOW,
