@@ -44,8 +44,8 @@ const PlantDetailsScreen = ({route}) => {
       <View style={styles.containerStyle}>
         <Icon source={image} size={SIZE.x250} imageStyle={styles.imageStyle} />
         <View style={styles.descriptionContainer}>
-          <Text style={styles.textPrimaryTitle}>{scientific_name}</Text>
-          <Text style={styles.textSecondaryTitle}>{common_name}</Text>
+          <Text style={styles.textPrimaryTitle}>{common_name}</Text>
+          <Text style={styles.textSecondaryTitle}>{scientific_name}</Text>
           <View style={{marginVertical: SIZE.x10}} />
           <Text style={styles.textContent}>
             <Text style={styles.textUnderline}>Description :</Text>{' '}
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
   },
   textSecondaryTitle: {
     fontWeight: 'bold',
+    fontStyle: 'italic',
     color: '#FFF',
     fontSize: SIZE.x22,
     ...TEXT_SHADOW,
