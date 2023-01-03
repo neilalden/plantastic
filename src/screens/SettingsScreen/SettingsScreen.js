@@ -89,11 +89,11 @@ const SettingsScreen = ({navigation}) => {
         {/* END APP INFO MODAL*/}
         <Text style={styles.textLabel}>General Settings</Text>
         <SettingsButton
-          text={'Set Language'}
+          text={'Account Settings'}
           onPress={toggleModal}
           containerStyle={styles.containerStyle}
           textStyle={styles.divText}
-          iconStart={IMAGES.ic_browser}
+          iconStart={IMAGES.ic_user}
           iconEndStyle={styles.end1}
         />
 

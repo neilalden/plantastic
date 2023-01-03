@@ -7,16 +7,20 @@ import {COLORS} from '../common/utils/colors';
 const SearchBar = ({onChangeText}) => {
   return (
     <View style={styles.searchContainer}>
-      <TextInput
-        style={styles.searchInputArea}
-        placeholder="SEARCH"
-        onChangeText={onChangeText}
-      />
-      <Icon
-        source={IMAGES.ic_search}
-        style={styles.searchIcon}
-        size={SIZE.x30}
-      />
+      <View>
+        <TextInput
+          style={styles.searchInputArea}
+          placeholder="SEARCH"
+          onChangeText={onChangeText}
+        />
+      </View>
+      <View style={{marginRight: 10}}>
+        <Icon
+          source={IMAGES.ic_search}
+          imageStyle={styles.searchIcon}
+          size={SIZE.x30}
+        />
+      </View>
     </View>
   );
 };
@@ -33,7 +37,7 @@ const styles = StyleSheet.create({
   },
   searchInputArea: {
     height: SIZE.x50,
-    width: SIZE.x240,
+    width: SIZE.p240,
     marginHorizontal: SIZE.x10,
     paddingLeft: SIZE.x14,
     color: COLORS.WHITE,
@@ -42,7 +46,6 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     position: 'relative',
-    marginRight: SIZE.x10,
   },
 });
 
