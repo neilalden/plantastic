@@ -20,6 +20,7 @@ export const fetchUser = async (
         contactNumber: resData.contactNumber,
         socialMedia: resData.socialMedia,
         address: resData.address,
+        recentlyViewed: resData.recentlyViewed ?? [],
       };
       return userData;
     } else {

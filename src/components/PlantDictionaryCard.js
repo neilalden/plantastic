@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {SIZE} from '../common/utils/size';
 import {COLORS} from '../common/utils/colors';
@@ -26,6 +26,23 @@ const PlantDictionaryCard = props => {
       : IMAGES.ic_app_round;
   const canRemove = props.canRemove;
   const handleOpenPlantDetails = () => {
+    (async () => {
+      try {
+        const recentlyViewed = user?.recentlyViewed ?? [];
+
+        for (let i = 0; i < recentlyViewed.length; i++) {
+          if (recentlyViewed[i] === id) recentlyViewed.splice(i, 1);
+        }
+        recentlyViewed.unshift(id);
+        const res = await updateDatabase(
+          'Users',
+          {recentlyViewed: recentlyViewed},
+          user.uid,
+        );
+      } catch (e) {
+        console.error(e);
+      }
+    })();
     navigation.navigate(ROUTES.PLANT_DETAILS_SCREEN, props.item);
   };
   return (
