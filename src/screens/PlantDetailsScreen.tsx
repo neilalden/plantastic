@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
 import Screen from '../components/Screen';
 import Header from '../components/Header';
 import {COLORS} from '../common/utils/colors';
@@ -13,6 +13,8 @@ import {AuthContext} from '../context/AuthContext';
 import {updateDatabase} from '../functions/database/updateDatabase';
 
 const PlantDetailsScreen = ({route}) => {
+  const [selected, setSelected] = useState(null);
+
   const {plantsImage, sellers, sellersImage} = React.useContext(PlantsContext);
   const {user, setReload} = React.useContext(AuthContext);
   const plant = route.params;
@@ -38,6 +40,7 @@ const PlantDetailsScreen = ({route}) => {
       console.error(e);
     }
   };
+  console.log(selected);
   return (
     <Screen>
       <Header canGoBack text={'Details'} />
@@ -95,17 +98,36 @@ const PlantDetailsScreen = ({route}) => {
             <View
               key={index}
               style={[styles.containerStyle, {paddingBottom: SIZE.x10}]}>
+              <Text style={styles.textPrimaryTitle}>{name}</Text>
+
               <Icon
                 source={banner}
                 size={SIZE.x250}
                 containerStyle={styles.bannerContainerStyle}
                 imageStyle={styles.bannerStyle}
               />
-              <Text style={styles.textPrimaryTitle}>{name}</Text>
-              <Text style={styles.textSecondaryTitle}>{email}</Text>
-              <Text style={styles.textSecondaryTitle}>{contactNumber}</Text>
-              <Text style={styles.textSecondaryTitle}>{socialMedia}</Text>
-              <Text style={styles.textSecondaryTitle}>{address}</Text>
+
+              <TouchableOpacity
+                style={{
+                  marginTop: SIZE.x10,
+                  backgroundColor: COLORS.GREEN300,
+                  padding: SIZE.x4,
+                  borderRadius: SIZE.x10,
+                }}
+                key={index}
+                onPress={() => setSelected(index === selected ? null : index)}>
+                <Text style={{color: COLORS.DARKGREEN}}>
+                  {index === selected ? 'Hide Details' : 'Contact Seller'}
+                </Text>
+              </TouchableOpacity>
+              {index === selected ? (
+                <>
+                  <Text style={styles.textSecondaryTitle}>{email}</Text>
+                  <Text style={styles.textSecondaryTitle}>{contactNumber}</Text>
+                  <Text style={styles.textSecondaryTitle}>{socialMedia}</Text>
+                  <Text style={styles.textSecondaryTitle}>{address}</Text>
+                </>
+              ) : null}
             </View>
           );
         })}
@@ -143,6 +165,7 @@ const styles = StyleSheet.create({
     color: COLORS.GREEN200,
     ...TEXT_SHADOW,
     fontSize: SIZE.x26,
+    marginVertical: 10,
   },
   textSecondaryTitle: {
     fontWeight: 'bold',
