@@ -93,7 +93,7 @@ export default PlantDictionaryCard;
 const styles = StyleSheet.create({
   containerStyle: {
     borderRadius: SIZE.x4,
-    backgroundColor: COLORS.GREEN500,
+    backgroundColor: 'white',
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 1},
@@ -109,21 +109,20 @@ const styles = StyleSheet.create({
   textPrimaryTitle: {
     fontWeight: 'bold',
 
-    color: COLORS.GREEN200,
+    color: COLORS.DARKGREEN,
     fontSize: SIZE.x18,
-    ...TEXT_SHADOW,
   },
   textSecondaryTitle: {
     fontWeight: 'bold',
     fontStyle: 'italic',
-    color: '#FFF',
+    color: COLORS.BLACK,
     fontSize: SIZE.x16,
     ...TEXT_SHADOW,
   },
   textContent: {
     fontWeight: '500',
     fontSize: SIZE.x16,
-    color: COLORS.WHITE,
+    color: COLORS.BLACK,
   },
   imageViewStyle: {
     borderTopLeftRadius: SIZE.x4,

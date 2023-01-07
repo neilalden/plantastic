@@ -91,7 +91,7 @@ export default BottomNav;
 const styles = StyleSheet.create({
   icon_container: {},
   container: {
-    backgroundColor: COLORS.GREEN500,
+    backgroundColor: COLORS.M2,
     height: SIZE.x80,
     flexDirection: 'row',
     justifyContent: 'space-between',

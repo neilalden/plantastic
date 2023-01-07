@@ -1,4 +1,4 @@
-import {StyleSheet, SafeAreaView, ViewStyle} from 'react-native';
+import {StyleSheet, SafeAreaView, ViewStyle, View} from 'react-native';
 import React from 'react';
 import {COLORS} from '../common/utils/colors';
 import LinearGradient from 'react-native-linear-gradient';
@@ -9,14 +9,16 @@ type Props = {
   style?: ViewStyle;
   children?: React.ReactNode;
 };
-const Screen = ({gradientBG = true, style, children}: Props) => {
+const Screen = ({gradientBG = false, style, children}: Props) => {
   if (gradientBG) {
     return (
       <LinearGradient
         colors={[COLORS.GREEN500, COLORS.DARKGREEN]}
         style={styles.container}>
         <SafeAreaView style={[styles.container, style]}>
-          <ScrollView style={{marginHorizontal: SIZE.x14}}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{marginHorizontal: SIZE.x14}}>
             {children}
           </ScrollView>
         </SafeAreaView>
@@ -24,8 +26,13 @@ const Screen = ({gradientBG = true, style, children}: Props) => {
     );
   } else {
     return (
-      <SafeAreaView style={[styles.container, style]}>
-        <ScrollView style={{marginHorizontal: SIZE.x14}}>{children}</ScrollView>
+      <SafeAreaView
+        style={[styles.container, style, {backgroundColor: COLORS.M1}]}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{marginHorizontal: SIZE.x14}}>
+          {children}
+        </ScrollView>
       </SafeAreaView>
     );
   }
