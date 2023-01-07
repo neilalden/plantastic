@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {Image, StyleSheet, Text, View, TextInput} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import Screen from '../components/Screen';
 import {Button} from '../components/Buttons';
 import {IMAGES} from '../common/images';
@@ -10,16 +10,17 @@ import Header from '../components/Header';
 import Icon from '../components/Icon';
 import {SIZE} from '../common/utils/size';
 import SearchBar from '../components/SearchBar';
-import PlantRecordCard from '../components/PlantRecordCard';
+import PlantDictionaryCard from '../components/PlantDictionaryCard';
 import {FONT_WEIGHT} from '../common/utils/font';
 import {COLORS} from '../common/utils/colors';
 import {TEXT_SHADOW} from '../common/utils/styles';
+import {AuthContext} from '../context/AuthContext';
+import {PlantsContext} from '../context/PlantsContext';
 
 const PlantRecentlyViewedScreen = ({navigation}) => {
   const route = useRoute();
-  const handleBack = () => {
-    navigation.goBack();
-  };
+  const {user} = useContext(AuthContext);
+  const {plants} = useContext(PlantsContext);
   return (
     <>
       <Screen>
@@ -32,9 +33,12 @@ const PlantRecentlyViewedScreen = ({navigation}) => {
           <Icon source={IMAGES.ic_list} size={SIZE.x30} />
         </View>
 
-        {false && data.length > 0 ? (
-          data.map((item, index) => {
-            return <PlantRecordCard key={index} item={item} />;
+        {plants && user.recentlyViewed && user.recentlyViewed.length > 0 ? (
+          plants.map((item, index) => {
+            return user.recentlyViewed.map(rv => {
+              if (rv === item.id)
+                return <PlantDictionaryCard key={index} item={item} />;
+            });
           })
         ) : (
           <Text style={styles.text}>No recently viewed plant</Text>
