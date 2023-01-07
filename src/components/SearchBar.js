@@ -11,6 +11,7 @@ const SearchBar = ({onChangeText}) => {
         <TextInput
           style={styles.searchInputArea}
           placeholder="SEARCH"
+          placeholderTextColor={COLORS.M2}
           onChangeText={onChangeText}
         />
       </View>
@@ -18,6 +19,7 @@ const SearchBar = ({onChangeText}) => {
         <Icon
           source={IMAGES.ic_search}
           imageStyle={styles.searchIcon}
+          color={COLORS.M2}
           size={SIZE.x30}
         />
       </View>
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderColor: 'white',
+    borderColor: COLORS.M2,
     borderWidth: SIZE.x1,
     borderRadius: SIZE.x26,
     margin: SIZE.x24,
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
     width: SIZE.p240,
     marginHorizontal: SIZE.x10,
     paddingLeft: SIZE.x14,
-    color: COLORS.WHITE,
+    color: COLORS.M2,
     fontSize: SIZE.x18,
     fontWeight: '600',
   },

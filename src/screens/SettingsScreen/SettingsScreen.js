@@ -26,6 +26,7 @@ import ModalTab from '../../components/ModalTab';
 
 import PrivacyModal from '../../components/PrivacyModal';
 import AppInfoModal from '../../components/AppInfoModal';
+import {signOut} from '../../functions/authentication/signOut';
 
 const SettingsScreen = ({navigation}) => {
   const route = useRoute();
@@ -98,6 +99,14 @@ const SettingsScreen = ({navigation}) => {
         />
 
         <SettingsButton
+          text={'Forum'}
+          onPress={toggleModal}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_people}
+          iconEndStyle={styles.end1}
+        />
+        <SettingsButton
           text={'Allow to Access'}
           onPress={toggleModal}
           containerStyle={styles.containerStyle}
@@ -114,6 +123,14 @@ const SettingsScreen = ({navigation}) => {
           iconEndStyle={styles.end1}
         />
 
+        <SettingsButton
+          text={'Logout'}
+          onPress={() => signOut()}
+          containerStyle={styles.containerStyle}
+          textStyle={styles.divText}
+          iconStart={IMAGES.ic_back}
+          iconEndStyle={styles.end1}
+        />
         <Text style={styles.textLabel}>Support</Text>
         <SettingsButton
           text={'Encourage Us'}

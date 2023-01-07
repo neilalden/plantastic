@@ -41,31 +41,6 @@ const NotificationScreen = () => {
           </View>
         </View>
 
-        <View style={styles.section2}>
-          <View>
-            <Icon
-              source={IMAGES.ic_people}
-              style={styles.myIcon}
-              size={SIZE.x40}
-            />
-          </View>
-          <View style={styles.div2}>
-            <Text style={styles.myText}>Forum</Text>
-          </View>
-        </View>
-
-        <View style={styles.section2}>
-          <View>
-            <Icon
-              source={IMAGES.ic_bell}
-              style={styles.myIcon}
-              size={SIZE.x40}
-            />
-          </View>
-          <View style={styles.div2}>
-            <Text style={styles.myText}>Notification</Text>
-          </View>
-        </View>
         <ButtonOutline
           text={'LOGOUT'}
           containerStyle={{marginTop: SIZE.p10}}

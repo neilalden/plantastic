@@ -22,9 +22,9 @@ const PlantDetailsScreen = ({route}) => {
   const scientific_name = plant.scientific_name;
   const common_name = plant.common_name;
   const uses = plant.uses ? plant.uses : 'Not Available';
-  const preparation = plant.preparation ?? 'Not Available';
+  const preparation = plant.preparation_1 ?? 'Not Available';
   const description = plant.description ?? 'Not Available';
-  const ingredient_tools = plant.ingredient_tools ?? 'Not Available';
+  const ingredient_tools = plant.ingredients_tools_1 ?? 'Not Available';
   const hasPlant = user.plants.includes(pid);
   const image =
     !!pid && !!plantsImage && plantsImage[`${pid}`]
@@ -61,7 +61,15 @@ const PlantDetailsScreen = ({route}) => {
           <View style={{marginVertical: SIZE.x10}} />
           <Text style={styles.textContent}>
             <Text style={styles.textUnderline}>Preparation :</Text>{' '}
-            {preparation}
+            {preparation.map(item => (
+              <View style={{flexDirection: 'row', flexShrink: 1}}>
+                <Text
+                  style={{
+                    flexShrink: 1,
+                    flexWrap: 'wrap',
+                  }}>{`\u2022 ${item}`}</Text>
+              </View>
+            ))}
           </Text>
           <View style={{marginVertical: SIZE.x10}} />
           <Text style={styles.textContent}>
