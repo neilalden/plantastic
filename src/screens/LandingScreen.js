@@ -20,23 +20,25 @@ const LandingScreen = ({navigation}) => {
   return (
     <Screen>
       <Icon
-        source={IMAGES.ic_app}
+        source={IMAGES.ic_app2}
         size={SIZE.x200}
         iconStyle={styles.icon}
         containerStyle={styles.iconContainer}
       />
-      <Text style={[styles.title, TEXT_SHADOW]}>{APP_NAME}</Text>
+      <Text style={[styles.title, TEXT_SHADOW, {color: COLORS.DARKGREEN}]}>
+        {APP_NAME}
+      </Text>
       <Button
         text={'LOGIN'}
         onPress={handleLogin}
         containerStyle={styles.buttonContainer}
-        textStyle={styles.buttonText}
-        gradientColor={[COLORS.WHITE, COLORS.GREEN300]}
+        gradientColor={[COLORS.GREEN300, COLORS.DARKGREEN]}
       />
       <ButtonOutline
         text={'REGISTER'}
         onPress={handleRegister}
         containerStyle={styles.buttonContainer}
+        textStyle={styles.buttonText}
       />
     </Screen>
   );
@@ -59,6 +61,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: SIZE.x300,
     alignSelf: 'center',
+    borderColor: COLORS.DARKGREEN,
     marginTop: SIZE.x54,
   },
   buttonText: {

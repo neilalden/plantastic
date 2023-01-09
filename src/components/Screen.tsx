@@ -27,7 +27,7 @@ const Screen = ({gradientBG = false, style, children}: Props) => {
   } else {
     return (
       <SafeAreaView
-        style={[styles.container, style, {backgroundColor: COLORS.M1}]}>
+        style={[styles.container, style, {backgroundColor: COLORS.GREEN100}]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{marginHorizontal: SIZE.x14}}>

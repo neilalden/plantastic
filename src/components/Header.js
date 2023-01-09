@@ -17,7 +17,7 @@ const Header = props => {
     <View style={styles.container} elevation={5}>
       {canGoBack ? (
         <TouchableOpacity style={styles.icon_container} onPress={goBack}>
-          <Image source={IMAGES.ic_back} style={styles.icon} />
+          <Image source={IMAGES.ic_back2} style={styles.icon} />
         </TouchableOpacity>
       ) : (
         <View style={styles.button}></View>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...TEXT_SHADOW,
-    color: COLORS.WHITE,
+    color: COLORS.DARKGREEN,
     fontSize: SIZE.x24,
     alignSelf: 'center',
   },

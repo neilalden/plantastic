@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     width: SIZE.x300,
     borderWidth: SIZE.x2,
     borderRadius: SIZE.x16,
-    borderColor: COLORS.WHITE,
+    borderColor: COLORS.DARKGREEN,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: 'transparent',
@@ -84,12 +84,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   switchText: {
-    color: COLORS.WHITE,
+    color: COLORS.DARKGREEN,
     fontWeight: FONT_WEIGHT.BOLD,
     fontSize: SIZE.x20,
   },
   switchActive: {
-    backgroundColor: COLORS.WHITE,
-    color: COLORS.GREEN500,
+    backgroundColor: COLORS.DARKGREEN,
+    color: COLORS.WHITE,
   },
 });

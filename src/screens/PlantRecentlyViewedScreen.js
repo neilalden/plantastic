@@ -32,12 +32,12 @@ const PlantRecentlyViewedScreen = ({navigation}) => {
         <SearchBar />
         <View style={styles.topIconsContainer}>
           <Icon
-            source={IMAGES.ic_folder}
+            source={IMAGES.ic_folder2}
             size={SIZE.x30}
             onPress={() => setShow('collection')}
           />
           <Icon
-            source={IMAGES.ic_time}
+            source={IMAGES.ic_time2}
             size={SIZE.x30}
             onPress={() => setShow('recent')}
           />

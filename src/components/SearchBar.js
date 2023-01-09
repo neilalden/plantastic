@@ -17,7 +17,7 @@ const SearchBar = ({onChangeText}) => {
       </View>
       <View style={{marginRight: 10}}>
         <Icon
-          source={IMAGES.ic_search}
+          source={IMAGES.ic_search2}
           imageStyle={styles.searchIcon}
           color={COLORS.M2}
           size={SIZE.x30}

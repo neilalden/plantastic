@@ -20,13 +20,18 @@ const LoginScreen = () => {
   return (
     <Screen>
       <Header />
-      <Image source={IMAGES.ic_app_round} style={styles.icon} />
-      <Text style={[styles.title, TEXT_SHADOW]}>LOGIN</Text>
+      <Image source={IMAGES.ic_app2_round} style={styles.icon} />
+      <Text style={[styles.title, TEXT_SHADOW, {color: COLORS.DARKGREEN}]}>
+        LOGIN
+      </Text>
       <TextInput
         value={email}
         onChangeText={text => setEmail(text)}
         label="Email"
         containerStyle={styles.textInputContainer}
+        textColor={COLORS.DARKGREEN}
+        baseColor={COLORS.DARKGREEN}
+        tintColor={COLORS.DARKGREEN}
       />
       <TextInput
         secureTextEntry={true}
@@ -34,13 +39,16 @@ const LoginScreen = () => {
         onChangeText={text => setPassword(text)}
         label="Password"
         containerStyle={styles.textInputContainer}
+        textColor={COLORS.DARKGREEN}
+        baseColor={COLORS.DARKGREEN}
+        tintColor={COLORS.DARKGREEN}
       />
       <Button
         text={'LOGIN'}
         onPress={() => signIn(email, password)}
         containerStyle={styles.buttoContainer}
         textStyle={styles.buttoText}
-        gradientColor={[COLORS.WHITE, COLORS.GREEN300]}
+        gradientColor={[COLORS.GREEN300, COLORS.DARKGREEN]}
       />
     </Screen>
   );
@@ -70,7 +78,10 @@ const styles = StyleSheet.create({
     marginTop: SIZE.x50,
     alignSelf: 'center',
   },
-  buttoText: {
+  buttonText: {
+    color: COLORS.DARKGREEN,
+  },
+  textColor: {
     color: COLORS.DARKGREEN,
   },
 });

@@ -12,6 +12,7 @@ import {SIZE} from '../../common/utils/size';
 import SettingsScreen from './SettingsScreen';
 import {ROUTES} from '../../common/routes';
 import {signOut} from '../../functions/authentication/signOut';
+import {COLORS} from '../../common/utils/colors';
 
 const NotificationScreen = () => {
   const route = useRoute();
@@ -24,7 +25,7 @@ const NotificationScreen = () => {
           text="Settings"
           Button={
             <Icon
-              source={IMAGES.ic_settings}
+              source={IMAGES.ic_settings2}
               size={SIZE.x26}
               onPress={() => navigation.navigate(ROUTES.SETTINGS_SCREEN)}
             />
@@ -43,7 +44,8 @@ const NotificationScreen = () => {
 
         <ButtonOutline
           text={'LOGOUT'}
-          containerStyle={{marginTop: SIZE.p10}}
+          containerStyle={{marginTop: SIZE.p10, borderColor: COLORS.DARKGREEN}}
+          textStyle={{color: COLORS.DARKERGREEN}}
           onPress={() => signOut()}
         />
       </Screen>
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
     padding: SIZE.x20,
     marginHorizontal: 20,
     borderColor: 'white',
-    backgroundColor: 'rgba(217,217,217,0.5)',
+    backgroundColor: COLORS.DARKGREEN,
     borderRadius: 25,
   },
   myIcon: {
