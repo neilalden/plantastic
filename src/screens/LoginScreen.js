@@ -19,7 +19,7 @@ const LoginScreen = () => {
 
   return (
     <Screen>
-      <Header />
+      <Header text="" />
       <Image source={IMAGES.ic_app2_round} style={styles.icon} />
       <Text style={[styles.title, TEXT_SHADOW, {color: COLORS.DARKGREEN}]}>
         LOGIN

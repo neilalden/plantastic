@@ -21,28 +21,27 @@ const PlantRecentlyViewedScreen = ({navigation}) => {
   const route = useRoute();
   const {user} = useContext(AuthContext);
   const {plants, sellers} = useContext(PlantsContext);
-  const [show, setShow] = useState('recent');
-  console.log(sellers);
+  const [show, setShow] = useState('Recently Viewed');
   if (!plants && !user.recentlyViewed && user.recentlyViewed.length == 0)
     return;
   return (
     <>
       <Screen>
-        <Header text="Recently Viewed" canGoBack={false} />
+        <Header text={show} canGoBack={false} />
         <SearchBar />
         <View style={styles.topIconsContainer}>
           <Icon
             source={IMAGES.ic_folder2}
             size={SIZE.x30}
-            onPress={() => setShow('collection')}
+            onPress={() => setShow('Collection')}
           />
           <Icon
             source={IMAGES.ic_time2}
             size={SIZE.x30}
-            onPress={() => setShow('recent')}
+            onPress={() => setShow('Recently Viewed')}
           />
         </View>
-        {show === 'recent'
+        {show === 'Recently Viewed'
           ? plants.map((item, index) => {
               return user.recentlyViewed.map(rv => {
                 if (rv === item.id)

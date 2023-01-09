@@ -24,7 +24,7 @@ const RegisterScreen = () => {
   const [userType, setUserType] = React.useState(userTypes[0].value);
   return (
     <Screen>
-      <Header />
+      <Header text="REGISTER" />
       <Image source={IMAGES.ic_app_round} style={styles.icon} />
       <Text style={[styles.title, TEXT_SHADOW, {color: COLORS.DARKGREEN}]}>
         REGISTER

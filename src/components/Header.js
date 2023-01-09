@@ -22,7 +22,11 @@ const Header = props => {
       ) : (
         <View style={styles.button}></View>
       )}
-      <Text style={styles.title}>{String(truncateString(text), 18)}</Text>
+      {text ? (
+        <Text style={styles.title}>{String(truncateString(text), 18)}</Text>
+      ) : (
+        <></>
+      )}
       <View style={styles.button}>{Button}</View>
     </View>
   );
