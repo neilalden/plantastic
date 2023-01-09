@@ -92,6 +92,55 @@ const HomeScreen = ({navigation}) => {
             </View>
           );
         })}
+        <Text style={styles.textLabel}>
+          Taking herbal medicine: tips and safety information
+        </Text>
+        <View style={styles.card}>
+          <Text style={styles.textContent}>
+            Buy or use herbal products from a qualified practitioner or
+            reputable supplier.
+            {'\n'}
+          </Text>
+          <Text style={styles.textContent}>
+            Ask for products that are clearly labelled in English with your
+            name, batch number, date, quantity, dosage, directions, safety
+            information (if applicable) and your practitioner’s contact details.
+            {'\n'}
+          </Text>
+          <Text style={styles.textContent}>
+            Make sure you know how to prepare and take your herbs. Like
+            conventional medicine, taking the correct dose at the right time is
+            important for the herbal remedies to work safely.
+            {'\n'}
+          </Text>
+        </View>
+        <Text style={styles.textLabel}>Tips for Growing Herbs</Text>
+        <View style={styles.card}>
+          <Text style={styles.textContent}>
+            ⦿ Provide at Least 6 Hours of Sun
+            {'\n'}
+          </Text>
+          <Text style={styles.textContent}>
+            ⦿ Plant in Well-Draining Soil
+            {'\n'}
+          </Text>
+          <Text style={styles.textContent}>
+            ⦿ Fertilize Lightly
+            {'\n'}
+          </Text>
+          <Text style={styles.textContent}>
+            ⦿ Plant Similar Herbs Together
+            {'\n'}
+          </Text>
+          <Text style={styles.textContent}>
+            ⦿ Separate Quick Spreading Herbs
+            {'\n'}
+          </Text>
+          <Text style={styles.textContent}>
+            ⦿ Plant Your Cool Season Herbs at the Right Time
+            {'\n'}
+          </Text>
+        </View>
       </Screen>
       <BottomNav routeName={route.name} navigation={navigation} />
     </React.Fragment>
@@ -107,6 +156,23 @@ const styles = StyleSheet.create({
     ...TEXT_SHADOW,
     marginVertical: SIZE.x20,
     fontSize: SIZE.x26,
+  },
+
+  card: {
+    padding: SIZE.x10,
+    marginBottom: SIZE.x20,
+    borderRadius: SIZE.x4,
+    backgroundColor: 'white',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.8,
+    shadowRadius: 1,
+  },
+  textContent: {
+    fontWeight: '700',
+    fontSize: SIZE.x18,
+    color: COLORS.BLACK,
   },
   circleCards: {
     flex: SIZE.x1,

@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: COLORS.BLACK,
     fontSize: SIZE.x16,
-    ...TEXT_SHADOW,
+    // ...TEXT_SHADOW,
   },
   textContent: {
     fontWeight: '500',

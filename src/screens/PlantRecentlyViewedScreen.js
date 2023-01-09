@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {Image, StyleSheet, Text, View, TextInput} from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Screen from '../components/Screen';
 import {Button} from '../components/Buttons';
 import {IMAGES} from '../common/images';
@@ -20,29 +20,47 @@ import {PlantsContext} from '../context/PlantsContext';
 const PlantRecentlyViewedScreen = ({navigation}) => {
   const route = useRoute();
   const {user} = useContext(AuthContext);
-  const {plants} = useContext(PlantsContext);
+  const {plants, sellers} = useContext(PlantsContext);
+  const [show, setShow] = useState('recent');
+  console.log(sellers);
+  if (!plants && !user.recentlyViewed && user.recentlyViewed.length == 0)
+    return;
   return (
     <>
       <Screen>
         <Header text="Recently Viewed" canGoBack={false} />
-
         <SearchBar />
         <View style={styles.topIconsContainer}>
-          <Icon source={IMAGES.ic_folder} size={SIZE.x30} />
-          <Icon source={IMAGES.ic_time} size={SIZE.x30} />
-          <Icon source={IMAGES.ic_list} size={SIZE.x30} />
+          <Icon
+            source={IMAGES.ic_folder}
+            size={SIZE.x30}
+            onPress={() => setShow('collection')}
+          />
+          <Icon
+            source={IMAGES.ic_time}
+            size={SIZE.x30}
+            onPress={() => setShow('recent')}
+          />
         </View>
-
-        {plants && user.recentlyViewed && user.recentlyViewed.length > 0 ? (
-          plants.map((item, index) => {
-            return user.recentlyViewed.map(rv => {
-              if (rv === item.id)
-                return <PlantDictionaryCard key={index} item={item} />;
-            });
-          })
-        ) : (
-          <Text style={styles.text}>No recently viewed plant</Text>
-        )}
+        {show === 'recent'
+          ? plants.map((item, index) => {
+              return user.recentlyViewed.map(rv => {
+                if (rv === item.id)
+                  return <PlantDictionaryCard key={index} item={item} />;
+              });
+            })
+          : user.plants?.map((item, index) => {
+              return (
+                plants &&
+                plants.map(plant => {
+                  if (item === plant.id) {
+                    return (
+                      <PlantDictionaryCard key={index} item={plant} canRemove />
+                    );
+                  }
+                })
+              );
+            })}
       </Screen>
       <BottomNav routeName={route.name} navigation={navigation} />
     </>
@@ -59,7 +77,6 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     marginBottom: SIZE.x20,
   },
-
   text: {
     ...TEXT_SHADOW,
     fontSize: SIZE.x30,
