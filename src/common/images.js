@@ -42,4 +42,11 @@ export const IMAGES = {
   ic_shop_dark_green: require('../assets/icons/ic_shop_dark_green.png'),
   ic_recent: require('../assets/icons/ic_recent.png'),
   ic_recent_dark_green: require('../assets/icons/ic_recent_dark_green.png'),
+  ic_app2: require('../assets/icons/ic_app2.png'),
+  ic_app2_round: require('../assets/icons/ic_app2_round.png'),
+  ic_time2: require('../assets/icons/ic_time2.png'),
+  ic_folder2: require('../assets/icons/ic_folder2.png'),
+  ic_search2: require('../assets/icons/ic_search2.png'),
+  ic_settings2: require('../assets/icons/ic_settings2.png'),
+  ic_back2: require('../assets/icons/ic_back2.png'),
 };

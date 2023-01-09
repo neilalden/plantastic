@@ -26,7 +26,9 @@ const RegisterScreen = () => {
     <Screen>
       <Header />
       <Image source={IMAGES.ic_app_round} style={styles.icon} />
-      <Text style={[styles.title, TEXT_SHADOW]}>REGISTER</Text>
+      <Text style={[styles.title, TEXT_SHADOW, {color: COLORS.DARKGREEN}]}>
+        REGISTER
+      </Text>
       <Switch
         value={userType}
         setValue={setUserType}
@@ -36,29 +38,42 @@ const RegisterScreen = () => {
       <TextInput
         value={name}
         onChangeText={text => setname(text)}
-        label="name"
+        label="Name"
+        textColor={COLORS.DARKGREEN}
+        baseColor={COLORS.DARKGREEN}
+        tintColor={COLORS.DARKGREEN}
       />
       <TextInput
         value={email}
         onChangeText={text => setEmail(text)}
         label="Email"
         keyboardtype="email-address"
+        textColor={COLORS.DARKGREEN}
+        baseColor={COLORS.DARKGREEN}
+        tintColor={COLORS.DARKGREEN}
       />
       <TextInput
         secureTextEntry={true}
         value={password}
         onChangeText={text => setPassword(text)}
         label="Password"
+        textColor={COLORS.DARKGREEN}
+        baseColor={COLORS.DARKGREEN}
+        tintColor={COLORS.DARKGREEN}
       />
       <TextInput
         secureTextEntry={true}
         value={confirmPassword}
         onChangeText={text => setConfirmPassword(text)}
         label="Confirm Password"
+        textColor={COLORS.DARKGREEN}
+        baseColor={COLORS.DARKGREEN}
+        tintColor={COLORS.DARKGREEN}
       />
       <ButtonOutline
         text={'REGISTER'}
         containerStyle={styles.buttonContainer}
+        textStyle={styles.buttonTextStyle}
         onPress={() =>
           accountRegister(userType, name, email, password, confirmPassword)
         }
@@ -86,5 +101,9 @@ const styles = StyleSheet.create({
     marginVertical: SIZE.x30,
     width: SIZE.x300,
     alignSelf: 'center',
+    borderColor: COLORS.DARKGREEN,
+  },
+  buttonTextStyle: {
+    color: COLORS.DARKGREEN,
   },
 });

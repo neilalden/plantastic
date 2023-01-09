@@ -27,6 +27,7 @@ import ModalTab from '../../components/ModalTab';
 import PrivacyModal from '../../components/PrivacyModal';
 import AppInfoModal from '../../components/AppInfoModal';
 import {signOut} from '../../functions/authentication/signOut';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const SettingsScreen = ({navigation}) => {
   const route = useRoute();
@@ -64,7 +65,7 @@ const SettingsScreen = ({navigation}) => {
           text="Settings"
           Button={
             <Icon
-              source={IMAGES.ic_settings}
+              source={IMAGES.ic_settings2}
               size={SIZE.x26}
               onPress={() => navigation.navigate(ROUTES.NOTIFICATION_SCREEN)}
             />
@@ -230,9 +231,8 @@ export default SettingsScreen;
 
 const styles = StyleSheet.create({
   textLabel: {
-    color: 'white',
+    color: COLORS.DARKGREEN,
     marginVertical: SIZE.x10,
-    marginLeft: SIZE.x20,
     fontSize: SIZE.x16,
     fontWeight: 'bold',
     textShadowColor: '#313131',
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: SIZE.x4,
     padding: SIZE.x8,
-    backgroundColor: 'rgba(217,217,217,0.5)',
+    backgroundColor: COLORS.DARKGREEN,
     borderRadius: SIZE.x24,
   },
   divText: {

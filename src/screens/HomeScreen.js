@@ -152,8 +152,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   textLabel: {
     fontWeight: 'bold',
-    color: COLORS.WHITE,
-    ...TEXT_SHADOW,
+    color: COLORS.M2,
     marginVertical: SIZE.x20,
     fontSize: SIZE.x26,
   },

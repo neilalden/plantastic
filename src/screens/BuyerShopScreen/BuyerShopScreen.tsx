@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
 
   containerStyle: {
     borderRadius: SIZE.x4,
-    backgroundColor: COLORS.GREEN500,
+    backgroundColor: COLORS.DARKGREEN,
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 1},
