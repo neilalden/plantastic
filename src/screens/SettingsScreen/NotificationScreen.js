@@ -17,6 +17,9 @@ import {COLORS} from '../../common/utils/colors';
 const NotificationScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const handleOnPress = route => {
+    navigation.navigate(route);
+  };
   return (
     <React.Fragment>
       <Screen>
