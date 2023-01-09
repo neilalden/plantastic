@@ -61,15 +61,7 @@ const PlantDetailsScreen = ({route}) => {
           <View style={{marginVertical: SIZE.x10}} />
           <Text style={styles.textContent}>
             <Text style={styles.textUnderline}>Preparation :</Text>{' '}
-            {preparation.map(item => (
-              <View style={{flexDirection: 'row', flexShrink: 1}}>
-                <Text
-                  style={{
-                    flexShrink: 1,
-                    flexWrap: 'wrap',
-                  }}>{`\u2022 ${item}`}</Text>
-              </View>
-            ))}
+            {preparation}
           </Text>
           <View style={{marginVertical: SIZE.x10}} />
           <Text style={styles.textContent}>
