@@ -18,7 +18,6 @@ import AuthContextProvider from './context/AuthContext';
 import PlantsContextProvider from './context/PlantsContext';
 import ShopScreen from './screens/ShopScreen';
 import PlantDetailsScreen from './screens/PlantDetailsScreen';
-import SomethingScreen from './screens/SettingsScreen/SomethingScreen';
 const Stack = createStackNavigator();
 const Navigation = () => {
   return (
@@ -74,10 +73,6 @@ const Navigation = () => {
             <Stack.Screen
               name={ROUTES.NOTIFICATION_SCREEN}
               component={NotificationScreen}
-            />
-            <Stack.Screen
-              name={ROUTES.SOMETHING_SCREEN}
-              component={SomethingScreen}
             />
           </Stack.Navigator>
         </PlantsContextProvider>

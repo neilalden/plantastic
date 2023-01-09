@@ -13,7 +13,6 @@ import SettingsScreen from './SettingsScreen';
 import {ROUTES} from '../../common/routes';
 import {signOut} from '../../functions/authentication/signOut';
 import {COLORS} from '../../common/utils/colors';
-import Exam from '../../components/Exam';
 
 const NotificationScreen = () => {
   const route = useRoute();
@@ -51,15 +50,6 @@ const NotificationScreen = () => {
           containerStyle={{marginTop: SIZE.p10, borderColor: COLORS.DARKGREEN}}
           textStyle={{color: COLORS.DARKERGREEN}}
           onPress={() => signOut()}
-        />
-
-        <Exam />
-
-        <ButtonOutline
-          text={'GO TO EXAM'}
-          containerStyle={{marginTop: SIZE.p10, borderColor: COLORS.DARKGREEN}}
-          textStyle={{color: COLORS.DARKERGREEN}}
-          onPress={() => handleOnPress(ROUTES.SOMETHING_SCREEN)}
         />
       </Screen>
       <BottomNav routeName={route.name} navigation={navigation} />
