@@ -25,6 +25,17 @@ const PlantDictionaryCard = props => {
       ? {uri: plantsImage[`${id}`]}
       : IMAGES.ic_app_round;
   const canRemove = props.canRemove;
+  const x = async () => {
+    try {
+      const plants = user.plants.filter(plantID => plantID !== id);
+      const res = await updateDatabase('Users', {plants: plants}, user.uid);
+      alert(res);
+      setReload(prev => !prev);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const handleRemove = props?.handleRemove ?? x;
   const handleOpenPlantDetails = () => {
     (async () => {
       try {
@@ -64,7 +75,14 @@ const PlantDictionaryCard = props => {
           </Text>
         </View>
       </TouchableOpacity>
-      {canRemove ? <Remove id={id} user={user} setReload={setReload} /> : null}
+      {canRemove ? (
+        <Remove
+          id={id}
+          user={user}
+          setReload={setReload}
+          handleRemove={handleRemove}
+        />
+      ) : null}
     </React.Fragment>
   );
 };
@@ -72,16 +90,7 @@ const Remove = props => {
   const id = props.id;
   const user = props.user;
   const setReload = props.setReload;
-  const handleRemove = async () => {
-    try {
-      const plants = user.plants.filter(plantID => plantID !== id);
-      const res = await updateDatabase('Users', {plants: plants}, user.uid);
-      alert(res);
-      setReload(prev => !prev);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const handleRemove = props.handleRemove;
   return (
     <TouchableOpacity style={styles.removeContainer} onPress={handleRemove}>
       <Text style={styles.removeText}>Remove</Text>

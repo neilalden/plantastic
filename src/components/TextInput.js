@@ -3,7 +3,7 @@ import React from 'react';
 import {SIZE} from '../common/utils/size';
 import {COLORS} from '../common/utils/colors';
 import {TextField} from 'rn-material-ui-textfield';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 export const TextInput = props => {
   const value = props.value ?? '';
   const onChangeText = props.onChangeText;
@@ -20,7 +20,7 @@ export const TextInput = props => {
   if (onChangeText === undefined || label === undefined)
     return <Text>TextInput lacks the required props</Text>;
   return (
-    <KeyboardAvoidingView style={containerStyle}>
+    <KeyboardAwareScrollView style={containerStyle}>
       <TextField
         value={value}
         onChangeText={onChangeText}
@@ -34,7 +34,7 @@ export const TextInput = props => {
         secureTextEntry={secureTextEntry}
         style={inputStyle}
       />
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 

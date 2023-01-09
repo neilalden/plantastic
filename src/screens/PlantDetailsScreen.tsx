@@ -25,7 +25,8 @@ const PlantDetailsScreen = ({route}) => {
   const preparation = plant.preparation_1 ?? 'Not Available';
   const description = plant.description ?? 'Not Available';
   const ingredient_tools = plant.ingredients_tools_1 ?? 'Not Available';
-  const hasPlant = user.plants.includes(pid);
+  const hasPlant = user?.plants?.includes(pid) ?? false;
+  const hasCart = user?.cart?.includes(pid) ?? false;
   const image =
     !!pid && !!plantsImage && plantsImage[`${pid}`]
       ? {uri: plantsImage[`${pid}`]}
@@ -40,7 +41,16 @@ const PlantDetailsScreen = ({route}) => {
       console.error(e);
     }
   };
-  console.log(selected);
+  const handleAddCart = async () => {
+    try {
+      const cart = [...user?.cart, pid];
+      const res = await updateDatabase('Users', {cart: cart}, user.uid);
+      alert(res);
+      setReload(prev => !prev);
+    } catch (e) {
+      console.error(e);
+    }
+  };
   return (
     <Screen>
       <Header canGoBack text={'Details'} />
@@ -75,6 +85,14 @@ const PlantDetailsScreen = ({route}) => {
               user.userType === 'seller' ? 'store' : 'collection'
             }`}
             onPress={handleAddPlant}
+            containerStyle={styles.buttonContainerStyle}
+            textStyle={styles.buttonTextStyle}
+          />
+        ) : null}
+        {!hasCart && user.userType === 'buyer' ? (
+          <ButtonOutline
+            text={`Add to cart`}
+            onPress={handleAddCart}
             containerStyle={styles.buttonContainerStyle}
             textStyle={styles.buttonTextStyle}
           />

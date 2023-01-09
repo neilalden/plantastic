@@ -3,60 +3,58 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Screen from '../components/Screen';
 import {ButtonOutline} from '../components/Buttons';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import Header from '../components/Header';
-import {TEXT_SHADOW} from '../common/utils/styles';
-import {IMAGES} from '../common/images';
 import {COLORS} from '../common/utils/colors';
 import {SIZE} from '../common/utils/size';
 import {FONT_WEIGHT} from '../common/utils/font';
 import {TextInput} from '../components/TextInput';
-import {accountRegister} from '../functions/authentication/accountRegistration';
-import Switch from '../components/Switch';
-import {userTypes} from '../common/constants/userTypes';
+import auth from '@react-native-firebase/auth';
+import {
+  validateConfirmPassword,
+  validatePassword,
+} from '../functions/validation/stringValidation';
 
-const RegisterScreen = () => {
+const UpdatePasswordScreen = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = React.useState();
-  const [name, setname] = React.useState();
   const [password, setPassword] = React.useState();
   const [confirmPassword, setConfirmPassword] = React.useState();
-  const [userType, setUserType] = React.useState(userTypes[0].value);
+  const handlePress = () => {
+    const validatedPassword = validatePassword(password);
+    const validatedConfirmPassword = validateConfirmPassword(
+      password,
+      confirmPassword,
+    );
+    if (validatedPassword !== true) {
+      alert(validatedPassword);
+      return;
+    }
+    if (validatedConfirmPassword !== true) {
+      alert(validatedConfirmPassword);
+      return;
+    }
+    auth()
+      .currentUser.updatePassword(password)
+      .then(() => {
+        // Update successful.
+        alert('Update password success!');
+        setPassword('');
+        setConfirmPassword('');
+      })
+      .catch(error => {
+        // An error ocurred
+        // ...
+        console.error(error);
+      });
+  };
   return (
     <Screen>
-      <Header text="REGISTER" />
-      <Image source={IMAGES.ic_app2_round} style={styles.icon} />
-      <Text style={[styles.title, TEXT_SHADOW, {color: COLORS.DARKGREEN}]}>
-        REGISTER
-      </Text>
-      <Switch
-        value={userType}
-        setValue={setUserType}
-        values={userTypes}
-        switchContainerStyle={{marginTop: SIZE.x30}}
-      />
-      <TextInput
-        value={name}
-        onChangeText={text => setname(text)}
-        label="Name"
-        textColor={COLORS.DARKGREEN}
-        baseColor={COLORS.DARKGREEN}
-        tintColor={COLORS.DARKGREEN}
-      />
-      <TextInput
-        value={email}
-        onChangeText={text => setEmail(text)}
-        label="Email"
-        keyboardtype="email-address"
-        textColor={COLORS.DARKGREEN}
-        baseColor={COLORS.DARKGREEN}
-        tintColor={COLORS.DARKGREEN}
-      />
+      <Header text="UPDATE PASSWORD" />
       <TextInput
         secureTextEntry={true}
         value={password}
         onChangeText={text => setPassword(text)}
-        label="Password"
+        label="New Password"
         textColor={COLORS.DARKGREEN}
         baseColor={COLORS.DARKGREEN}
         tintColor={COLORS.DARKGREEN}
@@ -71,17 +69,15 @@ const RegisterScreen = () => {
         tintColor={COLORS.DARKGREEN}
       />
       <ButtonOutline
-        text={'REGISTER'}
+        text={'UPDATE'}
         containerStyle={styles.buttonContainer}
         textStyle={styles.buttonTextStyle}
-        onPress={() =>
-          accountRegister(userType, name, email, password, confirmPassword)
-        }
+        onPress={handlePress}
       />
     </Screen>
   );
 };
-export default RegisterScreen;
+export default UpdatePasswordScreen;
 
 const styles = StyleSheet.create({
   icon: {

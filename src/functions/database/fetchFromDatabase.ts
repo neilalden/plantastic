@@ -17,6 +17,7 @@ export const fetchUser = async (
         name: resData.name,
         image: resData.image,
         plants: resData?.plants ?? [],
+        cart: resData?.cart ?? [],
         contactNumber: resData.contactNumber,
         socialMedia: resData.socialMedia,
         address: resData.address,

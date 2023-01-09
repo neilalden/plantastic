@@ -92,7 +92,7 @@ const SettingsScreen = ({navigation}) => {
         <Text style={styles.textLabel}>General Settings</Text>
         <SettingsButton
           text={'Account Settings'}
-          onPress={toggleModal}
+          onPress={() => navigation.navigate(ROUTES.UPDATE_PASSWORD_SCREEN)}
           containerStyle={styles.containerStyle}
           textStyle={styles.divText}
           iconStart={IMAGES.ic_user}

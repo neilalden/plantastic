@@ -18,6 +18,7 @@ import AuthContextProvider from './context/AuthContext';
 import PlantsContextProvider from './context/PlantsContext';
 import ShopScreen from './screens/ShopScreen';
 import PlantDetailsScreen from './screens/PlantDetailsScreen';
+import UpdatePasswordScreen from './screens/UpdatePasswordScreen';
 const Stack = createStackNavigator();
 const Navigation = () => {
   return (
@@ -35,6 +36,10 @@ const Navigation = () => {
               component={LandingScreen}
             />
             <Stack.Screen name={ROUTES.LOGIN_SCREEN} component={LoginScreen} />
+            <Stack.Screen
+              name={ROUTES.UPDATE_PASSWORD_SCREEN}
+              component={UpdatePasswordScreen}
+            />
             <Stack.Screen
               name={ROUTES.REGISTER_SCREEN}
               component={RegisterScreen}
