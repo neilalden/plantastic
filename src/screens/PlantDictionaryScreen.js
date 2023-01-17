@@ -9,6 +9,13 @@ import SearchBar from '../components/SearchBar';
 import PlantDictionaryCard from '../components/PlantDictionaryCard';
 import {useContext} from 'react';
 import {PlantsContext} from '../context/PlantsContext';
+import {ButtonOutline, SettingsButton} from '../components/Buttons';
+import {ROUTES} from '../common/routes';
+import {IMAGES} from '../common/images';
+import {StyleSheet} from 'react-native';
+import {SIZE} from '../common/utils/size';
+import {FONT_WEIGHT} from '../common/utils/font';
+import {COLORS} from '../common/utils/colors';
 
 const PlantDictionaryScreen = ({navigation}) => {
   const route = useRoute();
@@ -32,7 +39,12 @@ const PlantDictionaryScreen = ({navigation}) => {
       <Screen>
         <Header text="Plant Dictionary" canGoBack={false} />
         <SearchBar onChangeText={onChangeText} />
-
+        <ButtonOutline
+          text={'PLANT SHOP SCREEN'}
+          onPress={() => navigation.navigate(ROUTES.PLANT_SHOP_SCREEN)}
+          containerStyle={styles.buttonContainer}
+          textStyle={styles.buttonText}
+        />
         {plants &&
           filteredPlants.map((item, index) => {
             return <PlantDictionaryCard key={index} item={item} />;
@@ -44,3 +56,26 @@ const PlantDictionaryScreen = ({navigation}) => {
 };
 
 export default PlantDictionaryScreen;
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    alignSelf: 'center',
+    marginTop: SIZE.x150,
+  },
+  title: {
+    fontSize: SIZE.x40,
+    FONT_WEIGHT: FONT_WEIGHT.x700,
+    color: COLORS.WHITE,
+    marginTop: SIZE.x20,
+    alignSelf: 'center',
+  },
+  buttonContainer: {
+    width: SIZE.x300,
+    alignSelf: 'center',
+    borderColor: COLORS.DARKGREEN,
+    marginBottom: SIZE.x54,
+  },
+  buttonText: {
+    color: COLORS.DARKGREEN,
+  },
+});
