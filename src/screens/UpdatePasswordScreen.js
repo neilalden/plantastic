@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import Screen from '../components/Screen';
 import {ButtonOutline} from '../components/Buttons';
 import {useNavigation} from '@react-navigation/native';
@@ -14,11 +14,42 @@ import {
   validateConfirmPassword,
   validatePassword,
 } from '../functions/validation/stringValidation';
+import {AuthContext} from '../context/AuthContext';
 
 const UpdatePasswordScreen = () => {
+  const {user} = useContext(AuthContext);
   const navigation = useNavigation();
   const [password, setPassword] = React.useState();
+  const [name, setName] = React.useState();
   const [confirmPassword, setConfirmPassword] = React.useState();
+  const [email, setEmail] = useState();
+  const handleUpdateEmail = () => {
+    user
+      .updateEmail(email)
+      .then(() => {
+        alert('Update successful');
+        // ...
+        // ...
+      })
+      .catch(error => {
+        alert(error);
+        // An error occurred
+        // ...
+      });
+  };
+
+  const handleUpdateName = () => {
+    (async () => {
+      try {
+        const res = await updateDatabase('Users', {name: name}, user.uid);
+        alert(res);
+        setReload(prev => !prev);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  };
+
   const handlePress = () => {
     const validatedPassword = validatePassword(password);
     const validatedConfirmPassword = validateConfirmPassword(
@@ -49,7 +80,39 @@ const UpdatePasswordScreen = () => {
   };
   return (
     <Screen>
-      <Header text="UPDATE PASSWORD" />
+      <Header text="UPDATE ACCOUNT" />
+      <TextInput
+        secureTextEntry={true}
+        value={email}
+        onChangeText={text => setEmail(text)}
+        label="New Email"
+        textColor={COLORS.DARKGREEN}
+        baseColor={COLORS.DARKGREEN}
+        tintColor={COLORS.DARKGREEN}
+      />
+      <ButtonOutline
+        text={'UPDATE EMAIL'}
+        containerStyle={styles.buttonContainer}
+        textStyle={styles.buttonTextStyle}
+        onPress={handleUpdateEmail}
+      />
+
+      <TextInput
+        secureTextEntry={true}
+        value={name}
+        onChangeText={text => setName(text)}
+        label={user.userType == 'buyer' ? 'New Name' : 'New Shop Name'}
+        textColor={COLORS.DARKGREEN}
+        baseColor={COLORS.DARKGREEN}
+        tintColor={COLORS.DARKGREEN}
+      />
+      <ButtonOutline
+        text={user.userType == 'buyer' ? 'UPDATE NAME' : 'UPDATE SHOP NAME'}
+        containerStyle={styles.buttonContainer}
+        textStyle={styles.buttonTextStyle}
+        onPress={handleUpdateName}
+      />
+
       <TextInput
         secureTextEntry={true}
         value={password}
@@ -69,7 +132,7 @@ const UpdatePasswordScreen = () => {
         tintColor={COLORS.DARKGREEN}
       />
       <ButtonOutline
-        text={'UPDATE'}
+        text={'UPDATE PASSWORD'}
         containerStyle={styles.buttonContainer}
         textStyle={styles.buttonTextStyle}
         onPress={handlePress}
@@ -98,6 +161,7 @@ const styles = StyleSheet.create({
     width: SIZE.x300,
     alignSelf: 'center',
     borderColor: COLORS.DARKGREEN,
+    marginBottom: SIZE.x50,
   },
   buttonTextStyle: {
     color: COLORS.DARKGREEN,

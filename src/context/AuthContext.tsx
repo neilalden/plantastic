@@ -26,7 +26,7 @@ const AuthContextProvider = props => {
     } else {
       setUserAuth(undefined);
       setUser(undefined);
-      navigation.navigate(ROUTES.LANDING_SCREEN);
+      // navigation.navigate(ROUTES.LANDING_SCREEN);
     }
   };
 

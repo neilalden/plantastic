@@ -36,7 +36,9 @@ export const fetchCollection = async collection => {
   try {
     const res = await firestore().collection(collection).get();
     const array: any = [];
-    res.forEach(snapShot => array.push(snapShot.data()));
+    res.forEach(snapShot =>
+      array.push({...snapShot.data(), snapShotID: snapShot.id}),
+    );
     return array;
   } catch (error) {
     console.error(error.message);

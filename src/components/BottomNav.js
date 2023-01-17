@@ -50,12 +50,25 @@ const BottomNav = props => {
         size={SIZE.x40}
         containerStyle={[
           styles.icon_container,
-          {marginVertical: SIZE.x14, marginHorizontal: SIZE.x4},
+          {marginVertical: SIZE.x14, marginHorizontal: 4},
         ]}
         source={
           routeName === ROUTES.SHOP_SCREEN
             ? IMAGES.ic_shop
             : IMAGES.ic_shop_dark_green
+        }
+      />
+      <Icon
+        onPress={() => handleOnPress(ROUTES.CHAT_SCREEN)}
+        size={SIZE.x40}
+        containerStyle={[
+          styles.icon_container,
+          {marginVertical: SIZE.x14, marginHorizontal: 4},
+        ]}
+        source={
+          routeName === ROUTES.CHAT_SCREEN
+            ? IMAGES.ic_chat
+            : IMAGES.ic_chat_dark_green
         }
       />
       <Icon
@@ -77,8 +90,7 @@ const BottomNav = props => {
           {marginVertical: SIZE.x14, marginRight: SIZE.x14},
         ]}
         source={
-          routeName === ROUTES.SETTINGS_SCREEN ||
-          routeName === ROUTES.NOTIFICATION_SCREEN
+          routeName === ROUTES.SETTINGS_SCREEN
             ? IMAGES.ic_hamburger
             : IMAGES.ic_hamburger_dark_green
         }

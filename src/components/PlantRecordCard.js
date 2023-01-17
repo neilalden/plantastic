@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     flexDirection: 'row',
     marginBottom: SIZE.x20,
-    borderRadius: SIZE.x4,
+    borderRadius: 4,
     backgroundColor: COLORS.GREEN500,
     elevation: 5,
     shadowColor: '#000',
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     textShadowColor: '#313131',
     textShadowOffset: {width: 0, height: 1.2},
     textShadowRadius: 2,
-    padding: SIZE.x4,
+    padding: 4,
 
     fontSize: SIZE.x18,
   },
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFF',
     fontSize: SIZE.x16,
-    padding: SIZE.x4,
+    padding: 4,
     textShadowColor: '#313131',
     textShadowOffset: {width: 0, height: 1.2},
     textShadowRadius: 1,
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   imageViewStyle: {
-    borderTopLeftRadius: SIZE.x4,
-    borderBottomLeftRadius: SIZE.x4,
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
   },
   imageStyle: {
     resizeMode: 'cover',

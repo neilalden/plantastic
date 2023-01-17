@@ -65,7 +65,7 @@ const SettingsScreen = ({navigation}) => {
           text="Settings"
           Button={
             <Icon
-              source={IMAGES.ic_settings2}
+              source={IMAGES.ic_notification_green}
               size={SIZE.x26}
               onPress={() => navigation.navigate(ROUTES.NOTIFICATION_SCREEN)}
             />
@@ -126,7 +126,10 @@ const SettingsScreen = ({navigation}) => {
 
         <SettingsButton
           text={'Logout'}
-          onPress={() => signOut()}
+          onPress={() => {
+            signOut();
+            navigation.navigate(ROUTES.LANDING_SCREEN);
+          }}
           containerStyle={styles.containerStyle}
           textStyle={styles.divText}
           iconStart={IMAGES.ic_back}
@@ -253,7 +256,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: SIZE.x4,
+    marginBottom: 4,
     padding: SIZE.x8,
     backgroundColor: COLORS.DARKGREEN,
     borderRadius: SIZE.x24,

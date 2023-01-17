@@ -19,6 +19,8 @@ import PlantsContextProvider from './context/PlantsContext';
 import ShopScreen from './screens/ShopScreen';
 import PlantDetailsScreen from './screens/PlantDetailsScreen';
 import UpdatePasswordScreen from './screens/UpdatePasswordScreen';
+import ChatScreen from './screens/ChatScreen';
+import InsideChatScreen from './screens/InsideChatScreen';
 const Stack = createStackNavigator();
 const Navigation = () => {
   return (
@@ -26,7 +28,7 @@ const Navigation = () => {
       <AuthContextProvider>
         <PlantsContextProvider>
           <Stack.Navigator
-            initialRouteName={ROUTES.LANDING_SCREEN}
+            initialRouteName={ROUTES.HOME_SCREEN}
             screenOptions={{
               headerShown: false,
               animationEnabled: false,
@@ -63,9 +65,14 @@ const Navigation = () => {
               component={SettingsScreen}
             />
             <Stack.Screen name={ROUTES.TERMS_SCREEN} component={TermsScreen} />
+            <Stack.Screen name={ROUTES.CHAT_SCREEN} component={ChatScreen} />
             <Stack.Screen
               name={ROUTES.CONTACT_US_SCREEN}
               component={ContactUsScreen}
+            />
+            <Stack.Screen
+              name={ROUTES.INSIDE_CHAT_SCREEN}
+              component={InsideChatScreen}
             />
             <Stack.Screen
               name={ROUTES.SUGGESTION_SCREEN}

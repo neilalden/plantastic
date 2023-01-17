@@ -25,6 +25,7 @@ const PlantDictionaryCard = props => {
       ? {uri: plantsImage[`${id}`]}
       : IMAGES.ic_app_round;
   const canRemove = props.canRemove;
+  const message = props?.message;
   const x = async () => {
     try {
       const plants = user.plants.filter(plantID => plantID !== id);
@@ -75,14 +76,24 @@ const PlantDictionaryCard = props => {
           </Text>
         </View>
       </TouchableOpacity>
-      {canRemove ? (
-        <Remove
-          id={id}
-          user={user}
-          setReload={setReload}
-          handleRemove={handleRemove}
-        />
-      ) : null}
+      <View style={{flexDirection: 'row'}}>
+        {canRemove ? (
+          <Remove
+            id={id}
+            user={user}
+            setReload={setReload}
+            handleRemove={handleRemove}
+          />
+        ) : null}
+        {message ? (
+          <Message
+            id={id}
+            user={user}
+            setReload={setReload}
+            handleMessage={message}
+          />
+        ) : null}
+      </View>
     </React.Fragment>
   );
 };
@@ -97,11 +108,22 @@ const Remove = props => {
     </TouchableOpacity>
   );
 };
+const Message = props => {
+  const id = props.id;
+  const user = props.user;
+  const setReload = props.setReload;
+  const handleMessage = props.handleMessage;
+  return (
+    <TouchableOpacity style={styles.messageContainer} onPress={handleMessage}>
+      <Text style={styles.messageText}>Message</Text>
+    </TouchableOpacity>
+  );
+};
 export default PlantDictionaryCard;
 
 const styles = StyleSheet.create({
   containerStyle: {
-    borderRadius: SIZE.x4,
+    borderRadius: 4,
     backgroundColor: 'white',
     elevation: 5,
     shadowColor: '#000',
@@ -134,11 +156,25 @@ const styles = StyleSheet.create({
     color: COLORS.BLACK,
   },
   imageViewStyle: {
-    borderTopLeftRadius: SIZE.x4,
-    borderBottomLeftRadius: SIZE.x4,
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
   },
   imageStyle: {
     resizeMode: 'cover',
+  },
+  messageContainer: {
+    marginBottom: SIZE.x18,
+    marginTop: SIZE.x2,
+    alignSelf: 'flex-start',
+    marginLeft: SIZE.x6,
+  },
+  messageText: {
+    color: COLORS.WHITE,
+    backgroundColor: COLORS.DARKERGREEN,
+    borderRadius: 4,
+    paddingVertical: SIZE.x2,
+    paddingHorizontal: SIZE.x6,
+    fontWeight: '600',
   },
   removeContainer: {
     marginBottom: SIZE.x18,
@@ -148,7 +184,7 @@ const styles = StyleSheet.create({
   removeText: {
     color: COLORS.WHITE,
     backgroundColor: COLORS.RED,
-    borderRadius: SIZE.x4,
+    borderRadius: 4,
     paddingVertical: SIZE.x2,
     paddingHorizontal: SIZE.x6,
     fontWeight: '600',

@@ -38,7 +38,7 @@ const RegisterScreen = () => {
       <TextInput
         value={name}
         onChangeText={text => setname(text)}
-        label="Name"
+        label={userType === 'buyer' ? 'Name' : 'Shop Name'}
         textColor={COLORS.DARKGREEN}
         baseColor={COLORS.DARKGREEN}
         tintColor={COLORS.DARKGREEN}

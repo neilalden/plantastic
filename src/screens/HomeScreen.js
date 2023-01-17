@@ -27,7 +27,7 @@ import {
 const HomeScreen = ({navigation}) => {
   const route = useRoute();
   const {user} = useContext(AuthContext);
-  const {plants} = useContext(PlantsContext);
+  const {plants, notifications} = useContext(PlantsContext);
   const [userPlants, setUserPlants] = useState([]);
   useEffect(() => {
     if (!user?.plants || !plants) return;
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   card: {
     padding: SIZE.x10,
     marginBottom: SIZE.x20,
-    borderRadius: SIZE.x4,
+    borderRadius: 4,
     backgroundColor: 'white',
     elevation: 5,
     shadowColor: '#000',

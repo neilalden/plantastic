@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Header from '../../components/Header';
 import Screen from '../../components/Screen';
 import BottomNav from '../../components/BottomNav';
@@ -12,6 +12,7 @@ import {IMAGES} from '../../common/images';
 import {TEXT_SHADOW} from '../../common/utils/styles';
 import {AuthContext} from '../../context/AuthContext';
 import {PlantsContext} from '../../context/PlantsContext';
+import SearchBar from '../../components/SearchBar';
 
 const BuyerShopScreen = () => {
   const route = useRoute();
@@ -19,23 +20,25 @@ const BuyerShopScreen = () => {
   const [selected, setSelected] = React.useState(null);
   const {user} = React.useContext(AuthContext);
   const {plants, sellers, sellersImage} = React.useContext(PlantsContext);
+
+  const [filteredSellers, setFilteredSellers] = useState(sellers);
+  const onChangeText = text => {
+    setFilteredSellers(sellers);
+    if (text && text.length > 0) {
+      setFilteredSellers(
+        [...sellers].filter(seller =>
+          seller.name.toLowerCase().includes(text.toLowerCase()),
+        ),
+      );
+    }
+  };
   return (
     <React.Fragment>
       <Screen>
-        <Header
-          text="Shops"
-          canGoBack={false}
-          // Button={
-          //   <Icon
-          //     source={IMAGES.ic_note_dark_green}
-          //     size={SIZE.x20}
-          //     containerStyle={styles.iconContainerStyle}
-          //     onPress={() => alert('Edit account coming soon')}
-          //   />
-          // }
-        />
+        <Header text="Shops" canGoBack={false} />
+        <SearchBar onChangeText={onChangeText} />
         {sellers &&
-          sellers.map((seller, index) => {
+          filteredSellers.map((seller, index) => {
             const uid = seller.uid;
             const name = seller.name ?? 'Not Available';
             const email = seller.email ?? 'Not Available';
@@ -63,7 +66,7 @@ const BuyerShopScreen = () => {
                   style={{
                     marginTop: SIZE.x10,
                     backgroundColor: COLORS.GREEN300,
-                    padding: SIZE.x4,
+                    padding: 4,
                     borderRadius: SIZE.x10,
                   }}
                   key={index}
@@ -155,7 +158,7 @@ const styles = StyleSheet.create({
   },
 
   containerStyle: {
-    borderRadius: SIZE.x4,
+    borderRadius: 4,
     backgroundColor: COLORS.DARKGREEN,
     elevation: 5,
     shadowColor: '#000',

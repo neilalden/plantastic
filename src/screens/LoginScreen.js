@@ -19,7 +19,7 @@ const LoginScreen = () => {
 
   return (
     <Screen>
-      <Header text="" />
+      <Header text="" route={ROUTES.REGISTER_SCREEN} />
       <Image source={IMAGES.ic_app2_round} style={styles.icon} />
       <Text style={[styles.title, TEXT_SHADOW, {color: COLORS.DARKGREEN}]}>
         LOGIN

@@ -17,6 +17,7 @@ import {TEXT_SHADOW} from '../common/utils/styles';
 import {AuthContext} from '../context/AuthContext';
 import {PlantsContext} from '../context/PlantsContext';
 import {updateDatabase} from '../functions/database/updateDatabase';
+import {ROUTES} from '../common/routes';
 
 const PlantRecentlyViewedScreen = ({navigation}) => {
   const route = useRoute();
@@ -34,8 +35,37 @@ const PlantRecentlyViewedScreen = ({navigation}) => {
       );
     }
   };
-  if (!plants && !user.recentlyViewed && user.recentlyViewed.length == 0)
-    return;
+  if (
+    !user &&
+    !plants &&
+    !user.recentlyViewed &&
+    user.recentlyViewed.length == 0
+  )
+    return (
+      <>
+        <Screen>
+          <Header text={show} canGoBack={false} />
+          <SearchBar onChangeText={onChangeText} />
+          <View style={styles.topIconsContainer}>
+            <Icon
+              source={IMAGES.ic_cart_green}
+              size={SIZE.x30}
+              onPress={() => setShow('Cart')}
+            />
+            <Icon
+              source={IMAGES.ic_folder2}
+              size={SIZE.x30}
+              onPress={() => setShow('Collection')}
+            />
+            <Icon
+              source={IMAGES.ic_time2}
+              size={SIZE.x30}
+              onPress={() => setShow('Recently Viewed')}
+            />
+          </View>
+        </Screen>
+      </>
+    );
   return (
     <>
       <Screen>
@@ -60,13 +90,13 @@ const PlantRecentlyViewedScreen = ({navigation}) => {
         </View>
         {show === 'Recently Viewed'
           ? filteredPlants.map((item, index) => {
-              return user.recentlyViewed.map(rv => {
+              return user?.recentlyViewed.map(rv => {
                 if (rv === item.id)
                   return <PlantDictionaryCard key={index} item={item} />;
               });
             })
           : show === 'Collection'
-          ? user.plants?.map((item, index) => {
+          ? user?.plants?.map((item, index) => {
               return (
                 plants &&
                 filteredPlants.map(plant => {
@@ -78,25 +108,28 @@ const PlantRecentlyViewedScreen = ({navigation}) => {
                 })
               );
             })
-          : user.cart?.map((item, index) => {
+          : user?.cart?.map((item, index) => {
               return (
                 plants &&
                 filteredPlants.map(plant => {
-                  if (item === plant.id) {
+                  if (item.id === plant.id) {
                     return (
                       <PlantDictionaryCard
                         key={index}
                         item={plant}
                         canRemove
+                        message={() => {
+                          navigation.navigate(ROUTES.INSIDE_CHAT_SCREEN, item);
+                        }}
                         handleRemove={async () => {
                           try {
-                            const cart = user.cart.filter(
-                              plantID => plantID !== plant.id,
+                            const cart = user?.cart.filter(
+                              pant => pant.id !== plant.id,
                             );
                             const res = await updateDatabase(
                               'Users',
                               {cart: cart},
-                              user.uid,
+                              user?.uid,
                             );
                             alert(res);
                             setReload(prev => !prev);

@@ -8,7 +8,7 @@ export default () => {
   useEffect(() => {
     if (!user) setReload(prev => !prev);
   }, []);
-  if (!user) return null;
+  if (!user) return <BuyerShopScreen />;
   if (user?.userType === 'seller') return <SellerShopScreen />;
   if (user?.userType === 'buyer') return <BuyerShopScreen />;
 };

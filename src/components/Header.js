@@ -12,9 +12,10 @@ const Header = props => {
   const canGoBack = props?.canGoBack ?? true;
   const goBack = () => navigation.goBack();
   const navigation = useNavigation();
+  const containerStyle = props?.containerStyle;
 
   return (
-    <View style={styles.container} elevation={5}>
+    <View style={[styles.container, containerStyle]} elevation={5}>
       {canGoBack ? (
         <TouchableOpacity style={styles.icon_container} onPress={goBack}>
           <Image source={IMAGES.ic_back2} style={styles.icon} />

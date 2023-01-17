@@ -13,6 +13,9 @@ import {PlantsContext} from '../context/PlantsContext';
 const PlantDictionaryScreen = ({navigation}) => {
   const route = useRoute();
   const {plants} = useContext(PlantsContext);
+  const handleBack = () => {
+    navigation.goBack();
+  };
   const [filteredPlants, setFilteredPlants] = useState(plants);
   const onChangeText = text => {
     setFilteredPlants(plants);
@@ -23,9 +26,6 @@ const PlantDictionaryScreen = ({navigation}) => {
         ),
       );
     }
-  };
-  const handleBack = () => {
-    navigation.goBack();
   };
   return (
     <>

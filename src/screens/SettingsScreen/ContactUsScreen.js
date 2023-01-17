@@ -185,14 +185,14 @@ const styles = StyleSheet.create({
     textShadowColor: '#313131',
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 2,
-    padding: SIZE.x4,
+    padding: 4,
   },
   buttonInactive: {
     color: '#D9D9D9',
     textShadowColor: '#313131',
     textShadowOffset: {width: 0, height: 1.2},
     textShadowRadius: 2,
-    padding: SIZE.x4,
+    padding: 4,
   },
   wrapper: {
     display: 'flex',
