@@ -21,6 +21,7 @@ import PlantDetailsScreen from './screens/PlantDetailsScreen';
 import UpdatePasswordScreen from './screens/UpdatePasswordScreen';
 import ChatScreen from './screens/ChatScreen';
 import InsideChatScreen from './screens/InsideChatScreen';
+import PlantShopScreen from './screens/PlantShopScreen';
 const Stack = createStackNavigator();
 const Navigation = () => {
   return (
@@ -77,6 +78,10 @@ const Navigation = () => {
             <Stack.Screen
               name={ROUTES.SUGGESTION_SCREEN}
               component={SuggestionScreen}
+            />
+            <Stack.Screen
+              name={ROUTES.PLANT_SHOP_SCREEN}
+              component={PlantShopScreen}
             />
             <Stack.Screen
               name={ROUTES.PLANT_SUGGESTION_SCREEN}
