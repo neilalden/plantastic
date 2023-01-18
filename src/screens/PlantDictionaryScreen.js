@@ -39,12 +39,7 @@ const PlantDictionaryScreen = ({navigation}) => {
       <Screen>
         <Header text="Plant Dictionary" canGoBack={false} />
         <SearchBar onChangeText={onChangeText} />
-        <ButtonOutline
-          text={'PLANT SHOP SCREEN'}
-          onPress={() => navigation.navigate(ROUTES.PLANT_SHOP_SCREEN)}
-          containerStyle={styles.buttonContainer}
-          textStyle={styles.buttonText}
-        />
+
         {plants &&
           filteredPlants.map((item, index) => {
             return <PlantDictionaryCard key={index} item={item} />;
