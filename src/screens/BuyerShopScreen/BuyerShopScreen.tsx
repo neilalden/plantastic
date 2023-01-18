@@ -13,6 +13,7 @@ import {TEXT_SHADOW} from '../../common/utils/styles';
 import {AuthContext} from '../../context/AuthContext';
 import {PlantsContext} from '../../context/PlantsContext';
 import SearchBar from '../../components/SearchBar';
+import {ROUTES} from '../../common/routes';
 
 const BuyerShopScreen = () => {
   const route = useRoute();
@@ -38,7 +39,7 @@ const BuyerShopScreen = () => {
         <Header text="Shops" canGoBack={false} />
         <SearchBar onChangeText={onChangeText} />
         {sellers &&
-          filteredSellers.map((seller, index) => {
+          filteredSellers?.map((seller, index) => {
             const uid = seller.uid;
             const name = seller.name ?? 'Not Available';
             const email = seller.email ?? 'Not Available';
@@ -71,10 +72,13 @@ const BuyerShopScreen = () => {
                   }}
                   key={index}
                   onPress={() =>
-                    setSelected(index === selected ? null : index)
+                    // setSelected(index === selected ? null : index)
+                    navigation.navigate(ROUTES.SELLER_SCREEN, seller)
                   }>
                   <Text style={{color: COLORS.DARKGREEN}}>
-                    {index === selected ? 'Hide Details' : 'Contact Seller'}
+                    {index === selected
+                      ? 'Hide Details'
+                      : 'View seller account'}
                   </Text>
                 </TouchableOpacity>
                 {index === selected ? (

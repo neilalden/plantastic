@@ -6,7 +6,7 @@ import {
   View,
   TextInput,
 } from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Screen from '../components/Screen';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
@@ -17,12 +17,39 @@ import {SIZE} from '../common/utils/size';
 import {PlantsContext} from '../context/PlantsContext';
 import {updateDatabase} from '../functions/database/updateDatabase';
 import {setDatabaseDocument} from '../functions/database/createFromDatabase';
+import firestore from '@react-native-firebase/firestore';
 
 const InsideChatScreen = props => {
   const {user} = useContext(AuthContext);
-  const {messages, setMessages} = useContext(PlantsContext);
+  const {messages} = useContext(PlantsContext);
   const [text, setText] = React.useState();
   const params = props?.route?.params;
+
+  const sellerID = user.userType === 'buyer' ? params.sellerID : user.uid;
+  const buyerID = user.userType === 'buyer' ? user.uid : params.sellerID;
+  const sellerName = user.userType === 'buyer' ? params.sellerName : user.name;
+  const buyerName = user.userType === 'buyer' ? user.name : params.sellerName;
+  const convoID = `${buyerID}${sellerID}`;
+  const thisConvo = getConvo(messages, convoID);
+  const [convo, setConvo] = useState([]);
+  function onResult(QuerySnapshot) {
+    const array = [];
+    QuerySnapshot.forEach(item => {
+      array.push({...item.data(), id: item.id});
+    });
+    setConvo(array);
+  }
+  function onError(error) {
+    console.error(error);
+  }
+  React.useEffect(() => {
+    if (thisConvo) {
+      firestore()
+        .collection(`Messages/${thisConvo.id}/Messages`)
+        .orderBy('createdAt', 'asc')
+        .onSnapshot(onResult, onError);
+    }
+  }, [thisConvo]);
   const handleSend = () => {
     (async () => {
       const data = {
@@ -31,54 +58,31 @@ const InsideChatScreen = props => {
         fromName: user.name,
         message: text,
       };
-      let copy = [...messages];
-      for (let i = 0; i < messages.length; i++) {
-        let message = messages[i];
-        // if (message.id === params.sellerID + params.buyerID) {
-        let copyMessages = [...copy[i]?.messages];
-        if (copyMessages.length > 0) {
-          copyMessages.push(data);
-        } else {
-          copyMessages = [data];
-        }
-        let res = await updateDatabase(
-          'Messages',
-          {messages: copyMessages, createdAt: Date.now()},
-          params.sellerID + params.buyerID,
-        );
-        if (!res)
-          res = await setDatabaseDocument(
-            'Messages',
-            {
-              messages: [data],
-              lastUpdated: Date.now(),
-              buyerID: user.userType === 'buyer' ? user.uid : params.sellerID,
-              sellerID: user.userType === 'seller' ? user.uid : params.sellerID,
-            },
-            params.sellerID + params.buyerID,
-          );
-        if (res) {
-          setText('');
-          setMessages(copy);
-        }
-        // }
-      }
-      if (messages.length === 0) {
-        copy.push([{messages: data}]);
-        const res = await setDatabaseDocument(
+      if (!thisConvo) {
+        setDatabaseDocument(
           'Messages',
           {
-            messages: [data],
+            sellerID,
+            sellerName,
+            buyerID,
+            buyerName,
             lastUpdated: Date.now(),
-            buyerID: user.userType === 'buyer' ? user.uid : params.sellerID,
-            sellerID: user.userType === 'seller' ? user.uid : params.sellerID,
+            lastMessage: data,
           },
-          params.sellerID + params.buyerID,
-        );
-        if (res) {
+          convoID,
+        ).then(() => {
+          setDatabaseDocument(`Messages/${convoID}/Messages`, data);
           setText('');
-          setMessages(copy);
-        }
+        });
+      } else {
+        setDatabaseDocument(`Messages/${convoID}/Messages`, data).then(() => {
+          updateDatabase(
+            `Messages`,
+            {lastUpdated: Date.now(), lastMessage: data},
+            convoID,
+          );
+          setText('');
+        });
       }
     })();
   };
@@ -90,45 +94,32 @@ const InsideChatScreen = props => {
       />
       <ScrollView
         style={[styles.container, {backgroundColor: COLORS.GREEN100}]}>
-        {messages &&
-          messages.map(_ => {
-            if (_.id !== params.sellerID + params.buyerID) {
-              return;
-            } else {
-              return (
-                _?.messages &&
-                _?.messages.map((msg, ix) => {
-                  if (!msg?.message) return;
-                  return (
-                    <View
-                      key={ix}
-                      style={{
-                        borderRadius: SIZE.x4,
-                        marginBottom: SIZE.x4,
-                        marginRight: msg.fromID === user.uid ? SIZE.x12 : 0,
-                        marginLeft: msg.fromID !== user.uid ? SIZE.x12 : 0,
-                        backgroundColor:
-                          msg.fromID === user.uid
-                            ? COLORS.DARKERGREEN
-                            : 'white',
-                        alignSelf:
-                          msg.fromID === user.uid ? 'flex-end' : 'flex-start',
-                      }}>
-                      <Text
-                        style={{
-                          fontWeight: 'bold',
-                          color: COLORS.BLACK,
-                          fontSize: SIZE.x16,
-                          paddingHorizontal: SIZE.x10,
-                          paddingVertical: SIZE.x6,
-                        }}>
-                        {msg?.message}
-                      </Text>
-                    </View>
-                  );
-                })
-              );
-            }
+        {convo &&
+          convo.map((_, ix) => {
+            return (
+              <View
+                key={ix}
+                style={{
+                  borderRadius: SIZE.x4,
+                  marginBottom: SIZE.x4,
+                  marginRight: _.fromID === user.uid ? SIZE.x12 : 0,
+                  marginLeft: _.fromID !== user.uid ? SIZE.x12 : 0,
+                  backgroundColor:
+                    _.fromID === user.uid ? COLORS.DARKERGREEN : 'white',
+                  alignSelf: _.fromID === user.uid ? 'flex-end' : 'flex-start',
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    color: COLORS.BLACK,
+                    fontSize: SIZE.x16,
+                    paddingHorizontal: SIZE.x10,
+                    paddingVertical: SIZE.x6,
+                  }}>
+                  {_?.message}
+                </Text>
+              </View>
+            );
           })}
       </ScrollView>
       <View style={{flexDirection: 'row'}}>
@@ -152,6 +143,12 @@ const InsideChatScreen = props => {
       </View>
     </>
   );
+};
+
+const getConvo = (messages, convoID) => {
+  for (const _ of messages) {
+    if (_.id === convoID) return _;
+  }
 };
 
 export default InsideChatScreen;

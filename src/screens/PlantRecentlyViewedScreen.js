@@ -119,9 +119,8 @@ const PlantRecentlyViewedScreen = ({navigation}) => {
                         item={plant}
                         cartAmount={item.amount}
                         canRemove
+                        cartItem={item}
                         message={() => {
-                          // console.log(item);
-                          // return;
                           navigation.navigate(ROUTES.INSIDE_CHAT_SCREEN, item);
                         }}
                         handleRemove={async () => {

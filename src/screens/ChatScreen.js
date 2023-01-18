@@ -19,44 +19,50 @@ import {ROUTES} from '../common/routes';
 
 const ChatScreen = props => {
   const {user} = useContext(AuthContext);
-  const {messages, sellers} = useContext(PlantsContext);
+  const {messages} = useContext(PlantsContext);
   const navigation = useNavigation();
+
   return (
     <React.Fragment>
       <Screen>
         <Header text="Messages" />
-        {!user ? (
-          <Text style={styles.textPrimaryTitle}>
-            Please login to access your messages
-          </Text>
-        ) : null}
         {messages && messages.length > 0 ? (
           <ScrollView>
             {messages.map((message, ix) => {
-              const sellr = sellers.find(e => e.uid == message.sellerID);
-              if (!message?.messages) return;
+              const buyerID =
+                user.userType === 'buyer' ? user.uid : message.sellerID;
+              const sellerID =
+                user.userType === 'buyer' ? message.sellerID : user.uid;
+              const sellerName =
+                user.userType === 'buyer' ? message.sellerName : user.name;
+              const buyerName =
+                user.userType === 'buyer' ? user.name : message.buyerName;
+              if (
+                (user.userType === 'buyer' && message.buyerID !== user.uid) ||
+                (user.userType === 'seller' && message.sellerID !== user.uid)
+              )
+                return;
               return (
                 <TouchableOpacity
                   key={ix}
                   style={styles.chatCard}
                   onPress={() => {
-                    const data = {
-                      sellerName:
-                        user.userType === 'buyer'
-                          ? sellr.name
-                          : message.messages[0].fromName,
-                      buyerID: message.buyerID,
-                      sellerID: message.sellerID,
-                    };
+                    const data =
+                      user.userType === 'buyer'
+                        ? {buyerID, sellerID, sellerName, buyerName}
+                        : {
+                            buyerID: message.buyerID,
+                            sellerID: message.buyerID,
+                            sellerName: message.buyerName,
+                            buyerName: message.buyerName,
+                          };
                     navigation.navigate(ROUTES.INSIDE_CHAT_SCREEN, data);
                   }}>
                   <Text style={styles.chatPrimaryTitle}>
-                    {user.userType === 'buyer'
-                      ? sellr.name
-                      : message.messages[0].fromName}
+                    {user.userType === 'buyer' ? sellerName : buyerName}
                   </Text>
                   <Text style={styles.chatSecondaryTitle}>
-                    {[...message.messages].pop().message}
+                    {message.lastMessage.message}
                   </Text>
                 </TouchableOpacity>
               );
@@ -70,18 +76,6 @@ const ChatScreen = props => {
     </React.Fragment>
   );
 };
-function first_half(str) {
-  if (str.length % 2 == 0) {
-    return str.slice(0, str.length / 2);
-  }
-  return str;
-}
-function second_half(str) {
-  if (str.length % 2 == 0) {
-    return str.slice(1, str.length / 2);
-  }
-  return str;
-}
 export default ChatScreen;
 
 const styles = StyleSheet.create({
@@ -118,7 +112,6 @@ const styles = StyleSheet.create({
   },
   chatSecondaryTitle: {
     fontWeight: 'bold',
-    fontStyle: 'italic',
     color: COLORS.BLACK,
     fontSize: SIZE.x16,
     // ...TEXT_SHADOW,

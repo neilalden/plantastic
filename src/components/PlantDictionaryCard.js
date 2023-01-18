@@ -76,9 +76,14 @@ const PlantDictionaryCard = props => {
             {truncateString(String(uses).replaceAll(',', ', '), 28)}
           </Text>
           {props?.cartAmount ? (
-            <Text style={styles.textSecondaryTitle}>
-              Amount : {props?.cartAmount}
-            </Text>
+            <>
+              <Text style={styles.textSecondaryTitle}>
+                Amount : {props?.cartAmount}
+              </Text>
+              <Text style={styles.textSecondaryTitle}>
+                {props.cartItem.sellerName}
+              </Text>
+            </>
           ) : null}
         </View>
       </TouchableOpacity>

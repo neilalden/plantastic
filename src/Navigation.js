@@ -22,6 +22,7 @@ import UpdatePasswordScreen from './screens/UpdatePasswordScreen';
 import ChatScreen from './screens/ChatScreen';
 import InsideChatScreen from './screens/InsideChatScreen';
 import PlantShopScreen from './screens/PlantShopScreen';
+import SellerShopScreen from './screens/SellerShopScreen/SellerShopScreen';
 const Stack = createStackNavigator();
 const Navigation = () => {
   return (
@@ -66,6 +67,10 @@ const Navigation = () => {
               component={SettingsScreen}
             />
             <Stack.Screen name={ROUTES.TERMS_SCREEN} component={TermsScreen} />
+            <Stack.Screen
+              name={ROUTES.SELLER_SCREEN}
+              component={SellerShopScreen}
+            />
             <Stack.Screen name={ROUTES.CHAT_SCREEN} component={ChatScreen} />
             <Stack.Screen
               name={ROUTES.CONTACT_US_SCREEN}

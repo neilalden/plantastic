@@ -13,11 +13,14 @@ import {TEXT_SHADOW} from '../../common/utils/styles';
 import {AuthContext} from '../../context/AuthContext';
 import {PlantsContext} from '../../context/PlantsContext';
 
-const SellerShopScreen = () => {
+const SellerShopScreen = props => {
   const route = useRoute();
   const navigation = useNavigation();
   const {user} = React.useContext(AuthContext);
-  const {plants} = React.useContext(PlantsContext);
+  const {plants, sellersImage} = React.useContext(PlantsContext);
+  const params = props.route.params;
+  console.log(params);
+  console.log(sellersImage);
   return (
     <React.Fragment>
       <Screen>
@@ -35,30 +38,52 @@ const SellerShopScreen = () => {
         />
 
         <View style={styles.banner}>
-          {user.image ? (
+          {params || user.image ? (
             <Image
-              source={{uri: user.image}}
+              source={
+                params
+                  ? sellersImage[params.uid]
+                    ? {uri: sellersImage[params.uid]}
+                    : IMAGES.ic_herbshop
+                  : user?.image
+                  ? {
+                      uri: user?.image,
+                    }
+                  : IMAGES.ic_herbshop
+              }
               style={{height: '100%', width: '100%'}}
             />
           ) : (
             <Text style={styles.uploadText}>No Image</Text>
           )}
         </View>
-        <Text style={styles.title}>{user.name}</Text>
+        <Text style={styles.title}>{params ? params.name : user.name}</Text>
         <Text style={styles.availablePlantsText}>Available plants</Text>
-        {user.plants &&
-          user.plants?.map((item, index) => {
-            return (
-              plants &&
-              plants.map(plant => {
-                if (item === plant.id) {
-                  return (
-                    <PlantDictionaryCard key={index} item={plant} canRemove />
-                  );
-                }
-              })
-            );
-          })}
+        {params
+          ? params.plants &&
+            params.plants?.map((item, index) => {
+              return (
+                plants &&
+                plants.map(plant => {
+                  if (item === plant.id) {
+                    return <PlantDictionaryCard key={index} item={plant} />;
+                  }
+                })
+              );
+            })
+          : user.plants &&
+            user.plants?.map((item, index) => {
+              return (
+                plants &&
+                plants.map(plant => {
+                  if (item === plant.id) {
+                    return (
+                      <PlantDictionaryCard key={index} item={plant} canRemove />
+                    );
+                  }
+                })
+              );
+            })}
       </Screen>
       <BottomNav routeName={route.name} navigation={navigation} />
     </React.Fragment>

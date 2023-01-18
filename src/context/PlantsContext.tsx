@@ -29,24 +29,23 @@ const PlantsContextProvider = props => {
     console.error(error);
   }
   React.useEffect(() => {
+    if (user) {
+      firestore()
+        .collection('Messages')
+        .where(
+          user?.userType === 'buyer' ? 'buyerID' : 'sellerID',
+          '==',
+          user?.uid,
+        )
+        .orderBy('lastUpdated', 'asc')
+        .onSnapshot(onResult, onError);
+    }
+  }, [user]);
+  React.useEffect(() => {
     (async () => {
       try {
         setPlants(await fetchCollection('Plants'));
         setNotifications(await fetchCollection('Notifications'));
-        // const msgs = await fetchCollection('Messages');
-        // setMessages(msgs);
-
-        if (user) {
-          firestore()
-            .collection('Messages')
-            .where(
-              user?.userType == 'buyer' ? 'buyerID' : 'sellerID',
-              '==',
-              user?.uid,
-            )
-            // .orderBy('lastUpated', 'desc')
-            .onSnapshot(onResult, onError);
-        }
         if (!user || user?.userType === 'buyer')
           setSellers(await fetchSellers('Users'));
       } catch (e) {
