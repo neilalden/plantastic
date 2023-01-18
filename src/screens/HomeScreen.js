@@ -59,35 +59,36 @@ const HomeScreen = ({navigation}) => {
                 </Text>
               </Text>
               <ScrollView>
-                {plants.map((item, idx) => {
-                  if (plant.common_name === item.common_name) return;
-                  if (cluster === 0) {
-                    return cluster0.map((p, i) => {
-                      if (p === item.common_name)
-                        return <PlantDictionaryCard key={i} item={item} />;
-                    });
-                  } else if (cluster === 1) {
-                    return cluster1.map((p, i) => {
-                      if (p === item.common_name)
-                        return <PlantDictionaryCard key={i} item={item} />;
-                    });
-                  } else if (cluster === 2) {
-                    return cluster2.map((p, i) => {
-                      if (p === item.common_name)
-                        return <PlantDictionaryCard key={i} item={item} />;
-                    });
-                  } else if (cluster === 3) {
-                    return cluster3.map((p, i) => {
-                      if (p === item.common_name)
-                        return <PlantDictionaryCard key={i} item={item} />;
-                    });
-                  } else if (cluster === 4) {
-                    return cluster4.map((p, i) => {
-                      if (p === item.common_name)
-                        return <PlantDictionaryCard key={i} item={item} />;
-                    });
-                  }
-                })}
+                {plants &&
+                  plants.map((item, idx) => {
+                    if (plant.common_name === item.common_name) return;
+                    if (cluster === 0) {
+                      return cluster0.map((p, i) => {
+                        if (p === item.common_name)
+                          return <PlantDictionaryCard key={i} item={item} />;
+                      });
+                    } else if (cluster === 1) {
+                      return cluster1.map((p, i) => {
+                        if (p === item.common_name)
+                          return <PlantDictionaryCard key={i} item={item} />;
+                      });
+                    } else if (cluster === 2) {
+                      return cluster2.map((p, i) => {
+                        if (p === item.common_name)
+                          return <PlantDictionaryCard key={i} item={item} />;
+                      });
+                    } else if (cluster === 3) {
+                      return cluster3.map((p, i) => {
+                        if (p === item.common_name)
+                          return <PlantDictionaryCard key={i} item={item} />;
+                      });
+                    } else if (cluster === 4) {
+                      return cluster4.map((p, i) => {
+                        if (p === item.common_name)
+                          return <PlantDictionaryCard key={i} item={item} />;
+                      });
+                    }
+                  })}
               </ScrollView>
             </View>
           );

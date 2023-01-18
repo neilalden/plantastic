@@ -14,39 +14,39 @@ const PlantsContextProvider = props => {
   const [plantsImage, setPlantsImage] = useState<Object>();
   const [sellers, setSellers] = useState<Array<any>>();
   const [sellersImage, setSellersImage] = useState<Object>();
-  const [notifications, setNotifications] = useState<Array<any>>();
+  const [notifications, setNotifications] = useState<Array<any>>([]);
   const [messages, setMessages] = useState<Array<any>>([]);
 
-  // function onResult(QuerySnapshot) {
-  //   const array = [];
-  //   QuerySnapshot.forEach(item => {
-  //     console.log(item.data());
-  //     array.push(item.data());
-  //   });
-  //   setMessages(array);
-  // }
+  function onResult(QuerySnapshot) {
+    const array = [];
+    QuerySnapshot.forEach(item => {
+      array.push({...item.data(), id: item.id});
+    });
+    setMessages(array);
+  }
 
-  // function onError(error) {
-  //   console.error(error);
-  // }
-  // if (user) {
-  //   firestore()
-  //     .collection('Messages')
-  //     .where(
-  //       user?.userType == 'buyer' ? 'buyerID' : 'sellerID',
-  //       '==',
-  //       user?.uid,
-  //     )
-  //     .orderBy('lastUpated', 'desc')
-  //     .onSnapshot(onResult, onError);
-  // }
+  function onError(error) {
+    console.error(error);
+  }
   React.useEffect(() => {
     (async () => {
       try {
         setPlants(await fetchCollection('Plants'));
         setNotifications(await fetchCollection('Notifications'));
-        const msgs = await fetchCollection('Messages');
-        setMessages(msgs);
+        // const msgs = await fetchCollection('Messages');
+        // setMessages(msgs);
+
+        if (user) {
+          firestore()
+            .collection('Messages')
+            .where(
+              user?.userType == 'buyer' ? 'buyerID' : 'sellerID',
+              '==',
+              user?.uid,
+            )
+            // .orderBy('lastUpated', 'desc')
+            .onSnapshot(onResult, onError);
+        }
         if (!user || user?.userType === 'buyer')
           setSellers(await fetchSellers('Users'));
       } catch (e) {
@@ -54,7 +54,6 @@ const PlantsContextProvider = props => {
       }
     })();
   }, [user]);
-  console.log('messages', messages);
   React.useEffect(() => {
     (async () => {
       try {

@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import Screen from '../../components/Screen';
 import {Button} from '../../components/Buttons';
 import BottomNav from '../../components/BottomNav';
@@ -28,8 +28,10 @@ import PrivacyModal from '../../components/PrivacyModal';
 import AppInfoModal from '../../components/AppInfoModal';
 import {signOut} from '../../functions/authentication/signOut';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {PlantsContext} from '../../context/PlantsContext';
 
 const SettingsScreen = ({navigation}) => {
+  const {setMessages, setNotifications} = useContext(PlantsContext);
   const route = useRoute();
   // PRIVACY POLICY STATE
   const [privacyVisible, setPrivacyVisible] = useState(false);
@@ -128,6 +130,8 @@ const SettingsScreen = ({navigation}) => {
           text={'Logout'}
           onPress={() => {
             signOut();
+            setNotifications([]);
+            setMessages([]);
             navigation.navigate(ROUTES.LANDING_SCREEN);
           }}
           containerStyle={styles.containerStyle}

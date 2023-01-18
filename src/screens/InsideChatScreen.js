@@ -33,34 +33,55 @@ const InsideChatScreen = props => {
       };
       let copy = [...messages];
       for (let i = 0; i < messages.length; i++) {
-        const message = messages[i];
-        if (message.id === params.sellerID + params.buyerID) {
-          let copyOfCopy = [...copy];
-          if (copyOfCopy[i].messages) {
-            copyOfCopy[i].messages.unshift(data);
-          } else {
-            copyOfCopy[i].messages = [data];
-          }
-          setMessages(copy);
-          const res = await updateDatabase(
+        let message = messages[i];
+        // if (message.id === params.sellerID + params.buyerID) {
+        let copyMessages = [...copy[i]?.messages];
+        if (copyMessages.length > 0) {
+          copyMessages.push(data);
+        } else {
+          copyMessages = [data];
+        }
+        let res = await updateDatabase(
+          'Messages',
+          {messages: copyMessages, createdAt: Date.now()},
+          params.sellerID + params.buyerID,
+        );
+        if (!res)
+          res = await setDatabaseDocument(
             'Messages',
-            {messages: copyOfCopy, createdAt: Date.now()},
+            {
+              messages: [data],
+              lastUpdated: Date.now(),
+              buyerID: user.userType === 'buyer' ? user.uid : params.sellerID,
+              sellerID: user.userType === 'seller' ? user.uid : params.sellerID,
+            },
             params.sellerID + params.buyerID,
           );
+        if (res) {
+          setText('');
+          setMessages(copy);
         }
+        // }
       }
       if (messages.length === 0) {
         copy.push([{messages: data}]);
-        setMessages(copy);
         const res = await setDatabaseDocument(
           'Messages',
-          {messages: [data], lastUpdated: Date.now()},
+          {
+            messages: [data],
+            lastUpdated: Date.now(),
+            buyerID: user.userType === 'buyer' ? user.uid : params.sellerID,
+            sellerID: user.userType === 'seller' ? user.uid : params.sellerID,
+          },
           params.sellerID + params.buyerID,
         );
+        if (res) {
+          setText('');
+          setMessages(copy);
+        }
       }
     })();
   };
-  console.log('messages', messages);
   return (
     <>
       <Header
@@ -71,35 +92,43 @@ const InsideChatScreen = props => {
         style={[styles.container, {backgroundColor: COLORS.GREEN100}]}>
         {messages &&
           messages.map(_ => {
-            return (
-              _?.messages.length > 0 &&
-              _?.messages.map((msg, ix) => {
-                console.log(msg);
-                return (
-                  <View
-                    key={ix}
-                    style={{
-                      borderRadius: SIZE.x4,
-                      marginRight: msg.fromID === user.uid ? SIZE.x12 : 0,
-                      backgroundColor:
-                        msg.fromID === user.uid ? COLORS.DARKERGREEN : 'white',
-                      alignSelf:
-                        msg.fromID === user.uid ? 'flex-end' : 'flex-start',
-                    }}>
-                    <Text
+            if (_.id !== params.sellerID + params.buyerID) {
+              return;
+            } else {
+              return (
+                _?.messages &&
+                _?.messages.map((msg, ix) => {
+                  if (!msg?.message) return;
+                  return (
+                    <View
+                      key={ix}
                       style={{
-                        fontWeight: 'bold',
-                        color: COLORS.BLACK,
-                        fontSize: SIZE.x16,
-                        paddingHorizontal: SIZE.x10,
-                        paddingVertical: SIZE.x6,
+                        borderRadius: SIZE.x4,
+                        marginBottom: SIZE.x4,
+                        marginRight: msg.fromID === user.uid ? SIZE.x12 : 0,
+                        marginLeft: msg.fromID !== user.uid ? SIZE.x12 : 0,
+                        backgroundColor:
+                          msg.fromID === user.uid
+                            ? COLORS.DARKERGREEN
+                            : 'white',
+                        alignSelf:
+                          msg.fromID === user.uid ? 'flex-end' : 'flex-start',
                       }}>
-                      {msg.message}
-                    </Text>
-                  </View>
-                );
-              })
-            );
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          color: COLORS.BLACK,
+                          fontSize: SIZE.x16,
+                          paddingHorizontal: SIZE.x10,
+                          paddingVertical: SIZE.x6,
+                        }}>
+                        {msg?.message}
+                      </Text>
+                    </View>
+                  );
+                })
+              );
+            }
           })}
       </ScrollView>
       <View style={{flexDirection: 'row'}}>

@@ -82,7 +82,6 @@ const UpdatePasswordScreen = () => {
     <Screen>
       <Header text="UPDATE ACCOUNT" />
       <TextInput
-        secureTextEntry={true}
         value={email}
         onChangeText={text => setEmail(text)}
         label="New Email"
@@ -98,7 +97,6 @@ const UpdatePasswordScreen = () => {
       />
 
       <TextInput
-        secureTextEntry={true}
         value={name}
         onChangeText={text => setName(text)}
         label={user.userType == 'buyer' ? 'New Name' : 'New Shop Name'}

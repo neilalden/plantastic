@@ -57,6 +57,7 @@ const PlantDictionaryCard = props => {
     })();
     navigation.navigate(ROUTES.PLANT_DETAILS_SCREEN, props.item);
   };
+
   return (
     <React.Fragment>
       <TouchableOpacity
@@ -74,6 +75,11 @@ const PlantDictionaryCard = props => {
           <Text style={styles.textContent}>
             {truncateString(String(uses).replaceAll(',', ', '), 28)}
           </Text>
+          {props?.cartAmount ? (
+            <Text style={styles.textSecondaryTitle}>
+              Amount : {props?.cartAmount}
+            </Text>
+          ) : null}
         </View>
       </TouchableOpacity>
       <View style={{flexDirection: 'row'}}>

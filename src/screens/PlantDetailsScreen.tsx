@@ -50,7 +50,7 @@ const PlantDetailsScreen = ({route}) => {
     try {
       if (!user) {
         // @ts-ignore
-        navigation.navigate(ROUTES.LOGIN_SCREEN);
+        navigation.navigate(ROUTES.LANDING_SCREEN);
         return;
       }
       const plants = [...user?.plants, pid];
@@ -66,7 +66,7 @@ const PlantDetailsScreen = ({route}) => {
       try {
         if (!user) {
           // @ts-ignore
-          navigation.navigate(ROUTES.LOGIN_SCREEN);
+          navigation.navigate(ROUTES.LANDING_SCREEN);
           return;
         }
         if (!value || value.length == 0) {
@@ -84,7 +84,7 @@ const PlantDetailsScreen = ({route}) => {
             amount: value,
             sellerName: seller.name,
             sellerID: seller.uid,
-            buyerID: user.uid
+            buyerID: user.uid,
           },
         ];
         const ress = await updateDatabase('Users', {cart: cart}, user?.uid);
@@ -193,25 +193,74 @@ const PlantDetailsScreen = ({route}) => {
                     fontSize: 16,
                     fontWeight: '600',
                   }}>
-                  {index === selected ? 'Hide' : 'Buy from Seller'}
+                  {index === selected ? 'Cancel' : 'Buy from Seller'}
                 </Text>
               </TouchableOpacity>
               {index === selected ? (
                 <>
-                  <Text style={styles.textSecondaryTitle}>{email}</Text>
+                  {/* <Text style={styles.textSecondaryTitle}>{email}</Text>
                   <Text style={styles.textSecondaryTitle}>{contactNumber}</Text>
                   <Text style={styles.textSecondaryTitle}>{socialMedia}</Text>
-                  <Text style={styles.textSecondaryTitle}>{address}</Text>
+                  <Text style={styles.textSecondaryTitle}>{address}</Text> */}
+
+                  <Text style={styles.textSecondaryTitle}>{common_name}</Text>
+                  <Text style={styles.textSecondaryTitle}>
+                    {price ? `₱${price}` : 'Price: N/A'}
+                  </Text>
                   {!hasCart && (!user || user?.userType === 'buyer') ? (
                     <View style={{width: '90%'}}>
-                      <TextInput
-                        value={value}
-                        onChangeText={onChangeText}
-                        multiline
-                        style={styles.textArea}
-                        placeholder="Amount"
-                        keyboardType="decimal-pad"
-                      />
+                      <Text style={styles.textPrimaryTitle}>Quantity</Text>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                        }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            if (value === '') setValue('0');
+                            else setValue(prev => String(Number(prev) - 1));
+                          }}
+                          style={{
+                            borderColor: COLORS.WHITE,
+                            borderWidth: SIZE.x2,
+                            borderRadius: SIZE.x4,
+                            width: SIZE.x40,
+                            height: SIZE.x46,
+                            marginTop: SIZE.x8,
+                            alignSelf: 'center',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}>
+                          <Text style={styles.textContent}>-</Text>
+                        </TouchableOpacity>
+
+                        <TextInput
+                          value={value}
+                          onChangeText={onChangeText}
+                          multiline
+                          style={styles.textArea}
+                          placeholder="Amount"
+                          keyboardType="decimal-pad"
+                        />
+                        <TouchableOpacity
+                          onPress={() => {
+                            if (value === '') setValue('1');
+                            else setValue(prev => String(Number(prev) + 1));
+                          }}
+                          style={{
+                            borderColor: COLORS.WHITE,
+                            borderWidth: SIZE.x2,
+                            borderRadius: SIZE.x4,
+                            width: SIZE.x40,
+                            height: SIZE.x46,
+                            marginTop: SIZE.x8,
+                            alignSelf: 'center',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}>
+                          <Text style={styles.textContent}>+</Text>
+                        </TouchableOpacity>
+                      </View>
                       <ButtonOutline
                         text={`Add to cart`}
                         onPress={() => handleAddCart(seller)}
@@ -219,7 +268,9 @@ const PlantDetailsScreen = ({route}) => {
                         textStyle={styles.buttonTextStyle}
                       />
                     </View>
-                  ) : null}
+                  ) : (
+                    <Text>You have this in your cart already</Text>
+                  )}
                 </>
               ) : null}
             </View>
@@ -244,6 +295,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginTop: 8,
     color: 'black',
+    width: SIZE.x250,
+    fontSize: 22,
+    textAlign: 'center',
   },
   containerStyle: {
     borderRadius: 4,

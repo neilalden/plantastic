@@ -19,7 +19,7 @@ import {ROUTES} from '../common/routes';
 
 const ChatScreen = props => {
   const {user} = useContext(AuthContext);
-  const {messages} = useContext(PlantsContext);
+  const {messages, sellers} = useContext(PlantsContext);
   const navigation = useNavigation();
   return (
     <React.Fragment>
@@ -33,23 +33,30 @@ const ChatScreen = props => {
         {messages && messages.length > 0 ? (
           <ScrollView>
             {messages.map((message, ix) => {
+              const sellr = sellers.find(e => e.uid == message.sellerID);
+              if (!message?.messages) return;
               return (
                 <TouchableOpacity
                   key={ix}
                   style={styles.chatCard}
                   onPress={() => {
                     const data = {
-                      sellerName: message.messages[0].fromName,
-                      sellerID: message.messages[0].fromID,
-                      buyerID: second_half(message.snapShotID),
+                      sellerName:
+                        user.userType === 'buyer'
+                          ? sellr.name
+                          : message.messages[0].fromName,
+                      buyerID: message.buyerID,
+                      sellerID: message.sellerID,
                     };
                     navigation.navigate(ROUTES.INSIDE_CHAT_SCREEN, data);
                   }}>
                   <Text style={styles.chatPrimaryTitle}>
-                    {message.messages[0].fromName}
+                    {user.userType === 'buyer'
+                      ? sellr.name
+                      : message.messages[0].fromName}
                   </Text>
                   <Text style={styles.chatSecondaryTitle}>
-                    {message.messages[0].message}
+                    {[...message.messages].pop().message}
                   </Text>
                 </TouchableOpacity>
               );

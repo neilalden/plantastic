@@ -117,8 +117,11 @@ const PlantRecentlyViewedScreen = ({navigation}) => {
                       <PlantDictionaryCard
                         key={index}
                         item={plant}
+                        cartAmount={item.amount}
                         canRemove
                         message={() => {
+                          // console.log(item);
+                          // return;
                           navigation.navigate(ROUTES.INSIDE_CHAT_SCREEN, item);
                         }}
                         handleRemove={async () => {
