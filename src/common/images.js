@@ -55,4 +55,5 @@ export const IMAGES = {
   ic_search2: require('../assets/icons/ic_search2.png'),
   ic_settings2: require('../assets/icons/ic_settings2.png'),
   ic_back2: require('../assets/icons/ic_back2.png'),
+  ic_herbshop: require('../assets/icons/ic_herbshop.png'),
 };

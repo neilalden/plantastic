@@ -158,9 +158,10 @@ const PlantShopScreen = () => {
             borderRadius: 2,
             flex: 1,
             width: '150%',
+            paddingHorizontal: 6,
             padding: 4,
             justifyContent: 'space-around',
-            marginRight: 60,
+            marginRight: 30,
           }}>
           <View>
             <Icon source={IMAGES.ic_cart_green} size={SIZE.x30} />

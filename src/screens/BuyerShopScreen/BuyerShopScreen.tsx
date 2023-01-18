@@ -48,7 +48,7 @@ const BuyerShopScreen = () => {
             const banner =
               !!uid && !!sellersImage && sellersImage[`${uid}`]
                 ? {uri: sellersImage[`${uid}`]}
-                : IMAGES.ic_app_round;
+                : IMAGES.ic_herbshop;
             return (
               <View
                 key={index}
@@ -83,7 +83,6 @@ const BuyerShopScreen = () => {
                     <Text style={styles.textSecondaryTitle}>
                       {contactNumber}
                     </Text>
-                    <Text style={styles.textSecondaryTitle}>{socialMedia}</Text>
                     <Text style={styles.textSecondaryTitle}>{address}</Text>
                   </>
                 ) : null}
