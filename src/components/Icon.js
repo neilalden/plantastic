@@ -4,7 +4,7 @@ import {SIZE} from '../common/utils/size';
 import {IMAGES} from '../common/images';
 
 const Icon = props => {
-  const source = props?.source ?? IMAGES.ic_app;
+  const source = props?.source ?? IMAGES.ic_app2_round;
   const imageStyle = props?.imageStyle;
   const containerStyle = props?.containerStyle;
   const size = props?.size ?? SIZE.x20;

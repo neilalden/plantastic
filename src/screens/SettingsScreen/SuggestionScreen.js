@@ -14,6 +14,7 @@ import Screen from '../../components/Screen';
 
 const SuggestionScreen = ({}) => {
   const [message, setMessage] = useState('');
+  const [name, setName] = useState('');
   return (
     <Screen style={styles.mainContainer}>
       <View
@@ -89,11 +90,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   mainHeader: {
-    textShadowColor: '#313131',
+    textShadowColor: COLORS.WHITE,
     textShadowOffset: {width: 0, height: 1.2},
     textShadowRadius: 2,
     fontSize: 20,
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
     paddingTop: 20,
     alignItems: 'center',
@@ -101,10 +102,10 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 20,
-    color: COLORS.GREEN300,
+    color: COLORS.DARKERGREEN,
     paddingBottom: 20,
     lineHeight: 25,
-    textShadowColor: '#313131',
+    textShadowColor: COLORS.BLACK,
     textShadowOffset: {width: 0, height: 1.2},
     textShadowRadius: 2,
   },
@@ -115,19 +116,20 @@ const styles = StyleSheet.create({
   labels: {
     fontWeight: 'bold',
     // fontSize: 15,
-    color: COLORS.GREEN300,
+    color: COLORS.DARKERGREEN,
     paddingBottom: 5,
     lineHeight: 25,
-    textShadowColor: '#313131',
+    textShadowColor: COLORS.WHITE,
     textShadowOffset: {width: 0, height: 1.2},
     textShadowRadius: 2,
   },
   inputStyle: {
     borderWidth: 1,
-    borderColor: COLORS.GREEN100,
+    borderColor: COLORS.DARKERGREEN,
     paddingHorizontal: 15,
     paddingVertical: 6,
     borderRadius: 2,
+    color: 'black',
   },
   multiLineStyle: {
     paddingVertical: 4,
@@ -144,7 +146,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
-    textShadowColor: '#313131',
+    textShadowColor: COLORS.BLACK,
     textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 2,
     padding: SIZE.x2,
