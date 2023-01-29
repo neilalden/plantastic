@@ -308,7 +308,7 @@ const SellerShopScreen = props => {
                       style={styles.ratingContainer}>
                       <Text
                         style={[styles.availablePlantsText, {color: 'white'}]}>
-                        {reviewer.name}
+                        {reviewer?.name}
                       </Text>
                       <View style={styles.row}>
                         {STARS.map((_, i) => {
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: COLORS.WHITE,
-    fontSize: SIZE.x24,
+    fontSize: SIZE.x20,
     marginTop: -6,
     marginBottom: SIZE.x20,
     alignSelf: 'flex-start',
@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
   textSecondaryTitle: {
     fontWeight: '600',
     color: COLORS.WHITE,
-    fontSize: SIZE.x20,
+    fontSize: SIZE.x14,
   },
   writeReviewCard: {
     width: SIZE.p96,
