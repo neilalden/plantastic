@@ -1,5 +1,12 @@
-import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useState} from 'react';
 import Header from '../../components/Header';
 import Screen from '../../components/Screen';
 import BottomNav from '../../components/BottomNav';
@@ -16,18 +23,32 @@ import {PlantsContext} from '../../context/PlantsContext';
 import {setDatabaseDocument} from '../../functions/database/createFromDatabase';
 import {updateDatabase} from '../../functions/database/updateDatabase';
 import {ButtonOutline} from '../../components/Buttons';
+import ModalTab from '../../components/ModalTab';
+
 import {TextInput} from '../../components/TextInput';
 import {STARS} from '../../common/ratings';
+import {viewFile, selectImage, sendFile} from '../../screens/InsideChatScreen';
 
 const SellerShopScreen = props => {
   const route = useRoute();
   const navigation = useNavigation();
-  const {user} = React.useContext(AuthContext);
-  const {plants, sellersImage, reviews} = React.useContext(PlantsContext);
+  const [file, setFile] = useState();
+  const {user, setReload} = React.useContext(AuthContext);
+  const {plants, sellersImage, reviews, reviewers, setReviews} =
+    React.useContext(PlantsContext);
   const params = props?.route?.params;
 
   const [review, setReview] = React.useState('');
   const [rate, setRate] = React.useState('');
+  const [fileRecieved, setRecievedFile] = useState(undefined);
+  const [modalVisible, setModalVisible] = useState(false);
+  const handleToggleModal = async uri => {
+    if (uri) {
+      const str = await viewFile(uri);
+      setRecievedFile(str);
+      setModalVisible(prev => !prev);
+    }
+  };
 
   const handleSubmit = async () => {
     if (user?.userType !== 'buyer') return;
@@ -51,8 +72,8 @@ const SellerShopScreen = props => {
     const numRate = Number(rate);
     if (typeof numRate === 'number') {
       if (numRate > 0 && numRate <= 5) {
-        const currentRate = params?.rating?.rate ?? 0;
-        let currentRateBy = params?.rating?.rateBy ?? 0;
+        const currentRate = params?.rate ?? 0;
+        let currentRateBy = params?.rateBy ?? 0;
         currentRateBy += 1;
         const updateData = {
           rate: Math.round((currentRate + numRate) / currentRateBy),
@@ -67,14 +88,23 @@ const SellerShopScreen = props => {
               review: review,
               userID: user.uid,
             };
-            setDatabaseDocument('Reviews', reviewData)
-              .then(() => {
-                setReview('');
-                setRate(undefined);
-              })
-              .catch(e => {
-                console.error(e);
+            if (file) {
+              sendFile(file).then(() => {
+                // @ts-ignore
+                reviewData.file = file?.fileName;
+                setDatabaseDocument('Reviews', reviewData)
+                  .then(() => {
+                    setReview('');
+                    setRate(undefined);
+                    setFile(undefined);
+                    // setReload(prev => !prev);
+                    setReviews([reviewData, ...reviews]);
+                  })
+                  .catch(e => {
+                    console.error(e);
+                  });
               });
+            }
           })
           .catch(e => console.error(e));
       } else {
@@ -106,6 +136,12 @@ const SellerShopScreen = props => {
           }
         />
 
+        <ModalTab
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          uri={fileRecieved}
+        />
+
         <View style={styles.banner}>
           {params || user.image ? (
             <Image
@@ -126,7 +162,38 @@ const SellerShopScreen = props => {
             <Text style={styles.uploadText}>No Image</Text>
           )}
         </View>
-        <Text style={styles.title}>{params ? params?.name : user.name}</Text>
+
+        <View
+          style={[
+            styles.row,
+            {
+              backgroundColor: COLORS.DARKGREEN,
+              height: 50,
+            },
+          ]}>
+          <Text style={styles.title}>{params ? params?.name : user.name}</Text>
+          {params?.rate ? (
+            <View
+              style={[
+                styles.row,
+                {
+                  marginTop: 10,
+                  marginBottom: 20,
+                  alignItems: 'center',
+                  width: '100%',
+                },
+              ]}>
+              {STARS.map((_, i) => {
+                if (i < params.rate) {
+                  return (
+                    <Icon size={SIZE.x20} source={IMAGES.ic_star} key={i} />
+                  );
+                }
+                return null;
+              })}
+            </View>
+          ) : null}
+        </View>
         <Text style={styles.availablePlantsText}>Available plants</Text>
         {params
           ? params?.plants &&
@@ -161,13 +228,47 @@ const SellerShopScreen = props => {
               value={review}
               onChangeText={text => setReview(text)}
               label="Review"
+              tintColor={'white'}
+              baseColor={'white'}
+              textColor={'white'}
             />
             <TextInput
               value={rate}
               onChangeText={text => setRate(text)}
+              tintColor={'white'}
+              baseColor={'white'}
+              textColor={'white'}
               label="Rate from 1-5"
               keyboardType="number-pad"
             />
+            <View style={{paddingHorizontal: 10}} />
+            <View style={[styles.row, {marginHorizontal: 20}]}>
+              <TouchableOpacity
+                onPress={() => selectImage(setFile)}
+                style={{
+                  width: SIZE.p16,
+                  backgroundColor: COLORS.WHITE,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+
+                  paddingHorizontal: 8,
+                  borderRadius: 8,
+                }}>
+                <Text
+                  style={[
+                    styles.textSecondaryTitle,
+                    {
+                      color: COLORS.DARKGREEN,
+                    },
+                  ]}>
+                  File
+                </Text>
+              </TouchableOpacity>
+              <Text style={[styles.textSecondaryTitle, {marginLeft: 12}]}>
+                {/* @ts-ignore */}
+                {String(file?.fileName ?? 'Select Image')}
+              </Text>
+            </View>
             <ButtonOutline
               text={'SUBMIT'}
               containerStyle={styles.writeReviewButtonContainer}
@@ -183,25 +284,44 @@ const SellerShopScreen = props => {
             <ScrollView>
               {reviews.map((review, index) => {
                 if (review.sellerID !== params?.uid) return;
+                let reviewer;
+                reviewers.map(_ => {
+                  if (_.uid === review.userID) reviewer = _;
+                });
                 return (
                   <ScrollView key={index} style={styles.reviewCard}>
-                    <View style={styles.ratingContainer}>
-                      {STARS.map((_, i) => {
-                        if (i < review.rate) {
-                          return (
-                            <Icon
-                              size={SIZE.x20}
-                              source={IMAGES.ic_star}
-                              key={i}
-                            />
-                          );
-                        }
-                        return null;
-                      })}
-                    </View>
-                    <Text style={styles.textSecondaryTitle}>
-                      {review.review}
-                    </Text>
+                    <TouchableOpacity
+                      onPress={() => handleToggleModal(review?.file)}
+                      activeOpacity={review?.file ? 0 : 1}
+                      style={styles.ratingContainer}>
+                      <Text
+                        style={[styles.availablePlantsText, {color: 'white'}]}>
+                        {reviewer.name}
+                      </Text>
+                      <View style={styles.row}>
+                        {STARS.map((_, i) => {
+                          if (i < review.rate) {
+                            return (
+                              <Icon
+                                size={SIZE.x20}
+                                source={IMAGES.ic_star}
+                                key={i}
+                              />
+                            );
+                          }
+                          return null;
+                        })}
+                      </View>
+
+                      {review.file ? (
+                        <Text style={styles.textSecondaryTitle}>
+                          {review.file}
+                        </Text>
+                      ) : null}
+                      <Text style={styles.textSecondaryTitle}>
+                        {review.review}
+                      </Text>
+                    </TouchableOpacity>
                   </ScrollView>
                 );
               })}
@@ -241,14 +361,14 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   title: {
-    color: COLORS.BLACK,
+    color: COLORS.WHITE,
     fontSize: SIZE.x24,
-    borderWidth: SIZE.x1,
-    borderColor: COLORS.WHITE,
-    marginTop: -1,
+    marginTop: -6,
     marginBottom: SIZE.x20,
     alignSelf: 'flex-start',
     padding: SIZE.x10,
+    paddingBottom: 0,
+    fontWeight: '900',
   },
   uploadText: {
     color: COLORS.BLACK,
@@ -294,7 +414,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.8,
     shadowRadius: 1,
-    height: SIZE.x300,
+    height: SIZE.x400,
   },
   writeReviewCardTitle: {
     fontSize: SIZE.x22,
@@ -316,6 +436,8 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     marginTop: SIZE.x4,
+  },
+  row: {
     flexDirection: 'row',
   },
 });

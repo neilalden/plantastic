@@ -23,17 +23,14 @@ import {PlantsContext} from '../context/PlantsContext';
 import {updateDatabase} from '../functions/database/updateDatabase';
 import {setDatabaseDocument} from '../functions/database/createFromDatabase';
 import firestore from '@react-native-firebase/firestore';
-import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob';
 import DocumentPicker from 'react-native-document-picker';
-import FileViewer from 'react-native-file-viewer';
 import ModalTab from '../components/ModalTab';
 
 const InsideChatScreen = props => {
   const {user} = useContext(AuthContext);
   const {messages} = useContext(PlantsContext);
   const [text, setText] = React.useState('');
-  const [image, setImage] = React.useState();
   if (!user) return;
   const params = props?.route?.params;
   const sellerID = user.userType === 'buyer' ? params.sellerID : user.uid;
@@ -44,9 +41,9 @@ const InsideChatScreen = props => {
   const thisConvo = getConvo(messages, convoID);
   const [convo, setConvo] = useState([]);
   const [file, setFile] = useState(undefined);
+  const [sending, setSending] = useState(false);
   const [fileRecieved, setRecievedFile] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
-  const [sending, setSending] = useState(false);
   const handleToggleModal = async uri => {
     if (uri) {
       const str = await viewFile(uri);
@@ -252,7 +249,7 @@ const getConvo = (messages, convoID) => {
   }
 };
 
-const selectImage = async setFile => {
+export const selectImage = async setFile => {
   try {
     const permission = await requestStoragePermission();
     if (permission) {
@@ -347,7 +344,7 @@ const requestStoragePermission = async () => {
     alert('Error', `${err}`);
   }
 };
-const viewFile = async file => {
+export const viewFile = async file => {
   if (!file) return;
 
   ToastAndroid.showWithGravity(
@@ -364,7 +361,7 @@ const viewFile = async file => {
     })
     .catch(e => console.error(e, 'storages'));
 };
-const sendFile = async file => {
+export const sendFile = async file => {
   const documentUri = await getPathForFirebaseStorage(file.uri);
   const reference = storage().ref(file.fileName);
 

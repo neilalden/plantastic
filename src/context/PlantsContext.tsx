@@ -61,8 +61,6 @@ const PlantsContextProvider = props => {
         message.lastMessage.fromID !== user.uid &&
         message.lastMessage?.read === false
       ) {
-        console.log(message);
-
         PushNotification.localNotification({
           message: message.lastMessage.message,
           title: message.lastMessage.fromName,
