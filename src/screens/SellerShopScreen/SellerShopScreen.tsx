@@ -104,6 +104,18 @@ const SellerShopScreen = props => {
                     console.error(e);
                   });
               });
+            } else {
+              setDatabaseDocument('Reviews', reviewData)
+                .then(() => {
+                  setReview('');
+                  setRate(undefined);
+                  setFile(undefined);
+                  // setReload(prev => !prev);
+                  setReviews([reviewData, ...reviews]);
+                })
+                .catch(e => {
+                  console.error(e);
+                });
             }
           })
           .catch(e => console.error(e));
