@@ -84,6 +84,10 @@ const PlantDetailsScreen = ({route}) => {
           alert('Please enter a valid amount');
           return;
         }
+        if (Number(value) <= 0) {
+          alert('Amount cannot be lower than 1');
+          return;
+        }
         const cart = [
           ...user?.cart,
           {
@@ -202,6 +206,7 @@ const PlantDetailsScreen = ({route}) => {
                         sellerID: uid,
                         sellerName: name,
                       };
+                      // @ts-ignore
                       navigation.navigate(ROUTES.INSIDE_CHAT_SCREEN, item);
                     }}
                   />

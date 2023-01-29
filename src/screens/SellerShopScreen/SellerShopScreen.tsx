@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
 import Header from '../../components/Header';
 import Screen from '../../components/Screen';
@@ -7,18 +7,83 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import PlantDictionaryCard from '../../components/PlantDictionaryCard';
 import {COLORS} from '../../common/utils/colors';
 import {SIZE} from '../../common/utils/size';
+import {ROUTES} from '../../common/routes';
 import Icon from '../../components/Icon';
 import {IMAGES} from '../../common/images';
 import {TEXT_SHADOW} from '../../common/utils/styles';
 import {AuthContext} from '../../context/AuthContext';
 import {PlantsContext} from '../../context/PlantsContext';
+import {setDatabaseDocument} from '../../functions/database/createFromDatabase';
+import {updateDatabase} from '../../functions/database/updateDatabase';
+import {ButtonOutline} from '../../components/Buttons';
+import {TextInput} from '../../components/TextInput';
+import {STARS} from '../../common/ratings';
 
 const SellerShopScreen = props => {
   const route = useRoute();
   const navigation = useNavigation();
   const {user} = React.useContext(AuthContext);
-  const {plants, sellersImage} = React.useContext(PlantsContext);
+  const {plants, sellersImage, reviews} = React.useContext(PlantsContext);
   const params = props?.route?.params;
+
+  const [review, setReview] = React.useState('');
+  const [rate, setRate] = React.useState('');
+
+  const handleSubmit = async () => {
+    if (user?.userType !== 'buyer') return;
+    let isBuyer = false;
+    let hasReviewed = false;
+    params?.buyers &&
+      params.buyers.map(buyer => {
+        if (buyer === user?.uid) isBuyer = true;
+      });
+    reviews?.map(rev => {
+      if (rev.userID === user?.uid) hasReviewed = true;
+    });
+    if (hasReviewed) {
+      alert("You've already given a review");
+      return;
+    }
+    if (!isBuyer) {
+      alert('Only user that have bought in this shop can rate it');
+      return;
+    }
+    const numRate = Number(rate);
+    if (typeof numRate === 'number') {
+      if (numRate > 0 && numRate <= 5) {
+        const currentRate = params?.rating?.rate ?? 0;
+        let currentRateBy = params?.rating?.rateBy ?? 0;
+        currentRateBy += 1;
+        const updateData = {
+          rate: Math.round((currentRate + numRate) / currentRateBy),
+          rateBy: currentRateBy,
+        };
+        updateDatabase('Users', updateData, params?.uid)
+          .then(res => {
+            alert(res);
+            const reviewData = {
+              sellerID: params?.uid,
+              rate: numRate,
+              review: review,
+              userID: user.uid,
+            };
+            setDatabaseDocument('Reviews', reviewData)
+              .then(() => {
+                setReview('');
+                setRate(undefined);
+              })
+              .catch(e => {
+                console.error(e);
+              });
+          })
+          .catch(e => console.error(e));
+      } else {
+        alert('rating has to be between 1-5');
+      }
+    } else {
+      alert('rating is not valid');
+    }
+  };
   return (
     <React.Fragment>
       <Screen>
@@ -26,12 +91,18 @@ const SellerShopScreen = props => {
           text="Seller Shop"
           canGoBack={false}
           Button={
-            <Icon
-              source={IMAGES.ic_note_dark_green}
-              size={SIZE.x20}
-              containerStyle={styles.iconContainerStyle}
-              onPress={() => alert('Edit account coming soon')}
-            />
+            user &&
+            user.userType === 'seller' && (
+              <Icon
+                source={IMAGES.ic_note_dark_green}
+                size={SIZE.x20}
+                containerStyle={styles.iconContainerStyle}
+                onPress={() =>
+                  // @ts-ignore
+                  navigation.navigate(ROUTES.UPDATE_PASSWORD_SCREEN)
+                }
+              />
+            )
           }
         />
 
@@ -82,6 +153,58 @@ const SellerShopScreen = props => {
                 })
               );
             })}
+        <View style={styles.writeReviewCard}>
+          <Text style={styles.writeReviewCardTitle}>WRITE REVIEW</Text>
+          <TextInput
+            value={review}
+            onChangeText={text => setReview(text)}
+            label="Review"
+          />
+          <TextInput
+            value={rate}
+            onChangeText={text => setRate(text)}
+            label="Rate from 1-5"
+            keyboardType="number-pad"
+          />
+          <ButtonOutline
+            text={'SUBMIT'}
+            containerStyle={styles.writeReviewButtonContainer}
+            textStyle={styles.writeReviewButtonText}
+            onPress={handleSubmit}
+          />
+        </View>
+
+        {reviews && reviews.length > 0 ? (
+          <React.Fragment>
+            <Text style={[styles.cardTitle, {margin: SIZE.x10}]}>REVIEWS</Text>
+            <ScrollView>
+              {reviews.map((review, index) => {
+                if (review.sellerID !== params.uid) return;
+                return (
+                  <ScrollView key={index} style={styles.reviewCard}>
+                    <View style={styles.ratingContainer}>
+                      {STARS.map((_, i) => {
+                        if (i < review.rate) {
+                          return (
+                            <Icon
+                              size={SIZE.x20}
+                              source={IMAGES.ic_star}
+                              key={i}
+                            />
+                          );
+                        }
+                        return null;
+                      })}
+                    </View>
+                    <Text style={styles.textSecondaryTitle}>
+                      {review.review}
+                    </Text>
+                  </ScrollView>
+                );
+              })}
+            </ScrollView>
+          </React.Fragment>
+        ) : null}
       </Screen>
       <BottomNav routeName={route.name} navigation={navigation} />
     </React.Fragment>
@@ -137,5 +260,59 @@ const styles = StyleSheet.create({
     fontSize: SIZE.x20,
     marginBottom: SIZE.x14,
     fontWeight: '900',
+  },
+  reviewCard: {
+    width: SIZE.p96,
+    margin: SIZE.x10,
+    padding: SIZE.x10,
+    backgroundColor: COLORS.DARKGREEN,
+    alignSelf: 'center',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.8,
+    shadowRadius: 1,
+    maxHeight: SIZE.x200,
+    minHeight: SIZE.x50,
+  },
+  textSecondaryTitle: {
+    fontWeight: '600',
+    color: COLORS.WHITE,
+    fontSize: SIZE.x20,
+  },
+  writeReviewCard: {
+    width: SIZE.p96,
+    margin: SIZE.x10,
+    padding: SIZE.x10,
+    backgroundColor: COLORS.DARKGREEN,
+    alignSelf: 'center',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.8,
+    shadowRadius: 1,
+    height: SIZE.x300,
+  },
+  writeReviewCardTitle: {
+    fontSize: SIZE.x22,
+    fontWeight: '600',
+    color: COLORS.BLACK,
+    textAlign: 'center',
+  },
+  writeReviewButtonContainer: {
+    borderColor: COLORS.GREEN200,
+    marginVertical: SIZE.x20,
+  },
+  writeReviewButtonText: {
+    color: COLORS.GREEN200,
+  },
+  cardTitle: {
+    fontSize: SIZE.x22,
+    fontWeight: '600',
+    color: COLORS.BLACK,
+  },
+  ratingContainer: {
+    marginTop: SIZE.x4,
+    flexDirection: 'row',
   },
 });

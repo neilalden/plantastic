@@ -40,6 +40,8 @@ const NotificationScreen = () => {
       {message: `You accepted ${user.name}'s buy request`},
       _.snapShotID,
     );
+    const buyers = user?.buyers ? user?.buyers : [];
+    updateDatabase('Users', {buyers: [...buyers, _.fromID]}, user.uid);
     let copy = [...notifications];
     copy[index] = data;
     setNotifications(copy);

@@ -3,7 +3,7 @@ import {UserDataType} from '../../common/utils/type';
 
 export const fetchUser = async (
   id,
-  collection,
+  collection = 'Users',
 ): Promise<undefined | UserDataType> => {
   try {
     const res = await firestore().collection(collection).doc(id).get();
@@ -18,6 +18,7 @@ export const fetchUser = async (
         image: resData.image,
         plants: resData?.plants ?? [],
         cart: resData?.cart ?? [],
+        buyers: resData?.buyers ?? [],
         contactNumber: resData.contactNumber,
         socialMedia: resData.socialMedia,
         address: resData.address,

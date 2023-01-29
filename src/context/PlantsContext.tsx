@@ -8,6 +8,7 @@ import React, {
 import {
   fetchCollection,
   fetchSellers,
+  fetchUser,
 } from '../functions/database/fetchFromDatabase';
 import {fetchImage} from '../functions/storage/fetchImage';
 import {AuthContext} from './AuthContext';
@@ -27,6 +28,8 @@ const PlantsContextProvider = props => {
   const [sellersImage, setSellersImage] = useState<Object>();
   const [notifications, setNotifications] = useState<Array<any>>([]);
   const [messages, setMessages] = useState<Array<any>>([]);
+  const [reviews, setReviews] = useState([]);
+  const [reviewers, setReviewers] = useState([]);
   const prevMessages = useRef<Array<any>>();
 
   const arraysEqual = (a1, a2) =>
@@ -91,6 +94,10 @@ const PlantsContextProvider = props => {
       try {
         setPlants(await fetchCollection('Plants'));
         if (user) setNotifications(await fetchCollection('Notifications'));
+        const reviewsRes = await fetchCollection('Reviews');
+        if (Array.isArray(reviewsRes)) {
+          setReviews(reviewsRes);
+        }
         if (!user || user?.userType === 'buyer')
           setSellers(await fetchSellers('Users'));
       } catch (e) {
@@ -98,6 +105,21 @@ const PlantsContextProvider = props => {
       }
     })();
   }, [user]);
+
+  useEffect(() => {
+    (async () => {
+      if (reviews?.length === 0) return;
+      try {
+        const arr: any = [];
+        for (const review of reviews) {
+          arr.push(await fetchUser(review.userID));
+        }
+        setReviewers(arr);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [reviews]);
   React.useEffect(() => {
     if (!user) return;
     for (const notif of notifications) {
@@ -156,6 +178,10 @@ const PlantsContextProvider = props => {
         setNotifications,
         messages,
         setMessages,
+        reviews,
+        setReviews,
+        reviewers,
+        setReviewers,
       }}>
       {props.children}
     </PlantsContext.Provider>

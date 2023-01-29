@@ -6,7 +6,8 @@ export const updateDatabase = async (collection, data, docID) => {
       .collection(collection)
       .doc(docID)
       .update(data)
-      .then(() => 'Account successfully updated');
+      .then(() => 'Account successfully updated')
+      .catch(e => e);
     return res;
   } catch (e) {
     console.error(e.message);
