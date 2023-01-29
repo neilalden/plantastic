@@ -46,6 +46,7 @@ const InsideChatScreen = props => {
   const [file, setFile] = useState(undefined);
   const [fileRecieved, setRecievedFile] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
+  const [sending, setSending] = useState(false);
   const handleToggleModal = async uri => {
     if (uri) {
       const str = await viewFile(uri);
@@ -83,7 +84,7 @@ const InsideChatScreen = props => {
     }
   }, [thisConvo]);
   const handleSend = () => {
-    if (text === '' || file === undefined) return;
+    if ((text === '' && file === undefined) || sending === true) return;
     (async () => {
       const data = {
         createdAt: Date.now(),
@@ -92,6 +93,7 @@ const InsideChatScreen = props => {
         message: text,
         read: false,
       };
+      setSending(true);
       if (file) {
         sendFile(file)
           .then(() => {
@@ -110,6 +112,7 @@ const InsideChatScreen = props => {
                 convoID,
               ).then(() => {
                 setDatabaseDocument(`Messages/${convoID}/Messages`, data);
+                setSending(false);
                 setText('');
               });
             } else {
@@ -120,11 +123,13 @@ const InsideChatScreen = props => {
                     {lastUpdated: Date.now(), lastMessage: data},
                     convoID,
                   );
+                  setSending(false);
                   setText('');
                 },
               );
             }
             setFile(undefined);
+            setSending(false);
             setText('');
           })
           .catch(e => console.error(e));
@@ -143,6 +148,7 @@ const InsideChatScreen = props => {
             convoID,
           ).then(() => {
             setDatabaseDocument(`Messages/${convoID}/Messages`, data);
+            setSending(false);
             setText('');
             setFile(undefined);
           });
@@ -153,6 +159,7 @@ const InsideChatScreen = props => {
               {lastUpdated: Date.now(), lastMessage: data},
               convoID,
             );
+            setSending(false);
             setText('');
             setFile(undefined);
           });
@@ -160,6 +167,7 @@ const InsideChatScreen = props => {
       }
     })();
   };
+
   return (
     <>
       <Header
@@ -180,7 +188,7 @@ const InsideChatScreen = props => {
               <TouchableOpacity
                 onPress={() => handleToggleModal(_?.file)}
                 activeOpacity={_?.file ? 0 : 1}
-                ena
+                disabled={sending}
                 key={ix}
                 style={{
                   borderRadius: SIZE.x4,

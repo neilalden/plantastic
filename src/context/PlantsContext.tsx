@@ -1,4 +1,10 @@
-import React, {useState, createContext, useEffect, useContext} from 'react';
+import React, {
+  useState,
+  createContext,
+  useEffect,
+  useContext,
+  useRef,
+} from 'react';
 import {
   fetchCollection,
   fetchSellers,
@@ -10,6 +16,7 @@ import PushNotification from 'react-native-push-notification';
 
 import {IMAGES} from '../common/images';
 import {updateDatabase} from '../functions/database/updateDatabase';
+import {clockRunning} from 'react-native-reanimated';
 
 export const PlantsContext = createContext<any>('Default Value');
 const PlantsContextProvider = props => {
@@ -20,35 +27,39 @@ const PlantsContextProvider = props => {
   const [sellersImage, setSellersImage] = useState<Object>();
   const [notifications, setNotifications] = useState<Array<any>>([]);
   const [messages, setMessages] = useState<Array<any>>([]);
+  const prevMessages = useRef<Array<any>>();
 
   const arraysEqual = (a1, a2) =>
-    a1.length === a2.length && a1.every((o, idx) => objectsEqual(o, a2[idx]));
+    a1?.length === a2?.length && a1.every((o, idx) => objectsEqual(o, a2[idx]));
 
   function onResult(QuerySnapshot) {
     const array = [];
     QuerySnapshot.forEach(item => {
       array.push({...item.data(), id: item.id});
     });
-    const res = arraysEqual(array, messages);
-    if (!res && user) {
+    const equal = arraysEqual(prevMessages?.current, array);
+    if (equal) return;
+    if (user) {
+      prevMessages.current = array;
       setMessages(array);
-      // console.log(res, 'messages set');
     }
   }
-
   useEffect(() => {
     for (const message of messages) {
       if (
         (user.userType === 'buyer' && message.buyerID !== user.uid) ||
         (user.userType === 'seller' && message.sellerID !== user.uid)
-      )
+      ) {
         return;
+      }
       if (
         // true ||
         // message.lastMessage?.read === undefined ||
         message.lastMessage.fromID !== user.uid &&
         message.lastMessage?.read === false
       ) {
+        console.log(message);
+
         PushNotification.localNotification({
           message: message.lastMessage.message,
           title: message.lastMessage.fromName,
@@ -57,7 +68,7 @@ const PlantsContextProvider = props => {
         });
       }
     }
-  }, [messages]);
+  }, []);
 
   function onError(error) {
     console.error(error);
