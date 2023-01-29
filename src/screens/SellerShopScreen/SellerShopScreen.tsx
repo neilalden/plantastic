@@ -63,7 +63,7 @@ const SellerShopScreen = props => {
               return (
                 plants &&
                 plants.map(plant => {
-                  if (item.id === plant.id) {
+                  if (item.id === plant.id || item === plant.id) {
                     return <PlantDictionaryCard key={index} item={plant} />;
                   }
                 })
@@ -74,7 +74,7 @@ const SellerShopScreen = props => {
               return (
                 plants &&
                 plants.map(plant => {
-                  if (item === plant.id) {
+                  if (item.id === plant.id || item === plant.id) {
                     return (
                       <PlantDictionaryCard key={index} item={plant} canRemove />
                     );
