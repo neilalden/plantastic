@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginTop: 8,
     color: 'black',
-    width: SIZE.x250,
+    width: SIZE.x200,
     fontSize: 22,
     textAlign: 'center',
   },
