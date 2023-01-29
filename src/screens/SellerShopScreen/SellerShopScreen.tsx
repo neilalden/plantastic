@@ -34,7 +34,7 @@ const SellerShopScreen = props => {
     let isBuyer = false;
     let hasReviewed = false;
     params?.buyers &&
-      params.buyers.map(buyer => {
+      params?.buyers.map(buyer => {
         if (buyer === user?.uid) isBuyer = true;
       });
     reviews?.map(rev => {
@@ -126,11 +126,11 @@ const SellerShopScreen = props => {
             <Text style={styles.uploadText}>No Image</Text>
           )}
         </View>
-        <Text style={styles.title}>{params ? params.name : user.name}</Text>
+        <Text style={styles.title}>{params ? params?.name : user.name}</Text>
         <Text style={styles.availablePlantsText}>Available plants</Text>
         {params
-          ? params.plants &&
-            params.plants?.map((item, index) => {
+          ? params?.plants &&
+            params?.plants?.map((item, index) => {
               return (
                 plants &&
                 plants.map(plant => {
@@ -153,33 +153,36 @@ const SellerShopScreen = props => {
                 })
               );
             })}
-        <View style={styles.writeReviewCard}>
-          <Text style={styles.writeReviewCardTitle}>WRITE REVIEW</Text>
-          <TextInput
-            value={review}
-            onChangeText={text => setReview(text)}
-            label="Review"
-          />
-          <TextInput
-            value={rate}
-            onChangeText={text => setRate(text)}
-            label="Rate from 1-5"
-            keyboardType="number-pad"
-          />
-          <ButtonOutline
-            text={'SUBMIT'}
-            containerStyle={styles.writeReviewButtonContainer}
-            textStyle={styles.writeReviewButtonText}
-            onPress={handleSubmit}
-          />
-        </View>
+
+        {user?.userType !== 'seller' ? (
+          <View style={styles.writeReviewCard}>
+            <Text style={styles.writeReviewCardTitle}>WRITE REVIEW</Text>
+            <TextInput
+              value={review}
+              onChangeText={text => setReview(text)}
+              label="Review"
+            />
+            <TextInput
+              value={rate}
+              onChangeText={text => setRate(text)}
+              label="Rate from 1-5"
+              keyboardType="number-pad"
+            />
+            <ButtonOutline
+              text={'SUBMIT'}
+              containerStyle={styles.writeReviewButtonContainer}
+              textStyle={styles.writeReviewButtonText}
+              onPress={handleSubmit}
+            />
+          </View>
+        ) : null}
 
         {reviews && reviews.length > 0 ? (
           <React.Fragment>
             <Text style={[styles.cardTitle, {margin: SIZE.x10}]}>REVIEWS</Text>
             <ScrollView>
               {reviews.map((review, index) => {
-                if (review.sellerID !== params.uid) return;
+                if (review.sellerID !== params?.uid) return;
                 return (
                   <ScrollView key={index} style={styles.reviewCard}>
                     <View style={styles.ratingContainer}>
