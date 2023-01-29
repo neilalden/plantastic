@@ -20,7 +20,7 @@ import {updateDatabase} from '../functions/database/updateDatabase';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../common/routes';
 import {setDatabaseDocument} from '../functions/database/createFromDatabase';
-
+import {Message} from '../components/PlantDictionaryCard';
 const PlantDetailsScreen = ({route}) => {
   const [selected, setSelected] = useState(null);
   const navigation = useNavigation();
@@ -35,9 +35,13 @@ const PlantDetailsScreen = ({route}) => {
   const preparation = plant.preparation_1 ?? 'Not Available';
   const description = plant.description ?? 'Not Available';
   const ingredient_tools = plant.ingredients_tools_1 ?? 'Not Available';
-  const hasPlant = (user && user?.plants?.includes(pid)) ?? false;
+  const hasPlant =
+    (user &&
+      user?.plants?.some(_ => {
+        return typeof _ === 'string' ? _ == pid : _.id == pid;
+      })) ??
+    false;
   const hasCart = (user && user?.cart?.some(p => p.id === pid)) ?? false;
-  const price = plant?.price;
   const image =
     !!pid && !!plantsImage && plantsImage[`${pid}`]
       ? {uri: plantsImage[`${pid}`]}
@@ -53,7 +57,10 @@ const PlantDetailsScreen = ({route}) => {
         navigation.navigate(ROUTES.LANDING_SCREEN);
         return;
       }
-      const plants = [...user?.plants, pid];
+      const plants = [
+        ...user?.plants,
+        user?.userType == 'seller' ? {id: pid, price: undefined} : pid,
+      ];
       const res = await updateDatabase('Users', {plants: plants}, user?.uid);
       alert(res);
       setReload(prev => !prev);
@@ -96,6 +103,7 @@ const PlantDetailsScreen = ({route}) => {
           from: user.name,
           fromID: user.uid,
           type: 'buy',
+          read: false,
         };
         const res = await setDatabaseDocument('Notifications', data);
         alert(res);
@@ -116,9 +124,6 @@ const PlantDetailsScreen = ({route}) => {
         <Icon source={image} size={SIZE.x250} imageStyle={styles.imageStyle} />
         <View style={styles.descriptionContainer}>
           <Text style={styles.textPrimaryTitle}>{common_name}</Text>
-          <Text style={styles.textPrimaryTitle}>
-            {price ? `₱${price}` : 'Price: N/A'}
-          </Text>
           <Text style={styles.textSecondaryTitle}>{scientific_name}</Text>
           <View style={{marginVertical: SIZE.x10}} />
           <Text style={styles.textContent}>
@@ -143,7 +148,7 @@ const PlantDetailsScreen = ({route}) => {
         {!hasPlant ? (
           <ButtonOutline
             text={`Add plant to your ${
-              user?.userType === 'seller' ? 'store' : 'collection'
+              user && user?.userType === 'seller' ? 'store' : 'collection'
             }`}
             onPress={handleAddPlant}
             containerStyle={styles.buttonContainerStyle}
@@ -164,11 +169,11 @@ const PlantDetailsScreen = ({route}) => {
           const banner =
             !!uid && !!sellersImage && sellersImage[`${uid}`]
               ? {uri: sellersImage[`${uid}`]}
-              : IMAGES.ic_app_round;
+              : IMAGES.ic_herbshop;
+
+          const sellerPrice = getPrice(seller, pid);
           return (
-            <View
-              key={index}
-              style={[styles.containerStyle, {paddingBottom: SIZE.x10}]}>
+            <View key={index} style={styles.containerStyle}>
               <Text style={styles.textPrimaryTitle}>{name}</Text>
 
               <Icon
@@ -177,35 +182,56 @@ const PlantDetailsScreen = ({route}) => {
                 containerStyle={styles.bannerContainerStyle}
                 imageStyle={styles.bannerStyle}
               />
-
-              <TouchableOpacity
-                style={{
-                  marginTop: SIZE.x10,
-                  backgroundColor: COLORS.GREEN300,
-                  padding: 4,
-                  borderRadius: SIZE.x10,
-                }}
-                key={index}
-                onPress={() => setSelected(index === selected ? null : index)}>
-                <Text
+              {user && user?.userType === 'buyer' ? (
+                <View
                   style={{
-                    color: COLORS.DARKGREEN,
-                    fontSize: 16,
-                    fontWeight: '600',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: '70%',
                   }}>
-                  {index === selected ? 'Cancel' : 'Buy from Seller'}
-                </Text>
-              </TouchableOpacity>
+                  <Message
+                    style={{
+                      marginVertical: SIZE.x10,
+                      backgroundColor: COLORS.GREEN300,
+                      padding: 4,
+                      borderRadius: SIZE.x10,
+                    }}
+                    handleMessage={() => {
+                      const item = {
+                        buyerID: user.uid,
+                        sellerID: uid,
+                        sellerName: name,
+                      };
+                      navigation.navigate(ROUTES.INSIDE_CHAT_SCREEN, item);
+                    }}
+                  />
+                  <TouchableOpacity
+                    style={{
+                      marginVertical: SIZE.x10,
+                      backgroundColor: COLORS.GREEN300,
+                      padding: 4,
+                      borderRadius: SIZE.x10,
+                    }}
+                    key={index}
+                    onPress={() =>
+                      setSelected(index === selected ? null : index)
+                    }>
+                    <Text
+                      style={{
+                        color: COLORS.DARKGREEN,
+                        fontSize: 16,
+                        fontWeight: '600',
+                      }}>
+                      {index === selected ? 'Cancel' : 'Buy from Seller'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null}
               {index === selected ? (
                 <>
-                  {/* <Text style={styles.textSecondaryTitle}>{email}</Text>
-                  <Text style={styles.textSecondaryTitle}>{contactNumber}</Text>
-                  <Text style={styles.textSecondaryTitle}>{socialMedia}</Text>
-                  <Text style={styles.textSecondaryTitle}>{address}</Text> */}
-
                   <Text style={styles.textSecondaryTitle}>{common_name}</Text>
                   <Text style={styles.textSecondaryTitle}>
-                    {price ? `₱${price}` : 'Price: N/A'}
+                    {sellerPrice ? `₱${sellerPrice}` : 'Price: N/A'}
                   </Text>
                   {!hasCart && (!user || user?.userType === 'buyer') ? (
                     <View style={{width: '90%'}}>
@@ -269,7 +295,9 @@ const PlantDetailsScreen = ({route}) => {
                       />
                     </View>
                   ) : (
-                    <Text>You have this in your cart already</Text>
+                    <Text style={{paddingBottom: SIZE.x10}}>
+                      You have this in your cart already
+                    </Text>
                   )}
                 </>
               ) : null}
@@ -279,10 +307,20 @@ const PlantDetailsScreen = ({route}) => {
     </Screen>
   );
 };
+const getPrice = (seller, pid) => {
+  for (const plant of seller.plants) {
+    if (plant.id === pid) return plant.price;
+  }
+  return undefined;
+};
 const isSeller = (seller, pID) => {
   if (seller && seller.plants) {
     for (const plant of seller?.plants) {
-      if (plant === pID) return true;
+      if (typeof plant !== 'string') {
+        if (plant.id === pID) return true;
+      } else {
+        if (plant === pID) return true;
+      }
     }
   }
   return false;
@@ -353,6 +391,7 @@ const styles = StyleSheet.create({
     width: SIZE.p90,
     marginVertical: SIZE.x10,
     alignSelf: 'center',
+    paddingBottom: SIZE.x10,
   },
   buttonTextStyle: {
     marginTop: SIZE.x8,

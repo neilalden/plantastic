@@ -1,9 +1,18 @@
 import React, {useState} from 'react';
-import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  Image,
+} from 'react-native';
+import {IMAGES} from '../common/images';
 import {COLORS} from '../common/utils/colors';
 import {SIZE} from '../common/utils/size';
 
-const ModalTab = ({modalVisible, setModalVisible}) => {
+const ModalTab = ({modalVisible, setModalVisible, uri}) => {
   return (
     <>
       <View style={styles.centeredView}>
@@ -13,18 +22,30 @@ const ModalTab = ({modalVisible, setModalVisible}) => {
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
             setModalVisible(!modalVisible);
           }}>
           <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Coming Soon . . .</Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.textStyle}>Hide Modal</Text>
-              </Pressable>
-            </View>
+            {uri && typeof uri === 'string' ? (
+              <View style={styles.modalView}>
+                <Image
+                  source={{
+                    uri: uri,
+                  }}
+                  height={100}
+                  width={100}
+                  style={{width: 400, height: 400}}
+                />
+              </View>
+            ) : (
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Coming Soon . . .</Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}>
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </Pressable>
+              </View>
+            )}
           </View>
         </Modal>
       </View>

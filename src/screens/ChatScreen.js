@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useContext} from 'react';
+import React, {memo, useContext, useMemo} from 'react';
 import Screen from '../components/Screen';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
@@ -21,12 +21,20 @@ const ChatScreen = props => {
   const {user} = useContext(AuthContext);
   const {messages} = useContext(PlantsContext);
   const navigation = useNavigation();
-
+  if (!user)
+    return (
+      <React.Fragment>
+        <Screen>
+          <Header text="Messages" />
+        </Screen>
+        <BottomNav />
+      </React.Fragment>
+    );
   return (
     <React.Fragment>
       <Screen>
         <Header text="Messages" />
-        {messages && messages.length > 0 ? (
+        {user && messages && messages.length > 0 ? (
           <ScrollView>
             {messages.map((message, ix) => {
               const buyerID =
@@ -76,7 +84,7 @@ const ChatScreen = props => {
     </React.Fragment>
   );
 };
-export default ChatScreen;
+export default memo(ChatScreen);
 
 const styles = StyleSheet.create({
   chatCard: {

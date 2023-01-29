@@ -18,9 +18,7 @@ const SellerShopScreen = props => {
   const navigation = useNavigation();
   const {user} = React.useContext(AuthContext);
   const {plants, sellersImage} = React.useContext(PlantsContext);
-  const params = props.route.params;
-  console.log(params);
-  console.log(sellersImage);
+  const params = props?.route?.params;
   return (
     <React.Fragment>
       <Screen>
@@ -41,9 +39,9 @@ const SellerShopScreen = props => {
           {params || user.image ? (
             <Image
               source={
-                params
-                  ? sellersImage[params.uid]
-                    ? {uri: sellersImage[params.uid]}
+                params && sellersImage
+                  ? sellersImage[params?.uid]
+                    ? {uri: sellersImage[params?.uid]}
                     : IMAGES.ic_herbshop
                   : user?.image
                   ? {
@@ -65,7 +63,7 @@ const SellerShopScreen = props => {
               return (
                 plants &&
                 plants.map(plant => {
-                  if (item === plant.id) {
+                  if (item.id === plant.id) {
                     return <PlantDictionaryCard key={index} item={plant} />;
                   }
                 })
@@ -117,8 +115,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   title: {
-    ...TEXT_SHADOW,
-    color: COLORS.WHITE,
+    color: COLORS.BLACK,
     fontSize: SIZE.x24,
     borderWidth: SIZE.x1,
     borderColor: COLORS.WHITE,
@@ -128,16 +125,15 @@ const styles = StyleSheet.create({
     padding: SIZE.x10,
   },
   uploadText: {
-    ...TEXT_SHADOW,
-    color: COLORS.WHITE,
+    color: COLORS.BLACK,
     textAlign: 'center',
     marginTop: SIZE.p14,
     fontSize: SIZE.x16,
     fontWeight: '600',
   },
   availablePlantsText: {
-    ...TEXT_SHADOW,
-    color: COLORS.WHITE,
+    color: COLORS.BLACK,
+
     fontSize: SIZE.x20,
     marginBottom: SIZE.x14,
     fontWeight: '900',

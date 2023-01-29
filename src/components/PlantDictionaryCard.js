@@ -96,14 +96,7 @@ const PlantDictionaryCard = props => {
             handleRemove={handleRemove}
           />
         ) : null}
-        {message ? (
-          <Message
-            id={id}
-            user={user}
-            setReload={setReload}
-            handleMessage={message}
-          />
-        ) : null}
+        {message ? <Message handleMessage={message} /> : null}
       </View>
     </React.Fragment>
   );
@@ -119,13 +112,13 @@ const Remove = props => {
     </TouchableOpacity>
   );
 };
-const Message = props => {
-  const id = props.id;
-  const user = props.user;
-  const setReload = props.setReload;
+export const Message = props => {
   const handleMessage = props.handleMessage;
+  const customStyle = props?.style;
   return (
-    <TouchableOpacity style={styles.messageContainer} onPress={handleMessage}>
+    <TouchableOpacity
+      style={customStyle ? customStyle : styles.messageContainer}
+      onPress={handleMessage}>
       <Text style={styles.messageText}>Message</Text>
     </TouchableOpacity>
   );

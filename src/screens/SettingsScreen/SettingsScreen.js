@@ -29,9 +29,11 @@ import AppInfoModal from '../../components/AppInfoModal';
 import {signOut} from '../../functions/authentication/signOut';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {PlantsContext} from '../../context/PlantsContext';
+import {AuthContext} from '../../context/AuthContext';
 
 const SettingsScreen = ({navigation}) => {
   const {setMessages, setNotifications} = useContext(PlantsContext);
+  const {setUser} = useContext(AuthContext);
   const route = useRoute();
   // PRIVACY POLICY STATE
   const [privacyVisible, setPrivacyVisible] = useState(false);
@@ -132,6 +134,8 @@ const SettingsScreen = ({navigation}) => {
             signOut();
             setNotifications([]);
             setMessages([]);
+            setUser(undefined);
+
             navigation.navigate(ROUTES.LANDING_SCREEN);
           }}
           containerStyle={styles.containerStyle}

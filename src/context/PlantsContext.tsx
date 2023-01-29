@@ -6,6 +6,10 @@ import {
 import {fetchImage} from '../functions/storage/fetchImage';
 import {AuthContext} from './AuthContext';
 import firestore from '@react-native-firebase/firestore';
+import PushNotification from 'react-native-push-notification';
+
+import {IMAGES} from '../common/images';
+import {updateDatabase} from '../functions/database/updateDatabase';
 
 export const PlantsContext = createContext<any>('Default Value');
 const PlantsContextProvider = props => {
@@ -17,18 +21,47 @@ const PlantsContextProvider = props => {
   const [notifications, setNotifications] = useState<Array<any>>([]);
   const [messages, setMessages] = useState<Array<any>>([]);
 
+  const arraysEqual = (a1, a2) =>
+    a1.length === a2.length && a1.every((o, idx) => objectsEqual(o, a2[idx]));
+
   function onResult(QuerySnapshot) {
     const array = [];
     QuerySnapshot.forEach(item => {
       array.push({...item.data(), id: item.id});
     });
-    setMessages(array);
+    const res = arraysEqual(array, messages);
+    if (!res && user) {
+      setMessages(array);
+    }
   }
+
+  useEffect(() => {
+    for (const message of messages) {
+      if (
+        (user.userType === 'buyer' && message.buyerID !== user.uid) ||
+        (user.userType === 'seller' && message.sellerID !== user.uid)
+      )
+        return;
+      if (
+        // true ||
+        message.lastMessage?.read === undefined ||
+        (message.lastMessage.fromID !== user.uid &&
+          message.lastMessage?.read === false)
+      ) {
+        PushNotification.localNotification({
+          message: message.lastMessage.message,
+          title: message.lastMessage.fromName,
+          bigPictureUrl: IMAGES.ic_add_dark_green,
+          smallIcon: IMAGES.ic_herbshop,
+        });
+      }
+    }
+  }, [messages]);
 
   function onError(error) {
     console.error(error);
   }
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       firestore()
         .collection('Messages')
@@ -37,15 +70,15 @@ const PlantsContextProvider = props => {
           '==',
           user?.uid,
         )
-        .orderBy('lastUpdated', 'asc')
+        .orderBy('lastUpdated', 'desc')
         .onSnapshot(onResult, onError);
     }
-  }, [user]);
+  });
   React.useEffect(() => {
     (async () => {
       try {
         setPlants(await fetchCollection('Plants'));
-        setNotifications(await fetchCollection('Notifications'));
+        if (user) setNotifications(await fetchCollection('Notifications'));
         if (!user || user?.userType === 'buyer')
           setSellers(await fetchSellers('Users'));
       } catch (e) {
@@ -53,6 +86,24 @@ const PlantsContextProvider = props => {
       }
     })();
   }, [user]);
+  React.useEffect(() => {
+    if (!user) return;
+    for (const notif of notifications) {
+      if (notif.toID === user.uid) {
+        if (notif.read === true) {
+          // do nothing
+        } else {
+          PushNotification.localNotification({
+            message: notif.message,
+            title: notif.from,
+            bigPictureUrl: IMAGES.ic_add_dark_green,
+            smallIcon: IMAGES.ic_herbshop,
+          });
+          updateDatabase('Notifications', {read: true}, notif.snapShotID);
+        }
+      }
+    }
+  }, [notifications]);
   React.useEffect(() => {
     (async () => {
       try {
@@ -100,3 +151,9 @@ const PlantsContextProvider = props => {
 };
 
 export default PlantsContextProvider;
+
+const objectsEqual = (o1, o2) =>
+  typeof o1 === 'object' && Object.keys(o1).length > 0
+    ? Object.keys(o1).length === Object.keys(o2).length &&
+      Object.keys(o1).every(p => objectsEqual(o1[p], o2[p]))
+    : o1 === o2;

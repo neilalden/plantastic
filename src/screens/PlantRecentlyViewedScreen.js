@@ -90,13 +90,17 @@ const PlantRecentlyViewedScreen = ({navigation}) => {
         </View>
         {show === 'Recently Viewed'
           ? filteredPlants.map((item, index) => {
-              return user?.recentlyViewed.map(rv => {
-                if (rv === item.id)
-                  return <PlantDictionaryCard key={index} item={item} />;
-              });
+              return (
+                user &&
+                user?.recentlyViewed.map(rv => {
+                  if (rv === item.id)
+                    return <PlantDictionaryCard key={index} item={item} />;
+                })
+              );
             })
           : show === 'Collection'
-          ? user?.plants?.map((item, index) => {
+          ? user &&
+            user?.plants?.map((item, index) => {
               return (
                 plants &&
                 filteredPlants.map(plant => {
@@ -108,7 +112,8 @@ const PlantRecentlyViewedScreen = ({navigation}) => {
                 })
               );
             })
-          : user?.cart?.map((item, index) => {
+          : user &&
+            user?.cart?.map((item, index) => {
               return (
                 plants &&
                 filteredPlants.map(plant => {

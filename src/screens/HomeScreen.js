@@ -152,10 +152,10 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   textLabel: {
-    fontWeight: 'bold',
-    color: COLORS.M2,
+    fontWeight: '900',
+    color: COLORS.BLACK,
     marginVertical: SIZE.x20,
-    fontSize: SIZE.x26,
+    fontSize: SIZE.x30,
   },
 
   card: {
