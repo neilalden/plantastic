@@ -44,11 +44,12 @@ const InsideChatScreen = props => {
   const thisConvo = getConvo(messages, convoID);
   const [convo, setConvo] = useState([]);
   const [file, setFile] = useState(undefined);
+  const [fileRecieved, setRecievedFile] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
   const handleToggleModal = async uri => {
     if (uri) {
       const str = await viewFile(uri);
-      setFile(str);
+      setRecievedFile(str);
       setModalVisible(prev => !prev);
     }
   };
@@ -170,7 +171,7 @@ const InsideChatScreen = props => {
         <ModalTab
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          uri={file}
+          uri={fileRecieved}
         />
 
         {convo &&

@@ -32,6 +32,7 @@ const PlantsContextProvider = props => {
     const res = arraysEqual(array, messages);
     if (!res && user) {
       setMessages(array);
+      // console.log(res, 'messages set');
     }
   }
 
@@ -44,9 +45,9 @@ const PlantsContextProvider = props => {
         return;
       if (
         // true ||
-        message.lastMessage?.read === undefined ||
-        (message.lastMessage.fromID !== user.uid &&
-          message.lastMessage?.read === false)
+        // message.lastMessage?.read === undefined ||
+        message.lastMessage.fromID !== user.uid &&
+        message.lastMessage?.read === false
       ) {
         PushNotification.localNotification({
           message: message.lastMessage.message,

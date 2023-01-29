@@ -59,7 +59,7 @@ const PlantDetailsScreen = ({route}) => {
       }
       const plants = [
         ...user?.plants,
-        user?.userType == 'seller' ? {id: pid, price: undefined} : pid,
+        user?.userType == 'seller' ? {id: pid} : pid,
       ];
       const res = await updateDatabase('Users', {plants: plants}, user?.uid);
       alert(res);

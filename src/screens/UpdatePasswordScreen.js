@@ -18,6 +18,7 @@ import {AuthContext} from '../context/AuthContext';
 
 const UpdatePasswordScreen = () => {
   const {user} = useContext(AuthContext);
+  if (!user) return;
   const navigation = useNavigation();
   const [password, setPassword] = React.useState();
   const [name, setName] = React.useState();
