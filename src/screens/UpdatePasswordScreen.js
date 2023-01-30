@@ -30,10 +30,12 @@ const UpdatePasswordScreen = () => {
   const [confirmPassword, setConfirmPassword] = React.useState();
   const [email, setEmail] = useState();
   const handleUpdateEmail = () => {
-    user
-      .updateEmail(email)
+    if (!user) return;
+    auth()
+      .currentUser.updateEmail(email)
       .then(() => {
         alert('Update successful');
+        setEmail('');
         // ...
         // ...
       })
@@ -45,6 +47,8 @@ const UpdatePasswordScreen = () => {
   };
 
   const handleUpdateName = () => {
+    if (!user) return;
+
     (async () => {
       try {
         const res = await updateDatabase('Users', {name: name}, user.uid);
@@ -70,6 +74,8 @@ const UpdatePasswordScreen = () => {
       alert(validatedConfirmPassword);
       return;
     }
+    if (!user) return;
+
     auth()
       .currentUser.updatePassword(password)
       .then(() => {
