@@ -1,9 +1,9 @@
-import React, {useState, createContext, useEffect} from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {ROUTES} from '../common/routes';
-import {fetchUser} from '../functions/database/fetchFromDatabase';
-import {NavigationType, UserDataType} from '../common/utils/type';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { ROUTES } from '../common/routes';
+import { fetchUser } from '../functions/database/fetchFromDatabase';
+import { NavigationType, UserDataType } from '../common/utils/type';
 
 export const AuthContext = createContext<any>('Default Value');
 const AuthContextProvider = props => {
@@ -18,20 +18,24 @@ const AuthContextProvider = props => {
   }, [reload]);
 
   const onAuthStateChanged = async userAuth => {
-    if (userAuth) {
-      const data = await fetchUser(userAuth.uid, 'Users');
-      setUserAuth(userAuth);
-      setUser(data);
-      navigation.navigate(ROUTES.HOME_SCREEN);
-    } else {
-      setUserAuth(undefined);
-      setUser(undefined);
-      // navigation.navigate(ROUTES.LANDING_SCREEN);
+    try {
+      if (userAuth) {
+        const data = await fetchUser(userAuth.uid, 'Users');
+        setUserAuth(userAuth);
+        setUser(data);
+        navigation.navigate(ROUTES.HOME_SCREEN);
+      } else {
+        setUserAuth(undefined);
+        setUser(undefined);
+        // navigation.navigate(ROUTES.LANDING_SCREEN);
+      }
+    } catch (error) {
+      console.error(error)
     }
   };
 
   return (
-    <AuthContext.Provider value={{user, setUser, setReload}}>
+    <AuthContext.Provider value={{ user, setUser, setReload }}>
       {props.children}
     </AuthContext.Provider>
   );

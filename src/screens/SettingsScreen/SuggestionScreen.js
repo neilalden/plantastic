@@ -35,6 +35,7 @@ const SuggestionScreen = ({}) => {
       <View style={styles.inputContainer}>
         <Text style={styles.labels}> Enter your name </Text>
         <TextInput
+          placeholderTextColor={'#000'}
           style={styles.inputStyle}
           placeholder={'Mike Reyes'}
           onChangeText={userdata => setName(userdata)}
@@ -44,6 +45,7 @@ const SuggestionScreen = ({}) => {
       <View style={styles.inputContainer}>
         <Text style={styles.labels}> Enter your Email </Text>
         <TextInput
+          placeholderTextColor={'#000'}
           style={styles.inputStyle}
           placeholder={'mikereyes123@gmail.com'}
         />
@@ -51,12 +53,17 @@ const SuggestionScreen = ({}) => {
 
       <View style={styles.inputContainer}>
         <Text style={styles.labels}> Enter your mobile </Text>
-        <TextInput style={styles.inputStyle} placeholder={'+639 99 999 9999'} />
+        <TextInput
+          placeholderTextColor={'#000'}
+          style={styles.inputStyle}
+          placeholder={'+639 99 999 9999'}
+        />
       </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.labels}> What changes can we do for you? </Text>
         <TextInput
+          placeholderTextColor={'#000'}
           style={[styles.inputStyle, styles.multilineStyle]}
           placeholder={'Changes Description'}
           value={message}
@@ -116,7 +123,7 @@ const styles = StyleSheet.create({
   labels: {
     fontWeight: 'bold',
     // fontSize: 15,
-    color: COLORS.DARKERGREEN,
+    color: COLORS.BLACK,
     paddingBottom: 5,
     lineHeight: 25,
     textShadowColor: COLORS.WHITE,

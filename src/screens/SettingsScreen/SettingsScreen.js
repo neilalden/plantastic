@@ -33,7 +33,7 @@ import {AuthContext} from '../../context/AuthContext';
 
 const SettingsScreen = ({navigation}) => {
   const {setMessages, setNotifications} = useContext(PlantsContext);
-  const {setUser} = useContext(AuthContext);
+  const {user, setUser} = useContext(AuthContext);
   const route = useRoute();
   // PRIVACY POLICY STATE
   const [privacyVisible, setPrivacyVisible] = useState(false);
@@ -129,12 +129,14 @@ const SettingsScreen = ({navigation}) => {
         />
 
         <SettingsButton
-          text={'Logout'}
+          text={user ? 'Logout' : 'Login'}
           onPress={() => {
-            signOut();
-            setNotifications([]);
-            setMessages([]);
-            setUser(undefined);
+            if (user) {
+              signOut();
+              setNotifications([]);
+              setMessages([]);
+              setUser(undefined);
+            }
 
             navigation.navigate(ROUTES.LANDING_SCREEN);
           }}

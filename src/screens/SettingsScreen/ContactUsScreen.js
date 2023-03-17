@@ -53,6 +53,7 @@ const Contact = ({navigation}) => {
       <View style={styles.inputContainer}>
         <Text style={styles.labels}> Enter your name </Text>
         <TextInput
+          placeholderTextColor={COLORS.BLACK}
           style={styles.inputStyle}
           placeholder={'Rei Nav'}
           value={name}
@@ -63,6 +64,7 @@ const Contact = ({navigation}) => {
       <View style={styles.inputContainer}>
         <Text style={styles.labels}> Enter your Email </Text>
         <TextInput
+          placeholderTextColor={COLORS.BLACK}
           style={styles.inputStyle}
           placeholder={'reiNav@gmail.com'}
           value={email}
@@ -73,6 +75,7 @@ const Contact = ({navigation}) => {
       <View style={styles.inputContainer}>
         <Text style={styles.labels}> Enter your mobile </Text>
         <TextInput
+          placeholderTextColor={COLORS.BLACK}
           style={styles.inputStyle}
           placeholder={'+639 99 999 9999'}
           value={phone}
@@ -83,6 +86,7 @@ const Contact = ({navigation}) => {
       <View style={styles.inputContainer}>
         <Text style={styles.labels}> How can we help you? </Text>
         <TextInput
+          placeholderTextColor={COLORS.BLACK}
           style={[styles.inputStyle, styles.multiLineStyle]}
           placeholder={'State your Concern'}
           value={message}
@@ -131,34 +135,30 @@ const styles = StyleSheet.create({
   },
   mainHeader: {
     fontSize: 20,
-    color: 'white',
+    color: COLORS.DARKERGREEN,
     fontWeight: 'bold',
     paddingTop: 20,
     alignItems: 'center',
     paddingBottom: 15,
-    textShadowColor: '#313131',
-    textShadowOffset: {width: 0, height: 1.2},
-    textShadowRadius: 2,
   },
   description: {
     fontSize: 20,
-    color: COLORS.GREEN300,
+    color: COLORS.BLACK,
     paddingBottom: 20,
     lineHeight: 25,
   },
 
   inputContainer: {
     marginTop: 20,
+    borderWidth: 1,
+    borderColor: COLORS.BLACK,
   },
   labels: {
     fontWeight: 'bold',
     // fontSize: 15,
-    color: COLORS.GREEN300,
+    color: COLORS.DARKGREEN,
     paddingBottom: 5,
     lineHeight: 25,
-    textShadowColor: '#313131',
-    textShadowOffset: {width: 0, height: 1.2},
-    textShadowRadius: 2,
   },
   inputStyle: {
     borderWidth: 1,
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   wrapperText: {
     marginLeft: 10,
-    color: COLORS.GREEN300,
+    color: COLORS.DARKERGREEN,
   },
 });
 

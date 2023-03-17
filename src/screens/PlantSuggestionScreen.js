@@ -13,6 +13,7 @@ import {COLORS} from '../common/utils/colors';
 import Screen from '../components/Screen';
 import {SIZE} from '../common/utils/size';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {PermissionsAndroid} from 'react-native';
 
 const PlantSuggestionScreen = () => {
   const [plantDescription, setPlantDescription] = useState('');
@@ -34,23 +35,40 @@ const PlantSuggestionScreen = () => {
     }
   };
 
-  const openCamera = () => {
-    const options = {
-      mediaType: 'photo',
-      includeBase64: true,
-      saveToPhotos: true,
-    };
-    launchCamera(options, response => {
-      if (response.didCancel) {
-      } else if (response.error) {
-      } else if (response.customButton) {
-      } else {
-        const source = {
-          uri: response.assets[0].uri,
+  const openCamera = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'App Camera Permission',
+          message: 'App needs access to your camera ',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        const options = {
+          mediaType: 'photo',
+          includeBase64: true,
+          saveToPhotos: true,
         };
-        setImageURI(source);
+        launchCamera(options, response => {
+          if (response.didCancel) {
+          } else if (response.error) {
+          } else if (response.customButton) {
+          } else {
+            const source = {
+              uri: response?.assets[0]?.uri,
+            };
+            setImageURI(source);
+          }
+        });
+      } else {
       }
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
   const openGallery = () => {
     const options = {
@@ -103,6 +121,7 @@ const PlantSuggestionScreen = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.labels}> Enter Plant Scientific Name </Text>
           <TextInput
+            placeholderTextColor="black"
             style={styles.inputStyle}
             placeholder={'Ipomea Batatas'}
             value={plantScientificName}
@@ -112,6 +131,7 @@ const PlantSuggestionScreen = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.labels}> Enter Plant Common Name </Text>
           <TextInput
+            placeholderTextColor="black"
             style={styles.inputStyle}
             placeholder={'Kamote'}
             value={plantCommonName}
@@ -121,6 +141,7 @@ const PlantSuggestionScreen = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.labels}> Plant Description </Text>
           <TextInput
+            placeholderTextColor="black"
             style={[styles.inputStyle, styles.multiLineStyle]}
             placeholder={'Description'}
             value={plantDescription}
@@ -148,11 +169,11 @@ const PlantSuggestionScreen = () => {
 export default PlantSuggestionScreen;
 const styles = StyleSheet.create({
   mainHeader: {
-    textShadowColor: '#313131',
+    textShadowColor: '#fff',
     textShadowOffset: {width: 0, height: 1.2},
     textShadowRadius: 2,
     fontSize: 20,
-    color: COLORS.GREEN200,
+    color: COLORS.BLACK,
     fontWeight: 'bold',
     paddingTop: 20,
     alignSelf: 'center',
@@ -181,13 +202,15 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginTop: 10,
+    borderWidth: 1,
+    borderColor: COLORS.BLACK,
   },
   labels: {
     fontWeight: 'bold',
-    color: COLORS.GREEN300,
+    color: COLORS.BLACK,
     paddingBottom: SIZE.x6,
     lineHeight: 25,
-    textShadowColor: '#313131',
+    textShadowColor: '#ffffff',
     textShadowOffset: {width: 0, height: 1.2},
     textShadowRadius: 2,
   },

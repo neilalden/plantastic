@@ -10,18 +10,17 @@ import {
   fetchSellers,
   fetchUser,
 } from '../functions/database/fetchFromDatabase';
-import {fetchImage} from '../functions/storage/fetchImage';
-import {AuthContext} from './AuthContext';
+import { fetchImage } from '../functions/storage/fetchImage';
+import { AuthContext } from './AuthContext';
 import firestore from '@react-native-firebase/firestore';
 import PushNotification from 'react-native-push-notification';
 
-import {IMAGES} from '../common/images';
-import {updateDatabase} from '../functions/database/updateDatabase';
-import {clockRunning} from 'react-native-reanimated';
+import { IMAGES } from '../common/images';
+import { updateDatabase } from '../functions/database/updateDatabase';
 
 export const PlantsContext = createContext<any>('Default Value');
 const PlantsContextProvider = props => {
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [plants, setPlants] = useState<Array<any>>([]);
   const [plantsImage, setPlantsImage] = useState<Object>();
   const [sellers, setSellers] = useState<Array<any>>();
@@ -38,7 +37,7 @@ const PlantsContextProvider = props => {
   function onResult(QuerySnapshot) {
     const array = [];
     QuerySnapshot.forEach(item => {
-      array.push({...item.data(), id: item.id});
+      array.push({ ...item.data(), id: item.id });
     });
     const equal = arraysEqual(prevMessages?.current, array);
     if (equal) return;
@@ -131,7 +130,7 @@ const PlantsContextProvider = props => {
             bigPictureUrl: IMAGES.ic_add_dark_green,
             smallIcon: IMAGES.ic_herbshop,
           });
-          updateDatabase('Notifications', {read: true}, notif.snapShotID);
+          updateDatabase('Notifications', { read: true }, notif.snapShotID);
         }
       }
     }
@@ -191,5 +190,5 @@ export default PlantsContextProvider;
 const objectsEqual = (o1, o2) =>
   typeof o1 === 'object' && Object.keys(o1).length > 0
     ? Object.keys(o1).length === Object.keys(o2).length &&
-      Object.keys(o1).every(p => objectsEqual(o1[p], o2[p]))
+    Object.keys(o1).every(p => objectsEqual(o1[p], o2[p]))
     : o1 === o2;

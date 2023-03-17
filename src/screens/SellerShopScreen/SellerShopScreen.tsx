@@ -6,35 +6,35 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/Header';
 import Screen from '../../components/Screen';
 import BottomNav from '../../components/BottomNav';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import PlantDictionaryCard from '../../components/PlantDictionaryCard';
-import {COLORS} from '../../common/utils/colors';
-import {SIZE} from '../../common/utils/size';
-import {ROUTES} from '../../common/routes';
+import { COLORS } from '../../common/utils/colors';
+import { SIZE } from '../../common/utils/size';
+import { ROUTES } from '../../common/routes';
 import Icon from '../../components/Icon';
-import {IMAGES} from '../../common/images';
-import {TEXT_SHADOW} from '../../common/utils/styles';
-import {AuthContext} from '../../context/AuthContext';
-import {PlantsContext} from '../../context/PlantsContext';
-import {setDatabaseDocument} from '../../functions/database/createFromDatabase';
-import {updateDatabase} from '../../functions/database/updateDatabase';
-import {ButtonOutline} from '../../components/Buttons';
+import { IMAGES } from '../../common/images';
+import { TEXT_SHADOW } from '../../common/utils/styles';
+import { AuthContext } from '../../context/AuthContext';
+import { PlantsContext } from '../../context/PlantsContext';
+import { setDatabaseDocument } from '../../functions/database/createFromDatabase';
+import { updateDatabase } from '../../functions/database/updateDatabase';
+import { ButtonOutline } from '../../components/Buttons';
 import ModalTab from '../../components/ModalTab';
 
-import {TextInput} from '../../components/TextInput';
-import {STARS} from '../../common/ratings';
-import {viewFile, selectImage, sendFile} from '../../screens/InsideChatScreen';
+import { TextInput } from '../../components/TextInput';
+import { STARS } from '../../common/ratings';
+import { viewFile, selectImage, sendFile } from '../../screens/InsideChatScreen';
 
 const SellerShopScreen = props => {
   const route = useRoute();
   const navigation = useNavigation();
   const [file, setFile] = useState();
-  const {user, setReload} = React.useContext(AuthContext);
-  const {plants, sellersImage, reviews, reviewers, setReviews} =
+  const { user, setReload } = React.useContext(AuthContext);
+  const { plants, sellersImage, reviews, reviewers, setReviews } =
     React.useContext(PlantsContext);
   const params = props?.route?.params;
 
@@ -59,7 +59,9 @@ const SellerShopScreen = props => {
         if (buyer === user?.uid) isBuyer = true;
       });
     reviews?.map(rev => {
-      if (rev.userID === user?.uid) hasReviewed = true;
+      console.log(rev)
+
+      if (rev.sellerID === params?.uid && rev.userID === user?.uid) hasReviewed = true;
     });
     if (hasReviewed) {
       alert("You've already given a review");
@@ -160,15 +162,15 @@ const SellerShopScreen = props => {
               source={
                 params && sellersImage
                   ? sellersImage[params?.uid]
-                    ? {uri: sellersImage[params?.uid]}
+                    ? { uri: sellersImage[params?.uid] }
                     : IMAGES.ic_herbshop
                   : user?.image
-                  ? {
+                    ? {
                       uri: user?.image,
                     }
-                  : IMAGES.ic_herbshop
+                    : IMAGES.ic_herbshop
               }
-              style={{height: '100%', width: '100%'}}
+              style={{ height: '100%', width: '100%' }}
             />
           ) : (
             <Text style={styles.uploadText}>No Image</Text>
@@ -209,29 +211,29 @@ const SellerShopScreen = props => {
         <Text style={styles.availablePlantsText}>Available plants</Text>
         {params
           ? params?.plants &&
-            params?.plants?.map((item, index) => {
-              return (
-                plants &&
-                plants.map(plant => {
-                  if (item.id === plant.id || item === plant.id) {
-                    return <PlantDictionaryCard key={index} item={plant} />;
-                  }
-                })
-              );
-            })
+          params?.plants?.map((item, index) => {
+            return (
+              plants &&
+              plants.map(plant => {
+                if (item.id === plant.id || item === plant.id) {
+                  return <PlantDictionaryCard key={index} item={plant} />;
+                }
+              })
+            );
+          })
           : user.plants &&
-            user.plants?.map((item, index) => {
-              return (
-                plants &&
-                plants.map(plant => {
-                  if (item.id === plant.id || item === plant.id) {
-                    return (
-                      <PlantDictionaryCard key={index} item={plant} canRemove />
-                    );
-                  }
-                })
-              );
-            })}
+          user.plants?.map((item, index) => {
+            return (
+              plants &&
+              plants.map(plant => {
+                if (item.id === plant.id || item === plant.id) {
+                  return (
+                    <PlantDictionaryCard key={index} item={plant} canRemove />
+                  );
+                }
+              })
+            );
+          })}
 
         {user?.userType !== 'seller' ? (
           <View style={styles.writeReviewCard}>
@@ -253,8 +255,8 @@ const SellerShopScreen = props => {
               label="Rate from 1-5"
               keyboardType="number-pad"
             />
-            <View style={{paddingHorizontal: 10}} />
-            <View style={[styles.row, {marginHorizontal: 20}]}>
+            <View style={{ paddingHorizontal: 10 }} />
+            <View style={[styles.row, { marginHorizontal: 20 }]}>
               <TouchableOpacity
                 onPress={() => selectImage(setFile)}
                 style={{
@@ -276,7 +278,7 @@ const SellerShopScreen = props => {
                   File
                 </Text>
               </TouchableOpacity>
-              <Text style={[styles.textSecondaryTitle, {marginLeft: 12}]}>
+              <Text style={[styles.textSecondaryTitle, { marginLeft: 12 }]}>
                 {/* @ts-ignore */}
                 {String(file?.fileName ?? 'Select Image')}
               </Text>
@@ -292,7 +294,7 @@ const SellerShopScreen = props => {
 
         {reviews && reviews.length > 0 ? (
           <React.Fragment>
-            <Text style={[styles.cardTitle, {margin: SIZE.x10}]}>REVIEWS</Text>
+            <Text style={[styles.cardTitle, { margin: SIZE.x10 }]}>REVIEWS</Text>
             <ScrollView>
               {reviews.map((review, index) => {
                 if (review.sellerID !== params?.uid) return;
@@ -307,7 +309,7 @@ const SellerShopScreen = props => {
                       activeOpacity={review?.file ? 0 : 1}
                       style={styles.ratingContainer}>
                       <Text
-                        style={[styles.availablePlantsText, {color: 'white'}]}>
+                        style={[styles.availablePlantsText, { color: 'white' }]}>
                         {reviewer?.name}
                       </Text>
                       <View style={styles.row}>
@@ -404,7 +406,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     elevation: 5,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 1,
     maxHeight: SIZE.x200,
@@ -423,7 +425,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     elevation: 5,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 1,
     height: SIZE.x400,
